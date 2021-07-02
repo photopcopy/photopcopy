@@ -1,27 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import { Popup as PopupContainer } from '../components/popup'
 import { Settings, ComputedSettings } from '../scripts/settings'
 import { Icon } from '../components/icon'
 import { TabButton } from '../components/tabbutton'
+import { SettingsPage } from '../components/settingspage'
 
 // apparently photop is all the same page which is really weird but /shrug
 
-function Main() {
+function Main(props: React.PropsWithChildren<{}>) {
 	return <div key="mainContent">
-		
+		{props.children}
 	</div>
 }
 
+function Why(){
+	const [count, setCount] = useState(0);
+	return <button onClick={()=>{setCount(count + 1)}}>
+		{"count is "+count}
+	</button>
+}
+
 function App() {
-	const [state, setState] = React.useState<ComputedSettings>(Settings.currentState)
-	Settings._update = setState
+	const [nonce, update] = useState(0);
+	Settings._update = ()=>{
+		update(nonce+1)
+	};
 
 	return <>
 		<style jsx global>{`
 			body {
-				background-color: ${state.backgroundColor};
-				color: ${state.textColor};
+				background-color: ${Settings.currentState.backgroundColor};
+				color: ${Settings.currentState.textColor};
 				font-family: 'SF Mono', 'Roboto', sans-serif;
 			}
 			@import
@@ -37,19 +47,11 @@ function App() {
 			<a href="https://www.nhentai.net/g/364624">Click me for a surprise</a>
 			<span style={{ display: 'none' }}>Just kidding dont click it lmao</span>
 		</noscript>
-		<Main></Main>
+		<Main><Why/></Main>
 		<PopupContainer>
-			<div key="settingsMenu" style={{ width: '100%', height: '100%', backgroundColor: state.backgroundColorSecondary, borderRadius: 8, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-				<div key="topbar" style={{ userSelect: 'none', width: '100%', height: 60, display: 'flex', alignItems: 'center', boxSizing: 'border-box', padding: 10, backgroundColor: state.backgroundColorTertiary, borderBottom: `solid ${state.backgroundColorQuaternary}` }}>
-					<div style={{ width: '100%', height: '100%', fontSize: 40 }}>Settings</div>
-					<div key="topbarRight" style={{ float: 'right' }}><Icon type="close"></Icon></div>
-				</div>
-				<div style={{ width: 150, height: '100%', backgroundColor: state.backgroundColorTertiary, borderRight: `solid ${state.backgroundColorQuaternary}` }}>
-					<TabButton>Click Me</TabButton>
-				</div>
-			</div>
+		<SettingsPage/>
 		</PopupContainer>
 	</>
 }
 
-export default App
+export default App;

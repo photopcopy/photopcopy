@@ -4,23 +4,26 @@ interface ComputedSettings {
 	backgroundColor: string;
 	textColor: string;
 	backgroundColorSecondary: string;
+	accentColor: string;
 }
 
 interface UserSettings {
 	theme: "darkMode" | "lightMode"
-	
+	accent: string
 }
 
 class SettingsClass {
 	static instance = new SettingsClass({});
-	_update?: React.Dispatch<React.SetStateAction<ComputedSettings>>
+	_update?: ()=>void
 	currentState: ComputedSettings
 	
-	current: UserSettings = {theme: "darkMode"};
+	current: UserSettings = {theme: "darkMode", accent: "#5ab7fa"};
 
 	private setters = {
+		accent(currentState: ComputedSettings, accent: UserSettings["accent"]){
+			currentState.accentColor = String(accent)
+		},
 		theme(currentState: ComputedSettings, theme: UserSettings["theme"]){
-			
 			switch (theme) {
 				case "darkMode":
 					currentState.backgroundColor = "#151617";
@@ -33,21 +36,21 @@ class SettingsClass {
 					currentState.backgroundColor = "#FFFFFF";
 					currentState.textColor = "#000";
 					currentState.backgroundColorSecondary = "#D9D9D9";
+					currentState.backgroundColorTertiary = "#E3E3E3";
+					currentState.backgroundColorQuaternary = "#EBEBEB"
 					break;
 			}
 		}
 	}
 
-	set(prop: keyof UserSettings, value: UserSettings[keyof UserSettings], shouldUpdate?: false) {
-		this.setters[prop](this.currentState, value)
-		if (shouldUpdate === false) {
-			this.update();
-		}
+	set<propName extends keyof UserSettings>(prop: propName, value: UserSettings[propName], shouldUpdate?: false) {
+		(this.setters[prop] as (state: ComputedSettings, value: unknown)=>void)(this.currentState, value)
+		this.update();
 	}
 
 	update(){
 		if (this._update) {
-			this._update(this.currentState)
+			this._update()
 		}
 	}
 
@@ -60,7 +63,7 @@ class SettingsClass {
 				this.set(prop as keyof UserSettings, this.current[prop as keyof UserSettings] as UserSettings[keyof UserSettings], false);
 			}
 		}
-		console.log(this.currentState)
+		this.update();
 	}
 }
 

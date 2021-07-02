@@ -70,7 +70,7 @@
     "noEmit": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false
+    "isolatedModules": true
     //"isolatedModules": true
   },
   "include": [
