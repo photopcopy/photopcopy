@@ -2,6 +2,7 @@ import React from "react";
 import Head from 'next/head'
 import { Popup as PopupContainer } from "../components/popup";
 import { Settings, ComputedSettings } from "../scripts/settings";
+import { Icon } from "../components/icon";
 
 //apparently photop is all the same page which is really weird but /shrug
 
@@ -19,8 +20,11 @@ function App(){
 		<style jsx global>{`
 			body {
 				background-color: ${state.backgroundColor};
-				text-color: ${state.textColor};
+				color: ${state.textColor};
+				font-family: 'SF Mono', 'Roboto', sans-serif;
 			}
+			@import
+			url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')
 		`}</style>
 		<Head>
 			<title>
@@ -34,8 +38,14 @@ function App(){
 		</noscript>
 		<Main></Main>
 		<PopupContainer>
-			<div>
-				BRUH
+			<div key="settingsMenu" style={{width: "100%", height: "100%", backgroundColor: state.backgroundColorSecondary, borderRadius: 8, overflow: "hidden"}}>
+				<div key="topbar" style={{userSelect:"none", width: "100%", height: 60, display:"flex", alignItems: "center", boxSizing: "border-box", padding: 10, backgroundColor: state.backgroundColorTertiary, borderBottom: `solid ${state.backgroundColorQuaternary}`}}>
+					<div style={{width: "100%", height: "100%", fontSize: 40}}>Settings</div>
+					<div key="topbarRight" style={{float: "right"}}><Icon type="close"></Icon></div>
+				</div>
+				<div style={{width: 150, height: "100%", backgroundColor: state.backgroundColorTertiary, borderRight: `solid ${state.backgroundColorQuaternary}`}}>
+
+				</div>
 			</div>
 		</PopupContainer>
 	</>
