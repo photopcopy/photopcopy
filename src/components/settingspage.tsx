@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { createRef, useRef, useState } from "react"
 import { Settings } from "../scripts/settings"
 import { Icon } from "./icon"
 import { TabButton } from "./tabbutton"
@@ -12,11 +12,23 @@ enum PageTypes {
 function SettingsPage(){
     const [page, setPage] = useState<PageTypes>(PageTypes.Account)
     const [changesMade, updateChangesmade] = useState(false)
+    const [closed, setClosed] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
 
-    return <div key="settingsMenu" style={{ width: '100%', height: '100%', backgroundColor: Settings.currentState.backgroundColorSecondary, borderRadius: 8, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    return <div key="settingsMenu" ref={ref} style={{ opacity: closed?0:1, width: '100%', height: '100%', backgroundColor: Settings.currentState.backgroundColorSecondary, borderRadius: 8, overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'opacity .5s' }}>
     <div key="topbar" style={{ userSelect: 'none', width: '100%', height: 60, display: 'flex', alignItems: 'center', boxSizing: 'border-box', padding: 10, backgroundColor: Settings.currentState.backgroundColorTertiary, borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}` }}>
         <div style={{ width: '100%', height: '100%', fontSize: 40 }}>Settings</div>
-        <div key="topbarRight" style={{ float: 'right' }}><Icon type="close"></Icon></div>
+        <div key="topbarRight" style={{ float: 'right' }}><Icon onClick={()=>{
+            if (!closed) {
+                setClosed(true)
+                setTimeout(function(){
+                    if (ref.current) {
+                        //too lazy lmfao
+                        ref.current.style.display = "none";
+                    }
+                }, 500)
+            }
+        }} type="close"></Icon></div>
     </div>
     <div key="body" style={{width:'100%', height: '100%', display:"flex"}}>
         <div key="sidebar" style={{ width: 150, height: '100%', backgroundColor: Settings.currentState.backgroundColorTertiary, borderRight: `solid ${Settings.currentState.backgroundColorQuaternary}`}}>

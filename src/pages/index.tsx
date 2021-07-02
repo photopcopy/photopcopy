@@ -14,13 +14,6 @@ function Main(props: React.PropsWithChildren<{}>) {
 	</div>
 }
 
-function Why(){
-	const [count, setCount] = useState(0);
-	return <button onClick={()=>{setCount(count + 1)}}>
-		{"count is "+count}
-	</button>
-}
-
 function App() {
 	const [nonce, update] = useState(0);
 	Settings._update = ()=>{
@@ -47,7 +40,7 @@ function App() {
 			<a href="https://www.nhentai.net/g/364624">Click me for a surprise</a>
 			<span style={{ display: 'none' }}>Just kidding dont click it lmao</span>
 		</noscript>
-		<Main><Why/></Main>
+		<Main></Main>
 		<PopupContainer>
 		<SettingsPage/>
 		</PopupContainer>
