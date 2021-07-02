@@ -1,3 +1,7 @@
+.eslintrc.json
+next-env.d.ts
+.vscode
+
 # Logs
 logs
 *.log
