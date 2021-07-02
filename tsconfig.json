@@ -71,7 +71,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false
-    //"isolatedModules": true
+    //"isolatedModules": STOP CHANGING IT
   },
   "include": [
     "next-env.d.ts",
