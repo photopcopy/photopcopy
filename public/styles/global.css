@@ -1,0 +1,16 @@
+/*
+nooo u have to use next.js's style folder!!
+shut the fuck up i dont have time to resolve some shitty "global css cannot be imported from files other than your custom App bullshit"
+*/
+
+.scroll::-webkit-scrollbar {
+    background-color: rgba(0, 0, 0, 0);
+    width: 5px
+}
+
+/*
+    Might make this *computed* in the future because this looks awkward in light mode
+*/
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #444459;
+}

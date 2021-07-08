@@ -1,3 +1,7 @@
+/**
+ * "middleware" between stuff that changes settings and stuff that uses settings
+ * basically it controls what color dark mode will be (and nothing else)
+ */
 interface ComputedSettings {
 	backgroundColorTertiary: string;
 	backgroundColorQuaternary: string;
@@ -5,6 +9,7 @@ interface ComputedSettings {
 	textColor: string;
 	backgroundColorSecondary: string;
 	accentColor: string;
+	textColorSecondary: string;
 }
 
 interface UserSettings {
@@ -28,6 +33,7 @@ class SettingsClass {
 				case "darkMode":
 					currentState.backgroundColor = "#151617";
 					currentState.textColor = "#FFFFFF";
+					currentState.textColorSecondary = "#CCC";
 					currentState.backgroundColorSecondary = "#2A2A37";
 					currentState.backgroundColorTertiary = "#24242E"
 					currentState.backgroundColorQuaternary = "#1F1F28"
@@ -35,6 +41,7 @@ class SettingsClass {
 				case "lightMode":
 					currentState.backgroundColor = "#FFFFFF";
 					currentState.textColor = "#000";
+					currentState.textColorSecondary = "#333";
 					currentState.backgroundColorSecondary = "#D9D9D9";
 					currentState.backgroundColorTertiary = "#E3E3E3";
 					currentState.backgroundColorQuaternary = "#EBEBEB"
@@ -69,4 +76,5 @@ class SettingsClass {
 
 const Settings = SettingsClass.instance
 
-export {Settings, ComputedSettings}
+export {Settings}
+export type {ComputedSettings}
