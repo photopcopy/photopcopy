@@ -1,0 +1,53 @@
+{
+    "misc": {
+        "edit": "Edit",
+        "tba": "To be added"
+    },
+    "settingspage": {
+        "title": "Settings",
+
+        "tabs": {
+            "account": "Account",
+            "appearance": "Appearance",
+            "privacy": "Privacy",
+            "sessions": "Sessions",
+            "language": "Language"
+        },
+        "sections":{
+            "account":{
+                "title": "Account",
+                "username": "Username",
+                "password": "Username"
+            },
+            "theme":{
+                "title": "Theme",
+                "lightMode": "Light Mode",
+                "darkMode": "Dark Mode"
+            },
+            "accentColor": {
+                "title": "Accent Color"
+            },
+            "embeds": {
+                "title": "Embeds",
+                "description": "Embeds are from 3rd party sites - which could track you or slow down your browser.",
+                "embedYouTube": "Embed YouTube Videos",
+                "embedTwitchStreams": "Embed Twitch Streams",
+                "embedTwitchLiveChat": "Embed Twitch Live Chat",
+                "embedScratch": "Embed Scratch Games",
+                "embedCodeDotOrg": "Embed code.org Projects"
+            },
+            "blockedUsers": {
+                "title": "Blocked Users"
+            },
+            "activeSessions":{
+                "title": "Active Sessions",
+                "signOutAll": "Sign Out of All Sessions"
+            },
+            "language":{
+                "title": "Language",
+                "english": "English",
+                "retarded": "Retarded"
+            }
+        }
+    }
+}

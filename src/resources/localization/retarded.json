@@ -1,0 +1,53 @@
+{
+    "misc": {
+        "edit": "Edit",
+        "tba": "To be added"
+    },
+    "settingspage": {
+        "title": "Change Things",
+
+        "tabs": {
+            "account": "Myself",
+            "appearance": "Look",
+            "privacy": "Secure",
+            "sessions": "Existences",
+            "language": "Language"
+        },
+        "sections":{
+            "account":{
+                "title": "Me",
+                "username": "Stupid",
+                "password": "Password"
+            },
+            "theme":{
+                "title": "Look",
+                "lightMode": "White",
+                "darkMode": "Black"
+            },
+            "accentColor": {
+                "title": "Skittles"
+            },
+            "embeds": {
+                "title": "Squares",
+                "description": "Lots of squares below",
+                "embedYouTube": "The square at the top",
+                "embedTwitchStreams": "The square below the square at the top",
+                "embedTwitchLiveChat": "The square in the middle",
+                "embedScratch": "The square below the square in the middle",
+                "embedCodeDotOrg": "The Final Square"
+            },
+            "blockedUsers": {
+                "title": "Go away"
+            },
+            "activeSessions":{
+                "title": "History",
+                "signOutAll": "Clear search history"
+            },
+            "language":{
+                "title": "Language",
+                "english": "English",
+                "retarded": "Retarded"
+            }
+        }
+    }
+}

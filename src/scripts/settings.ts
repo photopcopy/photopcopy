@@ -2,6 +2,13 @@
  * "middleware" between stuff that changes settings and stuff that uses settings
  * basically it controls what color dark mode will be (and nothing else)
  */
+
+// i don't actually plan to add any languages, this is just for forward compatibility, retarded is just a test "language" to see if it works
+import * as english from "../resources/localization/english.json"
+import * as retarded from "../resources/localization/retarded.json"
+
+const languages = {english, retarded}
+
 interface ComputedSettings {
 	backgroundColorTertiary: string;
 	backgroundColorQuaternary: string;
@@ -10,9 +17,11 @@ interface ComputedSettings {
 	backgroundColorSecondary: string;
 	accentColor: string;
 	textColorSecondary: string;
+	strings: typeof languages["english"];
 }
 
 interface UserSettings {
+	language: keyof typeof languages;
 	theme: "darkMode" | "lightMode"
 	accent: string
 }
@@ -22,7 +31,7 @@ class SettingsClass {
 	_update?: ()=>void
 	currentState: ComputedSettings
 	
-	current: UserSettings = {theme: "darkMode", accent: "#5ab7fa"};
+	current: UserSettings = {theme: "darkMode", accent: "#5ab7fa", language: "english"};
 
 	private setters = {
 		accent(currentState: ComputedSettings, accent: UserSettings["accent"]){
@@ -47,6 +56,9 @@ class SettingsClass {
 					currentState.backgroundColorQuaternary = "#EBEBEB"
 					break;
 			}
+		},
+		language(currentState: ComputedSettings, language: UserSettings["language"]){
+			currentState.strings = languages[language]
 		}
 	}
 

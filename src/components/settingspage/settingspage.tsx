@@ -8,16 +8,19 @@ import { RadioSelection } from "./radioselection"
 import { Section } from "./section"
 import { TabButton } from "./tabbutton"
 
+
 enum PageTypes {
     Account,
     Appearance,
     Privacy,
-    Sessions
+    Sessions,
+    Language,
 }
 
 
 function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)=>void, onClosed: ()=>void}) {
 
+    const strings = Settings.currentState.strings.settingspage
     const [page, setPage] = useState<PageTypes>(PageTypes.Account)
     const [changesMade, updateChangesmade] = useState(false)
     const [closed, setClosed] = useState(false);
@@ -29,7 +32,7 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
 
     return <div key="settingsMenu"  style={{ opacity: closed?0:1, position: "absolute", transform: "translate(-50%, -50%)", left: "50%", top: "50%", width: '500px', height: '400px', backgroundColor: Settings.currentState.backgroundColorSecondary, borderRadius: 8, overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'opacity .5s' }}>
     <div key="topbar" style={{ userSelect: 'none', width: '100%', height: 60, display: 'flex', alignItems: 'center', boxSizing: 'border-box', padding: 10, backgroundColor: Settings.currentState.backgroundColorTertiary, borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}` }}>
-        <div style={{ width: '100%', height: '100%', fontSize: 40 }}>Settings</div>
+        <div style={{ width: '100%', height: '100%', fontSize: 40 }}>{strings.title}</div>
         <div key="topbarRight" style={{ float: 'right' }}><Icon onClick={()=>{
             if (!closed) {
                 props.onClosed();
@@ -48,29 +51,32 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
             {<>
                 <TabButton self={PageTypes.Account} current={page} onClick={()=>{
                     setPage(PageTypes.Account)
-                }}>Account</TabButton>
+                }}>{strings.tabs.account}</TabButton>
                 <TabButton self={PageTypes.Appearance} current={page} onClick={()=>{
                     setPage(PageTypes.Appearance)
-                }}>Appearance</TabButton>
+                }}>{strings.tabs.appearance}</TabButton>
                 <TabButton self={PageTypes.Privacy} current={page} onClick={()=>{
                     setPage(PageTypes.Privacy)
-                }}>Privacy</TabButton>
+                }}>{strings.tabs.privacy}</TabButton>
                 <TabButton self={PageTypes.Sessions} current={page} onClick={()=>{
                     setPage(PageTypes.Sessions)
-                }}>Sessions</TabButton>
+                }}>{strings.tabs.sessions}</TabButton>
+                <TabButton self={PageTypes.Language} current={page} onClick={()=>{
+                    setPage(PageTypes.Language)
+                }}>{strings.tabs.language}</TabButton>
             </>}
         </div>
         <div key = "contentContainer" style={{position:"relative", width: "100%", height: "100%"}}>
                 <Page self={PageTypes.Account} current={page}>
-                   <Section title="Account">
-                        <div style={{display:"flex"}}><span>Username:</span><span style={{margin: "0px 5px", display: "inline-block", overflow:"hidden", maxWidth: 120, textOverflow: "ellipsis"}}>Photopcopy</span>
+                   <Section title={strings.sections.account.title}>
+                        <div style={{display:"flex"}}><span>{strings.sections.account.username}:</span><span style={{margin: "0px 5px", display: "inline-block", overflow:"hidden", maxWidth: 120, textOverflow: "ellipsis"}}>Photopcopy</span>
                         <button style={{float: "right", margin: 0, border: "none", cursor:"pointer", color: Settings.currentState.textColor, backgroundColor: Settings.currentState.accentColor}}>Edit</button></div>
-                        Password
+                        
                    </Section>
                 </Page>
                 <Page self={PageTypes.Appearance} current={page}>
-                    <Section title="Theme">
-                        <RadioSelection items={["Light Mode", "Dark Mode"]} default={1} updated={(value)=>{
+                    <Section title={strings.sections.theme.title}>
+                        <RadioSelection items={[strings.sections.theme.lightMode, strings.sections.theme.darkMode]} default={1} updated={(value)=>{
                             switch (value){
                                 case 0:
                                     Settings.set("theme", "lightMode"); break;
@@ -79,7 +85,7 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
                             }
                         }}/>
                     </Section>
-                    <Section title="Accent Color">
+                    <Section title={strings.sections.accentColor.title}>
                         <AccentOption color="red"/>
                         <AccentOption color="orange"/>
                         <AccentOption color="yellow"/>
@@ -87,20 +93,34 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
                         <AccentOption color="#5ab7fa"/>
                         <AccentOption color="purple"/>
                     </Section>
-                    <Section title="Embeds">
-                        <span style={{fontSize: 12, color: Settings.currentState.textColorSecondary}}>Embeds are from 3rd party sites - which could track you or slow down your browser.</span>
-                        <Checkbox items={["Embed YouTube Videos", "Embed Twitch Streams", "Embed Twitch Live Chat", "Embed Scratch Games", "Embed code.org Projects"]} default={{0:true,1:true,2:true}} updated={()=>{}}/>
+                    <Section title={strings.sections.embeds.title}>
+                        <span style={{fontSize: 12, color: Settings.currentState.textColorSecondary}}>{strings.sections.embeds.description}</span>
+                        <Checkbox items={[strings.sections.embeds.embedYouTube, strings.sections.embeds.embedTwitchStreams, strings.sections.embeds.embedTwitchLiveChat, strings.sections.embeds.embedScratch, strings.sections.embeds.embedCodeDotOrg]} default={{0:true,1:true,2:true}} updated={()=>{}}/>
                     </Section>
                 </Page>
                 <Page self={PageTypes.Privacy} current={page}>
-                    <Section title="Blocked Users">
-                        To be added
+                    <Section title={strings.sections.blockedUsers.title}>
+                        tba
                     </Section>
 
                 </Page>
                 <Page self={PageTypes.Sessions} current={page}>
-                    <Section title="Active Sessions">
-                        <button style={{borderRadius: 4, backgroundColor: Settings.currentState.accentColor, width: "100%", padding: 4, boxSizing: "border-box", border:"none", cursor: "pointer", color:Settings.currentState.textColor}}>Sign Out Of All Sessions</button>
+                    <Section title={strings.sections.activeSessions.title}>
+                        <button style={{borderRadius: 4, backgroundColor: Settings.currentState.accentColor, width: "100%", padding: 4, boxSizing: "border-box", border:"none", cursor: "pointer", color:Settings.currentState.textColor}}>
+                            {strings.sections.activeSessions.signOutAll}
+                            </button>
+                    </Section>
+                </Page>
+                <Page self={PageTypes.Language} current={page}>
+                    <Section title={strings.sections.language.title}>
+                    <RadioSelection items={[strings.sections.language.english, strings.sections.language.retarded]} default={0} updated={(value)=>{
+                            switch (value){
+                                case 0:
+                                    Settings.set("language", "english"); break;
+                                case 1:
+                                    Settings.set("language", "retarded"); break;
+                            }
+                        }}/>
                     </Section>
                 </Page>
         </div>
