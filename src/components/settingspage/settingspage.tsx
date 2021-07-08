@@ -1,72 +1,20 @@
-import React, { createRef, memo, useMemo, useRef, useState } from "react"
-import { Settings } from "../scripts/settings"
-import { Icon } from "./icon"
+import React, { useRef, useState } from "react"
+import { Settings } from "../../scripts/settings"
+import { Icon } from "../icon"
+import { AccentOption } from "./accentoption"
+import { Checkbox } from "./checkbox"
+import { Page } from "./page"
+import { RadioSelection } from "./radioselection"
+import { Section } from "./section"
 import { TabButton } from "./tabbutton"
 
 enum PageTypes {
     Account,
     Appearance,
-    Privacy
+    Privacy,
+    Sessions
 }
 
-function RadioSelection(props: {items: string[], default: number, updated: (current: number)=>void}){
-    const [current, setCurrent] = useState(props.default);
-    return <div>
-        {
-            props.items.map((value, index)=>{
-                return <div style={{display: "flex", marginTop: 4}}>
-                    <div onClick={()=>{
-                        setCurrent(index)
-                        props.updated(index)
-                    }} style={{position:"relative", cursor:"pointer", display: "inline-block", width: 20, height: 20, padding: 5, backgroundColor: Settings.currentState.backgroundColorSecondary, borderRadius: "100%"}}>
-                        <div style={{borderRadius: "100%", width: current===index?"calc(100% - 10px)":"0%", height: current===index?"calc(100% - 10px)":"0%", opacity: current===index?1:0 ,left: "50%", top: "50%", transform: "translate(-50%, -50%)", position: "absolute", transition: "opacity .2s, width .2s, height .2s", backgroundColor: Settings.currentState.accentColor}}/>
-                    </div>
-                    <div style={{width: "100%", position:"relative"}}><div style={{position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)"}}>{value}</div></div>
-                </div>
-            })
-        }
-    </div>
-}
-
-function Checkbox<items extends string[]>(props: {items: items, default: {[k: number]: true}, updated: (current: {[k: number]: boolean})=>void}){
-    const map: {[s: number]: boolean} = {};
-    props.items.forEach((_, index)=>{
-        map[index] = props.default[index] || false;
-    })
-
-    const [current, setCurrent] = useState(map);
-    const [nonce, update] = useState(0);
-    return <div>
-        {
-            props.items.map((value, index)=>{
-                return <div style={{display: "flex", marginTop: 4}}>
-                    <div onClick={()=>{
-                        current[index] = !current[index];
-                        props.updated(current)
-                        update(nonce+1)
-                        
-                    }} style={{position:"relative", cursor:"pointer", display: "inline-block", width: 30, height: 30, backgroundColor: Settings.currentState.backgroundColorSecondary}}>
-                        <div style={{width: current[index]?"calc(100% - 10px)":"0%", height: current[index]?"calc(100% - 10px)":"0%", opacity: current[index]?1:0 ,left: "50%", top: "50%", transform: "translate(-50%, -50%)", position: "absolute", transition: "opacity .2s, width .2s, height .2s", backgroundColor: Settings.currentState.accentColor}}/>
-                    </div>
-                    <div style={{width: "100%", position:"relative"}}><div style={{position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)"}}>{value}</div></div>
-                </div>
-            })
-        }
-    </div>
-}
-
-function Section(props: React.PropsWithChildren<{title: string}>){
-    return <div style={{width: "100%", marginTop: 10, padding: 4, boxSizing: "border-box", backgroundColor: Settings.currentState.backgroundColorQuaternary, borderRadius: 8}}>
-        <h1 style={{margin: 0}}>{props.title}</h1>
-        {props.children}
-    </div>
-}
-
-function Page(props: React.PropsWithChildren<{self: PageTypes, current: PageTypes}>){
-    return  <div style={{display:props.self===props.current?"flex":"none", flexDirection:"column", width: "100%", height: "100%"}}>
-        {props.children}
-    </div>
-}
 
 function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)=>void, onClosed: ()=>void}) {
 
@@ -107,10 +55,19 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
                 <TabButton self={PageTypes.Privacy} current={page} onClick={()=>{
                     setPage(PageTypes.Privacy)
                 }}>Privacy</TabButton>
+                <TabButton self={PageTypes.Sessions} current={page} onClick={()=>{
+                    setPage(PageTypes.Sessions)
+                }}>Sessions</TabButton>
             </>}
         </div>
-        <div key = "contentContainer" className="scroll" style={{width: "100%", height: "100%", padding: 8, boxSizing: "border-box", overflow:"auto"}}>
-        <div key="content" style={{width: "100%",  borderRadius: 8, padding: "0px 8px", backgroundColor: Settings.currentState.backgroundColorTertiary, boxSizing: "border-box"}}>
+        <div key = "contentContainer" style={{position:"relative", width: "100%", height: "100%"}}>
+                <Page self={PageTypes.Account} current={page}>
+                   <Section title="Account">
+                        <div style={{display:"flex"}}><span>Username:</span><span style={{margin: "0px 5px", display: "inline-block", overflow:"hidden", maxWidth: 120, textOverflow: "ellipsis"}}>Photopcopy</span>
+                        <button style={{float: "right", margin: 0, border: "none", cursor:"pointer", color: Settings.currentState.textColor, backgroundColor: Settings.currentState.accentColor}}>Edit</button></div>
+                        Password
+                   </Section>
+                </Page>
                 <Page self={PageTypes.Appearance} current={page}>
                     <Section title="Theme">
                         <RadioSelection items={["Light Mode", "Dark Mode"]} default={1} updated={(value)=>{
@@ -122,12 +79,30 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
                             }
                         }}/>
                     </Section>
+                    <Section title="Accent Color">
+                        <AccentOption color="red"/>
+                        <AccentOption color="orange"/>
+                        <AccentOption color="yellow"/>
+                        <AccentOption color="#00FF00"/>
+                        <AccentOption color="#5ab7fa"/>
+                        <AccentOption color="purple"/>
+                    </Section>
                     <Section title="Embeds">
                         <span style={{fontSize: 12, color: Settings.currentState.textColorSecondary}}>Embeds are from 3rd party sites - which could track you or slow down your browser.</span>
                         <Checkbox items={["Embed YouTube Videos", "Embed Twitch Streams", "Embed Twitch Live Chat", "Embed Scratch Games", "Embed code.org Projects"]} default={{0:true,1:true,2:true}} updated={()=>{}}/>
                     </Section>
                 </Page>
-        </div>
+                <Page self={PageTypes.Privacy} current={page}>
+                    <Section title="Blocked Users">
+                        To be added
+                    </Section>
+
+                </Page>
+                <Page self={PageTypes.Sessions} current={page}>
+                    <Section title="Active Sessions">
+                        <button style={{borderRadius: 4, backgroundColor: Settings.currentState.accentColor, width: "100%", padding: 4, boxSizing: "border-box", border:"none", cursor: "pointer", color:Settings.currentState.textColor}}>Sign Out Of All Sessions</button>
+                    </Section>
+                </Page>
         </div>
     </div>
     <button style={{display:changesMade?"unset":"none", position: "absolute", boxShadow:"0 8px 16px rgba(0,0,0,0.44)", bottom: 10, right: 10, height: 30, fontSize:25, backgroundColor: Settings.currentState.accentColor, borderRadius: 8, border:"none", cursor:"pointer", color:Settings.currentState.textColor}}>

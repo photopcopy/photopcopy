@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Settings } from "../scripts/settings";
+import { Settings } from "../../scripts/settings";
 import { PageTypes } from "./settingspage";
 
 function TabButton(props: React.PropsWithChildren<{onClick: React.MouseEventHandler<HTMLButtonElement>, self: PageTypes, current: PageTypes}>) {
@@ -19,7 +19,7 @@ function TabButton(props: React.PropsWithChildren<{onClick: React.MouseEventHand
 			border:"none",
 			color: props.self===props.current?Settings.currentState.accentColor:Settings.currentState.textColor,
 			textAlign: "left",
-			transition: "box-shadow .5s",
+			transition: "box-shadow .5s, color .3s",
 			marginBottom: 3,
 //			fontWeight: props.self===props.current?800:100,
 		}}>

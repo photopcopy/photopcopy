@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
-import { Popup as PopupContainer } from '../components/popup'
 import { Settings, ComputedSettings } from '../scripts/settings'
 import { Icon } from '../components/icon'
-import { TabButton } from '../components/tabbutton'
-import { SettingsPage } from '../components/settingspage'
+import { TabButton } from '../components/settingspage/tabbutton'
+import { SettingsPage } from '../components/settingspage/settingspage'
 import { Post } from '../components/post'
 
 // apparently photop is all the same page which is really weird but /shrug
@@ -33,6 +32,10 @@ function App() {
 			setPopupsShown(popupsShown-1)
 		}
 		_SetSettingsOpen(value);
+	}
+
+	function AddPopup(content: React.ReactElement){
+
 	}
 
 	return <>
