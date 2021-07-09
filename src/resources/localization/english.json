@@ -45,6 +45,7 @@
             },
             "language":{
                 "title": "Language",
+                "description": "I don't plan to add support for other languages. This is just for forward compatibility.",
                 "english": "English",
                 "retarded": "Retarded"
             }

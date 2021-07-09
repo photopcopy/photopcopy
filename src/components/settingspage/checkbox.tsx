@@ -12,7 +12,7 @@ function Checkbox<items extends string[]>(props: {items: items, default: {[k: nu
     return <div>
         {
             props.items.map((value, index)=>{
-                return <div style={{display: "flex", marginTop: 4}}>
+                return <div key={index} style={{display: "flex", marginTop: 4}}>
                     <div onClick={()=>{
                         current[index] = !current[index];
                         props.updated(current)

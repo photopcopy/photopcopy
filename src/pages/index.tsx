@@ -25,17 +25,13 @@ function App() {
 	const [popupsShown, setPopupsShown] = useState(1);
 
 	let _SetSettingsOpen: (value: boolean)=>void;
-	function SetSettingsOpen(value: boolean){
+	function ChangePopupState(value: boolean, SetOpenFunc: (value: boolean)=>void){
 		if (value) {
 			setPopupsShown(popupsShown+1);
 		} else {
 			setPopupsShown(popupsShown-1)
 		}
-		_SetSettingsOpen(value);
-	}
-
-	function AddPopup(content: React.ReactElement){
-
+		SetOpenFunc(value);
 	}
 
 	return <>
@@ -57,9 +53,11 @@ function App() {
 			<link rel="stylesheet" href="../styles/global.css"></link>
 		</Head>
 		<noscript>
+			<div style={{position: "fixed", width: "100%", height: "100%", backgroundColor: "grey", zIndex: 100}}>
 			<h1>Enable javascript retard.</h1>
 			<a href="https://www.nhentai.net/g/364624">Click me for a surprise</a>
 			<span style={{ display: 'none' }}>Just kidding dont click it lmao</span>
+			</div>
 		</noscript>
 		<Main>
 			<div style={{width: 500, left: 100, position:"absolute"}}>
@@ -72,9 +70,10 @@ function App() {
 		</Main>
 		<div style={{width: "100%", height: "100%", position: "fixed", pointerEvents: popupsShown?"unset":"none", backdropFilter: popupsShown?"blur(5px)":""}}>
 			<SettingsPage
+
 				onClosed={
 					()=>{
-						SetSettingsOpen(false)
+						ChangePopupState(false, _SetSettingsOpen)
 					}
 				}
 				getClosedSetter={(callback)=>{

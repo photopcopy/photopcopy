@@ -1,6 +1,6 @@
 /**
- * "middleware" between stuff that changes settings and stuff that uses settings
- * basically it controls what color dark mode will be (and nothing else)
+ * middleman between stuff that changes settings and stuff that uses settings
+ * it transform settings such as the theme into a series of "computed" settings (mainly styles), this way stuff is easier to tweak
  */
 
 // i don't actually plan to add any languages, this is just for forward compatibility, retarded is just a test "language" to see if it works
@@ -17,6 +17,7 @@ interface ComputedSettings {
 	backgroundColorSecondary: string;
 	accentColor: string;
 	textColorSecondary: string;
+	textColorInverted: string;
 	strings: typeof languages["english"];
 }
 
@@ -46,6 +47,7 @@ class SettingsClass {
 					currentState.backgroundColorSecondary = "#2A2A37";
 					currentState.backgroundColorTertiary = "#24242E"
 					currentState.backgroundColorQuaternary = "#1F1F28"
+					currentState.textColorInverted = "#000000"
 					break;
 				case "lightMode":
 					currentState.backgroundColor = "#FFFFFF";
@@ -54,6 +56,7 @@ class SettingsClass {
 					currentState.backgroundColorSecondary = "#D9D9D9";
 					currentState.backgroundColorTertiary = "#E3E3E3";
 					currentState.backgroundColorQuaternary = "#EBEBEB"
+					currentState.textColorInverted = "#FFFFFF"
 					break;
 			}
 		},

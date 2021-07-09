@@ -7,7 +7,7 @@ function RadioSelection(props: {items: string[], default: number, updated: (curr
     return <div>
         {
             props.items.map((value, index)=>{
-                return <div style={{display: "flex", marginTop: 4}}>
+                return <div key={index} style={{display: "flex", marginTop: 4}}>
                     <div onClick={()=>{
                         setCurrent(index)
                         props.updated(index)

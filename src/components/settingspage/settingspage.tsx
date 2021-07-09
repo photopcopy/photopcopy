@@ -30,7 +30,7 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
         setClosed(value)
     })
 
-    return <div key="settingsMenu"  style={{ opacity: closed?0:1, position: "absolute", transform: "translate(-50%, -50%)", left: "50%", top: "50%", width: '500px', height: '400px', backgroundColor: Settings.currentState.backgroundColorSecondary, borderRadius: 8, overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'opacity .5s' }}>
+    return <div key="settingsMenu"  style={{ opacity: closed?0:1, position: "absolute", transform: "translate(-50%, -50%)", left: "50%", top: "50%", height: "50%", width: "50%", maxWidth: '600px', maxHeight: '400px', minWidth: '350px', minHeight: '200px', backgroundColor: Settings.currentState.backgroundColorSecondary, borderRadius: 8, overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'opacity .5s' }}>
     <div key="topbar" style={{ userSelect: 'none', width: '100%', height: 60, display: 'flex', alignItems: 'center', boxSizing: 'border-box', padding: 10, backgroundColor: Settings.currentState.backgroundColorTertiary, borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}` }}>
         <div style={{ width: '100%', height: '100%', fontSize: 40 }}>{strings.title}</div>
         <div key="topbarRight" style={{ float: 'right' }}><Icon onClick={()=>{
@@ -70,7 +70,7 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
                 <Page self={PageTypes.Account} current={page}>
                    <Section title={strings.sections.account.title}>
                         <div style={{display:"flex"}}><span>{strings.sections.account.username}:</span><span style={{margin: "0px 5px", display: "inline-block", overflow:"hidden", maxWidth: 120, textOverflow: "ellipsis"}}>Photopcopy</span>
-                        <button style={{float: "right", margin: 0, border: "none", cursor:"pointer", color: Settings.currentState.textColor, backgroundColor: Settings.currentState.accentColor}}>Edit</button></div>
+                        <button style={{float: "right", margin: 0, border: "none", cursor:"pointer", color: Settings.currentState.textColorInverted, backgroundColor: Settings.currentState.accentColor}}>Edit</button></div>
                         
                    </Section>
                 </Page>
@@ -106,22 +106,23 @@ function SettingsPage(props:{ getClosedSetter:(callback: (value: boolean)=>void)
                 </Page>
                 <Page self={PageTypes.Sessions} current={page}>
                     <Section title={strings.sections.activeSessions.title}>
-                        <button style={{borderRadius: 4, backgroundColor: Settings.currentState.accentColor, width: "100%", padding: 4, boxSizing: "border-box", border:"none", cursor: "pointer", color:Settings.currentState.textColor}}>
+                        <button style={{borderRadius: 4, backgroundColor: Settings.currentState.accentColor, width: "100%", padding: 4, boxSizing: "border-box", border:"none", cursor: "pointer", color:Settings.currentState.textColorInverted}}>
                             {strings.sections.activeSessions.signOutAll}
                             </button>
                     </Section>
                 </Page>
                 <Page self={PageTypes.Language} current={page}>
                     <Section title={strings.sections.language.title}>
-                    <RadioSelection items={[strings.sections.language.english, strings.sections.language.retarded]} default={0} updated={(value)=>{
-                            switch (value){
-                                case 0:
-                                    Settings.set("language", "english"); break;
-                                case 1:
-                                    Settings.set("language", "retarded"); break;
-                            }
-                        }}/>
-                    </Section>
+                        <span style={{fontSize: 12, color: Settings.currentState.textColorSecondary}}>{strings.sections.language.description}</span>
+                        <RadioSelection items={[strings.sections.language.english, strings.sections.language.retarded]} default={0} updated={(value)=>{
+                                switch (value){
+                                    case 0:
+                                        Settings.set("language", "english"); break;
+                                    case 1:
+                                        Settings.set("language", "retarded"); break;
+                                }
+                            }}/>
+                        </Section>
                 </Page>
         </div>
     </div>
