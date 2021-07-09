@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Settings } from "../../scripts/settings";
+import { Settings } from "../../modules/settings";
 import { PageTypes } from "./settingspage";
 
 function RadioSelection(props: {items: string[], default: number, updated: (current: number)=>void}){

@@ -1,5 +1,5 @@
 import { ReactElement } from "react"
-import { Settings } from "../scripts/settings";
+import { Settings } from "../modules/settings";
 
 
 function Icon(props: {type: "close", onClick: ()=>void}) {

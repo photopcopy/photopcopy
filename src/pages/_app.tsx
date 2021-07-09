@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/global.css"
 
 function Wrapper({Component, pageProps}: {Component: ()=>React.ReactElement, pageProps: {}}){
     console.log(`Curious to see how this works?

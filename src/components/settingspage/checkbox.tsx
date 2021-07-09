@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Settings } from "../../scripts/settings";
+import { Settings } from "../../modules/settings";
 
 function Checkbox<items extends string[]>(props: {items: items, default: {[k: number]: true}, updated: (current: {[k: number]: boolean})=>void}){
     const map: {[s: number]: boolean} = {};

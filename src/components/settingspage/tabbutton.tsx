@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Settings } from "../../scripts/settings";
+import { Settings } from "../../modules/settings";
 import { PageTypes } from "./settingspage";
 
 function TabButton(props: React.PropsWithChildren<{onClick: React.MouseEventHandler<HTMLButtonElement>, self: PageTypes, current: PageTypes}>) {

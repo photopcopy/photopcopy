@@ -1,8 +1,10 @@
-import React from "react";
+import React, { ReactElement, useEffect } from "react";
 import ReactModal from "react-modal";
+import { PopupManager } from "../modules/popupmanager";
 
-function Popup1(props: {onRequestClose: ()=>void}){
-    return <ReactModal isOpen = {true} onAfterClose={()=>{}} onRequestClose={()=>{}} style={{content: {position: "absolute", inset: "50% 0% 0% 50%", width: 300, height: 200,  transform: "translate(-50%, -50%)"}, overlay: {position: "fixed", inset: 0, width: "100%", height: "100%"}}}>
+
+function Popup1(props: {onRequestClose: ()=>void, isOpen: boolean}){
+    return <ReactModal isOpen = {props.isOpen} closeTimeoutMS={500} onAfterClose={()=>{}} ariaHideApp={false} style={{content: {position: "absolute", inset: "50% 0% 0% 50%", width: 300, height: 200,  transform: "translate(-50%, -50%)"}, overlay: {position: "fixed", inset: 0, width: "100%", height: "100%"}}}>
             <button onClick={()=>{
                 props.onRequestClose();
             }}>Close</button>
@@ -10,20 +12,26 @@ function Popup1(props: {onRequestClose: ()=>void}){
 }
 
 
-function PopupTest(){
-    const [popups, setPopups] = React.useState<React.ReactElement[]>([
-        <Popup1 onRequestClose={()=>{}}/>
-    ])
-    function AddPopup(element: React.ReactElement, callback: (close: ()=>void)=>void){
-        setPopups([...popups, element])
-        callback(()=>{
 
+function PopupTest(){
+    
+    const {Render: RenderPopups, AddPopup, SetPopupState} = PopupManager();
+
+    useEffect(()=>{
+        AddPopup("popup1", true, (onRequestClose, isOpen)=>{
+            return <Popup1 onRequestClose={onRequestClose} isOpen={isOpen}/>
         })
-    }
+    }, [])
+    
+    console.log("render")
+
     return <>
-        yes
+        <button key="clickBtn" onClick={()=>{
+            SetPopupState("popup1", true)
+            
+        }}>Show Settings</button>
         <div key="blur" style={{backdropFilter: "blur(5px)"}}></div>
-        {popups}
+        {RenderPopups()}
     </>
 }
 

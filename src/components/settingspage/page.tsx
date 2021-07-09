@@ -1,4 +1,4 @@
-import { Settings } from "../../scripts/settings"
+import { Settings } from "../../modules/settings"
 import { PageTypes } from "./settingspage"
 
 function Page(props: React.PropsWithChildren<{self: PageTypes, current: PageTypes}>){

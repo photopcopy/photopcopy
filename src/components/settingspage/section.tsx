@@ -1,4 +1,4 @@
-import { Settings } from "../../scripts/settings"
+import { Settings } from "../../modules/settings"
 
 function Section(props: React.PropsWithChildren<{title: string}>){
     return <div style={{width: "100%", marginTop: 10, padding: 4, boxSizing: "border-box", backgroundColor: Settings.currentState.backgroundColorQuaternary, borderRadius: 8}}>

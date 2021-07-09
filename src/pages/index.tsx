@@ -1,18 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import { Settings, ComputedSettings } from '../scripts/settings'
+import { Settings, ComputedSettings } from '../modules/settings'
 import { Icon } from '../components/icon'
 import { TabButton } from '../components/settingspage/tabbutton'
 import { SettingsPage } from '../components/settingspage/settingspage'
-import { Post } from '../components/post'
-
-// apparently photop is all the same page which is really weird but /shrug
-
-function Main(props: React.PropsWithChildren<{}>) {
-	return <div key="mainContent" style={{position: "fixed"}}>
-		{props.children}
-	</div>
-}
+import { Post } from '../components/maincontent/post'
+import { PopupManager } from '../modules/popupmanager'
 
 function App() {
 	const [nonce, update] = useState(0);
@@ -22,18 +15,18 @@ function App() {
 
 	//it counts up for every popup, and counts down everytime one is closed, that way you can have 0 to indicate that all popups are closed
 	//im not sure if this could lead to a bug if the number is unexpectedly, but it works in theory
-	const [popupsShown, setPopupsShown] = useState(1);
+	
+	const {Render: RenderPopups, AddPopup, SetPopupState, shouldShowOverlay} = PopupManager();
 
-	let _SetSettingsOpen: (value: boolean)=>void;
-	function ChangePopupState(value: boolean, SetOpenFunc: (value: boolean)=>void){
-		if (value) {
-			setPopupsShown(popupsShown+1);
-		} else {
-			setPopupsShown(popupsShown-1)
-		}
-		SetOpenFunc(value);
-	}
-
+	useEffect(()=>{
+		AddPopup("SettingsMenu", false, (onRequestClose, isOpen)=>{
+			return <SettingsPage
+				onRequestClose={onRequestClose}
+				isOpen={isOpen}
+			/>
+		})
+	}, [])
+	
 	return <>
 		<style jsx global>{`
 			body {
@@ -50,7 +43,6 @@ function App() {
 			<title>
 				Oh baby a triple!
 			</title>
-			<link rel="stylesheet" href="../styles/global.css"></link>
 		</Head>
 		<noscript>
 			<div style={{position: "fixed", width: "100%", height: "100%", backgroundColor: "grey", zIndex: 100}}>
@@ -59,28 +51,24 @@ function App() {
 			<span style={{ display: 'none' }}>Just kidding dont click it lmao</span>
 			</div>
 		</noscript>
-		<Main>
-			<div style={{width: 500, left: 100, position:"absolute"}}>
-				<Post postId="bruh"/>
-				<Post postId="bruh"/>
-				<Post postId="bruh"/>
-				<Post postId="bruh"/>
-
+		<div key="mainContainer" style={{position: "fixed", width: "100%", height: "100%"}}>
+			<div key="content" style={{ width: "100%", maxWidth: 1200, position:"absolute", left: "50%", transform: "translate(-50%)", display:"flex"}}>
+				<div key="sidebarLeft" style={{width: 200, minWidth: 200}}>
+					Photopcopy
+					<button onClick={()=>{
+						SetPopupState("SettingsMenu", true)
+					}}>Open Settings</button>
+				</div>
+				<div key="postContainer" style={{width: "100%"}}>
+					<Post postId="bruj"/>
+				</div>
+				<div key="sidebarRight" style={{minWidth: 200, width: 200}}>
+					Roblox Ad Goes here
+				</div>
 			</div>
-		</Main>
-		<div style={{width: "100%", height: "100%", position: "fixed", pointerEvents: popupsShown?"unset":"none", backdropFilter: popupsShown?"blur(5px)":""}}>
-			<SettingsPage
-
-				onClosed={
-					()=>{
-						ChangePopupState(false, _SetSettingsOpen)
-					}
-				}
-				getClosedSetter={(callback)=>{
-					_SetSettingsOpen = callback;
-				}}
-			/>
 		</div>
+		<div style={{width: "100%", height: "100%", position: "fixed", pointerEvents: shouldShowOverlay?"unset":"none", backdropFilter: shouldShowOverlay?"blur(5px)":"", transition: "blur .5s"}}/>
+		{RenderPopups()}
 	</>
 }
 
