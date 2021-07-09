@@ -67,7 +67,7 @@ function App() {
 				</div>
 			</div>
 		</div>
-		<div style={{width: "100%", height: "100%", position: "fixed", pointerEvents: shouldShowOverlay?"unset":"none", backdropFilter: shouldShowOverlay?"blur(5px)":"", transition: "blur .5s"}}/>
+		<div style={{width: "100%", height: "100%", position: "fixed", pointerEvents: shouldShowOverlay?"unset":"none", backdropFilter: shouldShowOverlay?"blur(5px)":"unset", transition: "backdrop-filter .5s"}}/>
 		{RenderPopups()}
 	</>
 }
