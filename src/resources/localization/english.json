@@ -3,6 +3,14 @@
         "edit": "Edit",
         "tba": "To be added"
     },
+    "mainpage": {
+        "sidebar": {
+            "refresh": "Refresh",
+            "post": "Post",
+            "logout": "Logout",
+            "settings": "Settings"
+        }
+    },
     "settingspage": {
         "title": "Settings",
 
