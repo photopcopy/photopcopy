@@ -1,14 +1,20 @@
+import React from "react";
 import { useState } from "react";
 import { Settings } from "../../modules/settings";
+import themes from "../../modules/themes";
 
 function RadioSelection(props: { items: string[]; default: number; updated: (current: number) => void }) {
 	const [current, setCurrent] = useState(props.default);
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
+
 	return (
 		<div>
 			{props.items.map((value, index) => {
 				return (
 					<div key={index} style={{ display: "flex", marginTop: 4 }}>
 						<div
+							className={theme.backgroundSecondary}
 							onClick={() => {
 								setCurrent(index);
 								props.updated(index);
@@ -20,12 +26,12 @@ function RadioSelection(props: { items: string[]; default: number; updated: (cur
 								width: 20,
 								height: 20,
 								padding: 5,
-								backgroundColor: Settings.currentState.backgroundColorSecondary,
 								borderRadius: "100%",
 							}}
 						>
 							<div
 								style={{
+									backgroundColor: settings.accentColor,
 									borderRadius: "100%",
 									width: current === index ? "calc(100% - 10px)" : "0%",
 									height: current === index ? "calc(100% - 10px)" : "0%",
@@ -35,7 +41,6 @@ function RadioSelection(props: { items: string[]; default: number; updated: (cur
 									transform: "translate(-50%, -50%)",
 									position: "absolute",
 									transition: "opacity .2s, width .2s, height .2s",
-									backgroundColor: Settings.currentState.accentColor,
 								}}
 							/>
 						</div>

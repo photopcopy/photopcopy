@@ -27,3 +27,7 @@ shut the fuck up i dont have time to resolve some shitty "global css cannot be i
   .ReactModal__Overlay--before-close {
     opacity: 0;
   }
+
+body {
+  margin: 0px;
+}

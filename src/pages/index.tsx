@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { Settings } from "../modules/settings";
+//import { Settings } from "../modules/settings";
 import { SettingsPage } from "../components/settingspage/settingspage";
 import { Post } from "../components/maincontent/post";
 import { PopupManager } from "../modules/popupmanager";
 import { SidebarButton } from "../components/maincontent/sidebarbutton";
+import { ISettings, Settings } from "../modules/settings";
+import { languages } from "../modules/localizationmanager";
+import themes from "../modules/themes";
 
 function PopupContainer(props: {
 	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
@@ -37,24 +40,14 @@ function PopupContainer(props: {
 }
 
 function App() {
-	const [nonce, update] = useState(0);
-	Settings._update = () => {
-		update(nonce + 1);
-	};
-
-	//it counts up for every popup, and counts down everytime one is closed, that way you can have 0 to indicate that all popups are closed
-	//im not sure if this could lead to a bug if the number is unexpectedly, but it works in theory
-
 	const [state] = useState<{ popupMethods?: ReturnType<typeof PopupManager> }>({});
-
-	const strings = Settings.currentState.strings.mainpage;
-
+	const settings = React.useContext(Settings);
+	const strings = languages[settings.language].mainpage;
+	const theme = themes[settings.theme];
 	return (
 		<>
 			<style jsx global>{`
 				body {
-					background-color: ${Settings.currentState.backgroundColor};
-					color: ${Settings.currentState.textColor};
 					font-family: "SF Mono", "Roboto", sans-serif;
 				}
 
@@ -64,13 +57,25 @@ function App() {
 				<title>Oh baby a triple!</title>
 			</Head>
 			<noscript>
-				<div style={{ position: "fixed", width: "100%", height: "100%", backgroundColor: "grey", zIndex: 100 }}>
+				<div
+					style={{
+						position: "fixed",
+						width: "100%",
+						height: "100%",
+						backgroundColor: "grey",
+						zIndex: 100,
+					}}
+				>
 					<h1>Enable javascript retard.</h1>
 					<a href="https://www.nhentai.net/g/364624">Click me for a surprise</a>
 					<span style={{ display: "none" }}>Just kidding dont click it lmao</span>
 				</div>
 			</noscript>
-			<div key="mainContainer" style={{ position: "fixed", width: "100%", height: "100%" }}>
+			<div
+				key="mainContainer"
+				className={`${theme.backgroundPrimary}`}
+				style={{ position: "fixed", width: "100%", height: "100%" }}
+			>
 				<div
 					key="content"
 					style={{
@@ -85,13 +90,14 @@ function App() {
 				>
 					<div key="sidebarLeft" style={{ width: 200, minWidth: 200, padding: "0px 4px" }}>
 						<div
+							className={theme.backgroundTertiary}
 							style={{
-								backgroundColor: Settings.currentState.backgroundColorSecondary,
 								borderWidth: 6,
 								textAlign: "center",
 								borderStyle: "solid",
-								borderColor: Settings.currentState.backgroundColorTertiary,
+								borderColor: "rgb(0, 0, 0, 0)",
 								borderRadius: 4,
+								color: settings.accentColor,
 							}}
 						>
 							<div style={{ fontWeight: 1000 }}>
@@ -99,8 +105,8 @@ function App() {
 							</div>
 						</div>
 						<div
+							className={theme.backgroundTertiary}
 							style={{
-								backgroundColor: Settings.currentState.backgroundColorTertiary,
 								marginTop: 4,
 								borderRadius: 4,
 								padding: "4px 4px 0px 4px",
@@ -140,4 +146,28 @@ function App() {
 	);
 }
 
-export default App;
+interface AppWrapperState {
+	settings: ISettings;
+	nonce: number;
+	update: () => void;
+}
+
+function AppWrapper() {
+	const [_, update] = React.useState({});
+	const [settings] = React.useState<ISettings>({
+		theme: "dark",
+		language: "english",
+		accentColor: "#5ab7fa",
+		update() {
+			update({});
+		},
+	});
+
+	return (
+		<Settings.Provider value={settings}>
+			<App />
+		</Settings.Provider>
+	);
+}
+
+export default AppWrapper;

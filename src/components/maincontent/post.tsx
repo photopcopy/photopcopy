@@ -1,20 +1,26 @@
-import { useEffect } from "react";
-import { Settings } from "../../modules/settings";
+import { useContext, useEffect } from "react";
 import PostStyle from "../../styles/post.module.css";
+import { Settings } from "../../modules/settings";
+import themes from "../../modules/themes";
 
 function Post(props: { postId: string }) {
+	const settings = useContext(Settings);
+	const theme = themes[settings.theme];
+
+	/*
 	useEffect(() => {
 		console.log("render");
 		return () => {
 			console.log("dont render");
 		};
 	});
+	*/
 
 	return (
 		<div
 			key={props.postId}
+			className={theme.backgroundQuaternary}
 			style={{
-				backgroundColor: Settings.currentState.backgroundColorQuaternary,
 				borderRadius: 8,
 				minHeight: 100,
 				display: "flex",
@@ -23,6 +29,7 @@ function Post(props: { postId: string }) {
 			<div key="contentContainer" style={{ minWidth: 300, width: "100%" }}>
 				<div
 					key="postDataContainer"
+					className={theme.backgroundTertiary}
 					style={{
 						margin: "6px",
 						width: "calc(100% - 12px)",
@@ -32,7 +39,6 @@ function Post(props: { postId: string }) {
 						height: 40,
 						display: "flex",
 						alignItems: "center",
-						backgroundColor: Settings.currentState.backgroundColorTertiary,
 					}}
 				>
 					<img src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
@@ -41,19 +47,18 @@ function Post(props: { postId: string }) {
 			</div>
 			<div
 				key="chatContainer"
-				className={PostStyle.post}
+				className={`${PostStyle.post} ${theme.backgroundSecondary}`}
 				style={{
 					width: "70%",
 					margin: "6px 6px 6px 0px",
-					backgroundColor: Settings.currentState.backgroundColorTertiary,
 					borderRadius: 8,
 					overflow: "hidden",
 				}}
 			>
 				<div
+					className={`${theme.backgroundTertiary}`}
 					style={{
 						textAlign: "center",
-						background: Settings.currentState.backgroundColorSecondary,
 						padding: "2px 0px",
 					}}
 				>

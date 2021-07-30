@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactModal from "react-modal";
 import { Settings } from "../../modules/settings";
 import { Icon } from "../icon";
@@ -8,6 +8,8 @@ import { Page } from "./page";
 import { RadioSelection } from "./radioselection";
 import { Section } from "./section";
 import { TabButton } from "./tabbutton";
+import themes from "../../modules/themes";
+import { languages } from "../../modules/localizationmanager";
 
 enum PageTypes {
 	Account,
@@ -18,7 +20,9 @@ enum PageTypes {
 }
 
 function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
-	const strings = Settings.currentState.strings.settingspage;
+	const settings = useContext(Settings);
+	const theme = themes[settings.theme];
+	const strings = languages[settings.language].settingspage;
 	const [page, setPage] = useState<PageTypes>(PageTypes.Account);
 
 	return (
@@ -27,6 +31,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 			closeTimeoutMS={500}
 			onAfterClose={() => {}}
 			ariaHideApp={false}
+			className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
 			style={{
 				content: {
 					position: "absolute",
@@ -38,7 +43,6 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					maxHeight: "400px",
 					minWidth: "350px",
 					minHeight: "200px",
-					backgroundColor: Settings.currentState.backgroundColorSecondary,
 					borderRadius: 8,
 					overflow: "hidden",
 					display: "flex",
@@ -51,6 +55,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 		>
 			<div
 				key="topbar"
+				className={theme.backgroundTertiary}
 				style={{
 					userSelect: "none",
 					width: "100%",
@@ -59,8 +64,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					alignItems: "center",
 					boxSizing: "border-box",
 					padding: 10,
-					backgroundColor: Settings.currentState.backgroundColorTertiary,
-					borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}`,
+					//borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}`,
 				}}
 			>
 				<div style={{ width: "100%", height: "100%", fontSize: 40 }}>{strings.title}</div>
@@ -76,14 +80,14 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 			<div key="body" style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}>
 				<div
 					key="sidebar"
+					className={theme.backgroundQuaternary}
 					style={{
 						minWidth: 150,
 						width: 150,
 						padding: 5,
 						borderTopRightRadius: 8,
 						height: "100%",
-						backgroundColor: Settings.currentState.backgroundColorQuaternary,
-						borderRight: `solid ${Settings.currentState.backgroundColor}`,
+						//borderRight: `solid ${Settings.currentState.backgroundColor}`,
 					}}
 				>
 					{
@@ -153,13 +157,13 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 									Photopcopy
 								</span>
 								<button
+									className={`${theme.textInverted}`}
 									style={{
+										backgroundColor: settings.accentColor,
 										float: "right",
 										margin: 0,
 										border: "none",
 										cursor: "pointer",
-										color: Settings.currentState.textColorInverted,
-										backgroundColor: Settings.currentState.accentColor,
 									}}
 								>
 									Edit
@@ -175,12 +179,13 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 								updated={(value) => {
 									switch (value) {
 										case 0:
-											Settings.set("theme", "lightMode");
+											settings.theme = "light";
 											break;
 										case 1:
-											Settings.set("theme", "darkMode");
+											settings.theme = "dark";
 											break;
 									}
+									settings.update();
 								}}
 							/>
 						</Section>
@@ -193,7 +198,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 							<AccentOption color="purple" />
 						</Section>
 						<Section title={strings.sections.embeds.title}>
-							<span style={{ fontSize: 12, color: Settings.currentState.textColorSecondary }}>
+							<span className={theme.textSecondary} style={{ fontSize: 12 }}>
 								{strings.sections.embeds.description}
 							</span>
 							<Checkbox
@@ -215,15 +220,15 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					<Page self={PageTypes.Sessions} current={page}>
 						<Section title={strings.sections.activeSessions.title}>
 							<button
+								className={`${theme.textInverted}`}
 								style={{
+									backgroundColor: settings.accentColor,
 									borderRadius: 4,
-									backgroundColor: Settings.currentState.accentColor,
 									width: "100%",
 									padding: 4,
 									boxSizing: "border-box",
 									border: "none",
 									cursor: "pointer",
-									color: Settings.currentState.textColorInverted,
 								}}
 							>
 								{strings.sections.activeSessions.signOutAll}
@@ -232,7 +237,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					</Page>
 					<Page self={PageTypes.Language} current={page}>
 						<Section title={strings.sections.language.title}>
-							<span style={{ fontSize: 12, color: Settings.currentState.textColorSecondary }}>
+							<span className={theme.textSecondary} style={{ fontSize: 12 }}>
 								{strings.sections.language.description}
 							</span>
 							<RadioSelection
@@ -241,12 +246,13 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 								updated={(value) => {
 									switch (value) {
 										case 0:
-											Settings.set("language", "english");
+											settings.language = "english";
 											break;
 										case 1:
-											Settings.set("language", "retarded");
+											settings.language = "retarded";
 											break;
 									}
+									settings.update();
 								}}
 							/>
 						</Section>

@@ -1,7 +1,12 @@
 import { Settings } from "../../modules/settings";
 import { PageTypes } from "./settingspage";
+import themes from "../../modules/themes";
+import React from "react";
 
 function Page(props: React.PropsWithChildren<{ self: PageTypes; current: PageTypes }>) {
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
+
 	return (
 		<div
 			className="scroll"
@@ -19,11 +24,11 @@ function Page(props: React.PropsWithChildren<{ self: PageTypes; current: PageTyp
 		>
 			<div
 				key="content"
+				className={theme.backgroundTertiary}
 				style={{
 					width: "100%",
 					borderRadius: 8,
 					padding: "0px 8px 8px 8px",
-					backgroundColor: Settings.currentState.backgroundColorTertiary,
 					boxSizing: "border-box",
 				}}
 			>

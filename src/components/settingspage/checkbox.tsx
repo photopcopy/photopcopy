@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Settings } from "../../modules/settings";
+import themes from "../../modules/themes";
+import React from "react";
 
 function Checkbox<items extends string[]>(props: {
 	items: items;
 	default: { [k: number]: true };
 	updated: (current: { [k: number]: boolean }) => void;
 }) {
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
+
 	const map: { [s: number]: boolean } = {};
 	props.items.forEach((_, index) => {
 		map[index] = props.default[index] || false;
@@ -24,13 +29,13 @@ function Checkbox<items extends string[]>(props: {
 								props.updated(current);
 								update(nonce + 1);
 							}}
+							className={theme.backgroundSecondary}
 							style={{
 								position: "relative",
 								cursor: "pointer",
 								display: "inline-block",
 								width: 30,
 								height: 30,
-								backgroundColor: Settings.currentState.backgroundColorSecondary,
 							}}
 						>
 							<div
@@ -40,10 +45,10 @@ function Checkbox<items extends string[]>(props: {
 									opacity: current[index] ? 1 : 0,
 									left: "50%",
 									top: "50%",
+									backgroundColor: settings.accentColor,
 									transform: "translate(-50%, -50%)",
 									position: "absolute",
 									transition: "opacity .2s, width .2s, height .2s",
-									backgroundColor: Settings.currentState.accentColor,
 								}}
 							/>
 						</div>

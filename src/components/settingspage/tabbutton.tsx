@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Settings } from "../../modules/settings";
 import { PageTypes } from "./settingspage";
+import themes from "../../modules/themes";
 
 function TabButton(
 	props: React.PropsWithChildren<{
@@ -9,6 +10,9 @@ function TabButton(
 		current: PageTypes;
 	}>,
 ) {
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
+
 	const [isOver, updateIsOver] = useState(false);
 	return (
 		<button
@@ -19,6 +23,7 @@ function TabButton(
 			onMouseLeave={() => {
 				updateIsOver(false);
 			}}
+			className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
 			style={{
 				cursor: props.self === props.current ? "unset" : "pointer",
 				zIndex: isOver && props.self != props.current ? 1 : 0,
@@ -28,10 +33,8 @@ function TabButton(
 				height: 30,
 				fontSize: 20,
 				borderRadius: 4,
-				backgroundColor: Settings.currentState.backgroundColorSecondary,
+				color: props.self === props.current ? settings.accentColor : "",
 				border: "none",
-				color:
-					props.self === props.current ? Settings.currentState.accentColor : Settings.currentState.textColor,
 				textAlign: "left",
 				transition: "box-shadow .5s, color .3s",
 				marginBottom: 3,

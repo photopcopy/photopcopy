@@ -1,7 +1,12 @@
+import React from "react";
 import { ReactElement } from "react";
 import { Settings } from "../modules/settings";
+import themes from "../modules/themes";
 
 function Icon(props: { type: "close"; onClick: () => void }) {
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
+
 	let inner: string | ReactElement;
 	switch (props.type) {
 		case "close":
@@ -12,6 +17,7 @@ function Icon(props: { type: "close"; onClick: () => void }) {
 	return (
 		<button
 			onClick={props.onClick}
+			className={`${theme.backgroundPrimary} ${theme.textPrimary}`}
 			style={{
 				width: 40,
 				height: 40,
@@ -20,10 +26,8 @@ function Icon(props: { type: "close"; onClick: () => void }) {
 				justifyContent: "center",
 				cursor: "pointer",
 				fontSize: 30,
-				backgroundColor: Settings.currentState.backgroundColor,
 				border: "none",
 				borderRadius: 8,
-				color: Settings.currentState.textColor,
 			}}
 		>
 			{inner}

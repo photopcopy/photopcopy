@@ -1,14 +1,17 @@
+import React from "react";
 import { Settings } from "../../modules/settings";
-
+import themes from "../../modules/themes";
 function Section(props: React.PropsWithChildren<{ title: string }>) {
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
 	return (
 		<div
+			className={theme.backgroundQuaternary}
 			style={{
 				width: "100%",
 				marginTop: 10,
 				padding: 4,
 				boxSizing: "border-box",
-				backgroundColor: Settings.currentState.backgroundColorQuaternary,
 				borderRadius: 8,
 			}}
 		>
