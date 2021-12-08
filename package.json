@@ -4,9 +4,8 @@
   "description": "Source for photopcopy",
   "main": "dist/index.js",
   "scripts": {
-    "watch": "tsc -watch -p",
-    "build": "tsc",
-    "test": "next"
+    "build": "next build",
+    "test": "next dev"
   },
   "repository": {
     "type": "git",
