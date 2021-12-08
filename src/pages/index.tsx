@@ -68,7 +68,7 @@ function App() {
 				>
 					<h1>Enable javascript retard.</h1>
 					<a href="https://www.nhentai.net/g/364624">Click me for a surprise</a>
-					<span style={{ display: "none" }}>Just kidding dont click it lmao</span>
+					<span style={{ opacity: 0.02 }}>Just kidding dont click it lmao</span>
 				</div>
 			</noscript>
 			<div
@@ -100,7 +100,7 @@ function App() {
 								color: settings.accentColor,
 							}}
 						>
-							<div style={{ fontWeight: 1000 }}>
+							<div style={{ fontWeight: 1000, userSelect: "none" }}>
 								<span style={{ fontSize: 40 }}>Photop</span>copy
 							</div>
 						</div>
