@@ -1,13 +1,14 @@
 import React from "react";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
+import tabstyle from "../../styles/tab.module.css";
 
 function SidebarButton(props: React.PropsWithChildren<{ onClick: React.MouseEventHandler<HTMLButtonElement> }>) {
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 	return (
 		<button
-			className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
+			className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary}`}
 			onClick={props.onClick}
 			style={{
 				cursor: "pointer",
