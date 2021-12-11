@@ -121,10 +121,23 @@ function App() {
 								<FontAwesomeIcon
 									color={settings.accentColor}
 									style={{ width: 25, padding: 5 }}
+									icon={faHome}
+								/>
+								{strings.sidebar.home}
+							</SidebarButton>
+							<SidebarButton onClick={() => {}}>
+								<FontAwesomeIcon
+									color={settings.accentColor}
+									style={{ width: 25, padding: 5 }}
 									icon={faSync}
 								/>
 								{strings.sidebar.refresh}
 							</SidebarButton>
+						</div>
+						<div
+							className={theme.backgroundTertiary}
+							style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 0px 4px" }}
+						>
 							<SidebarButton onClick={() => {}}>
 								<FontAwesomeIcon
 									color={settings.accentColor}
