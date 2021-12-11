@@ -18,7 +18,9 @@ function SidebarButton(props: React.PropsWithChildren<{ onClick: React.MouseEven
 				width: "100%",
 				height: 40,
 				fontSize: 30,
-				textAlign: "center",
+				textAlign: "left",
+				display: "flex",
+				alignItems: "center",
 			}}
 		>
 			{props.children}

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import ReactModal from "react-modal";
 import { Settings } from "../../modules/settings";
-import { Icon } from "../icon";
 import { AccentOption } from "./accentoption";
 import { Checkbox } from "./checkbox";
 import { Page } from "./page";
@@ -10,6 +9,8 @@ import { Section } from "./section";
 import { TabButton } from "./tabbutton";
 import themes from "../../modules/themes";
 import { languages } from "../../modules/localizationmanager";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 enum PageTypes {
 	Account,
@@ -69,12 +70,14 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 			>
 				<div style={{ width: "100%", height: "100%", fontSize: 40 }}>{strings.title}</div>
 				<div key="topbarRight" style={{ float: "right" }}>
-					<Icon
+					<FontAwesomeIcon
+						cursor="pointer"
+						style={{ width: 30, height: 30 }}
 						onClick={() => {
 							props.onRequestClose();
 						}}
-						type="close"
-					></Icon>
+						icon={faTimes}
+					/>
 				</div>
 			</div>
 			<div key="body" style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}>

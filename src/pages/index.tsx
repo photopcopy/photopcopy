@@ -9,6 +9,9 @@ import { ISettings, Settings } from "../modules/settings";
 import { languages } from "../modules/localizationmanager";
 import themes from "../modules/themes";
 import { PostContainer } from "../components/maincontent/postcontainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faSync, faTimes, faPlus, faBell, faSignOutAlt, faCog, faHome } from "@fortawesome/free-solid-svg-icons";
 
 function PopupContainer(props: {
 	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
@@ -90,7 +93,7 @@ function App() {
 						height: "100%",
 					}}
 				>
-					<div key="sidebarLeft" style={{ width: 200, minWidth: 200, padding: "0px 4px" }}>
+					<div key="sidebarLeft" style={{ width: 220, minWidth: 220, padding: "0px 4px" }}>
 						<div
 							className={theme.backgroundTertiary}
 							style={{
@@ -114,16 +117,50 @@ function App() {
 								padding: "4px 4px 0px 4px",
 							}}
 						>
-							<SidebarButton onClick={() => {}}>{strings.sidebar.refresh}</SidebarButton>
-							<SidebarButton onClick={() => {}}>{strings.sidebar.post}</SidebarButton>
+							<SidebarButton onClick={() => {}}>
+								<FontAwesomeIcon
+									color={settings.accentColor}
+									style={{ width: 25, padding: 5 }}
+									icon={faSync}
+								/>
+								{strings.sidebar.refresh}
+							</SidebarButton>
+							<SidebarButton onClick={() => {}}>
+								<FontAwesomeIcon
+									color={settings.accentColor}
+									style={{ width: 25, padding: 5 }}
+									icon={faPlus}
+								/>
+								{strings.sidebar.post}
+							</SidebarButton>
 							<SidebarButton
 								onClick={() => {
 									state.popupMethods?.SetPopupState("SettingsMenu", true);
 								}}
 							>
+								<FontAwesomeIcon
+									color={settings.accentColor}
+									style={{ width: 25, padding: 5 }}
+									icon={faCog}
+								/>
 								{strings.sidebar.settings}
 							</SidebarButton>
-							<SidebarButton onClick={() => {}}>{strings.sidebar.logout}</SidebarButton>
+							<SidebarButton onClick={() => {}}>
+								<FontAwesomeIcon
+									color={settings.accentColor}
+									style={{ width: 25, padding: 5 }}
+									icon={faBell}
+								/>
+								{strings.sidebar.notifications}
+							</SidebarButton>
+							<SidebarButton onClick={() => {}}>
+								<FontAwesomeIcon
+									color={settings.accentColor}
+									style={{ width: 25, padding: 5 }}
+									icon={faSignOutAlt}
+								/>
+								{strings.sidebar.logout}
+							</SidebarButton>
 						</div>
 					</div>
 					<PostContainer />
@@ -163,6 +200,19 @@ function AppWrapper() {
 			update({});
 		},
 	});
+
+	useEffect(() => {
+		console.log(
+			`
+	%cPhotopcopy
+	%cStop trying to inspect element and look through source like you're some pro hacker or something.
+		
+	This project is open source. https://github.com/photopcopy/photopcopy. Feel free to contribute! Thx <3 uwu
+		`.trim(),
+			"font-style: italic; font-size: 20px",
+			"font-size: unset",
+		);
+	}, []);
 
 	return (
 		<Settings.Provider value={settings}>

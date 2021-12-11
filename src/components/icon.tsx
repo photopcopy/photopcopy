@@ -3,36 +3,28 @@ import { ReactElement } from "react";
 import { Settings } from "../modules/settings";
 import themes from "../modules/themes";
 
-function Icon(props: { type: "close"; onClick: () => void }) {
+import Component from "assets/fa-icons/plus-square-regular.svg";
+
+/*
+function Icon(props: { type: keyof typeof icons; size?: number; padding?: number; onClick?: () => void }) {
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 
-	let inner: string | ReactElement;
-	switch (props.type) {
-		case "close":
-			inner = "x";
-			break;
-	}
-
 	return (
-		<button
-			onClick={props.onClick}
-			className={`${theme.backgroundPrimary} ${theme.textPrimary}`}
+		<svg
 			style={{
-				width: 40,
-				height: 40,
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				cursor: "pointer",
-				fontSize: 30,
+				padding: props.padding || "unset",
 				border: "none",
+				width: props.size || 40,
+				height: props.size || 40,
 				borderRadius: 8,
 			}}
+			fill={settings.accentColor}
 		>
-			{inner}
-		</button>
+			<use href={icons[props.type] + ".svg-inline--fa"} />
+		</svg>
 	);
 }
 
 export { Icon };
+*/
