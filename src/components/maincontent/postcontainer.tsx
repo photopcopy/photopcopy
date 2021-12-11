@@ -36,14 +36,11 @@ export function PostContainer() {
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 
-	//im about to kill someone istg react
 	useEffect(() => {
-		if (posts.length === 0) {
-			loadMore(10).then((newChildren) => {
-				setPosts([...posts, ...newChildren]);
-			});
-		}
-	});
+		loadMore(10).then((newChildren) => {
+			setPosts([...posts, ...newChildren]);
+		});
+	}, []);
 	//useEffect(() => void loadMore(10).then((newChildren) => setChildren([...children, ...newChildren])), []);
 	return (
 		<div
