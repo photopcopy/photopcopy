@@ -5,6 +5,7 @@
     },
     "mainpage": {
         "sidebar": {
+            "notifications": "Notifications",
             "refresh": "Refresh",
             "post": "Post",
             "logout": "Logout",
