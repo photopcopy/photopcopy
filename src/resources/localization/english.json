@@ -44,6 +44,10 @@
                 "embedScratch": "Embed Scratch Games",
                 "embedCodeDotOrg": "Embed code.org Projects"
             },
+            "textSize": {
+                "title": "Text Size",
+                "postTextSize": "Post Text Size"
+            },
             "blockedUsers": {
                 "title": "Blocked Users"
             },

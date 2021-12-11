@@ -8,6 +8,7 @@ import { SidebarButton } from "../components/maincontent/sidebarbutton";
 import { ISettings, Settings } from "../modules/settings";
 import { languages } from "../modules/localizationmanager";
 import themes from "../modules/themes";
+import { PostContainer } from "../components/maincontent/postcontainer";
 
 function PopupContainer(props: {
 	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
@@ -42,8 +43,9 @@ function PopupContainer(props: {
 function App() {
 	const [state] = useState<{ popupMethods?: ReturnType<typeof PopupManager> }>({});
 	const settings = React.useContext(Settings);
-	const strings = languages[settings.language].mainpage;
 	const theme = themes[settings.theme];
+	const strings = languages[settings.language].mainpage;
+
 	return (
 		<>
 			<style jsx global>{`
@@ -124,9 +126,7 @@ function App() {
 							<SidebarButton onClick={() => {}}>{strings.sidebar.logout}</SidebarButton>
 						</div>
 					</div>
-					<div key="postContainer" style={{ width: "100%" }}>
-						<Post postId="bruj" />
-					</div>
+					<PostContainer />
 					<div key="sidebarRight" style={{ minWidth: 200, width: 200 }}>
 						Roblox Ad Goes here
 					</div>
@@ -158,6 +158,7 @@ function AppWrapper() {
 		theme: "dark",
 		language: "english",
 		accentColor: "#5ab7fa",
+		postTextSize: 30,
 		update() {
 			update({});
 		},

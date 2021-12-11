@@ -3,7 +3,7 @@ import PostStyle from "../../styles/post.module.css";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
 
-function Post(props: { postId: string }) {
+function Post(props: { postId: string; text: string; media: string[] }) {
 	const settings = useContext(Settings);
 	const theme = themes[settings.theme];
 
@@ -18,7 +18,6 @@ function Post(props: { postId: string }) {
 
 	return (
 		<div
-			key={props.postId}
 			className={theme.backgroundQuaternary}
 			style={{
 				borderRadius: 8,
@@ -29,20 +28,22 @@ function Post(props: { postId: string }) {
 			<div key="contentContainer" style={{ minWidth: 300, width: "100%" }}>
 				<div
 					key="postDataContainer"
-					className={theme.backgroundTertiary}
 					style={{
 						margin: "6px",
 						width: "calc(100% - 12px)",
-						borderRadius: 4,
 						padding: 4,
+
+						borderRadius: 4,
 						boxSizing: "border-box",
 						height: 40,
 						display: "flex",
 						alignItems: "center",
 					}}
 				>
-					<img src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
-					<span style={{ fontSize: 25, marginLeft: 5 }}>Developer</span>
+					<img alt="profilepic" src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
+					<span style={{ fontSize: 25, marginLeft: 5 }} className={theme.textPrimary}>
+						Developer
+					</span>
 				</div>
 			</div>
 			<div
@@ -56,7 +57,7 @@ function Post(props: { postId: string }) {
 				}}
 			>
 				<div
-					className={`${theme.backgroundTertiary}`}
+					className={`${theme.backgroundTertiary} ${theme.textSecondary}`}
 					style={{
 						textAlign: "center",
 						padding: "2px 0px",

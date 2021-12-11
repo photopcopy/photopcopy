@@ -197,6 +197,26 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 							<AccentOption color="#5ab7fa" />
 							<AccentOption color="purple" />
 						</Section>
+						<Section title={strings.sections.textSize.title}>
+							<span className={theme.textSecondary} style={{ fontSize: 12 }}>
+								Does not work yet lol
+							</span>
+							<RadioSelection
+								items={["Cozy", "Compact"]}
+								default={0}
+								updated={(value) => {
+									switch (value) {
+										case 0:
+											settings.postTextSize = 30;
+											break;
+										case 1:
+											settings.postTextSize = 20;
+											break;
+									}
+									settings.update();
+								}}
+							/>
+						</Section>
 						<Section title={strings.sections.embeds.title}>
 							<span className={theme.textSecondary} style={{ fontSize: 12 }}>
 								{strings.sections.embeds.description}

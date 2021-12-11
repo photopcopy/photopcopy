@@ -17,6 +17,7 @@
       "plugin:prettier/recommended"
   ],
   "rules": {
+      "react-hooks/exhaustive-deps": "off", //pretty shitty rule if you ask me
       "@next/next/no-img-element": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",

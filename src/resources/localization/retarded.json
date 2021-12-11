@@ -44,6 +44,10 @@
                 "embedScratch": "The square below the square in the middle",
                 "embedCodeDotOrg": "The Final Square"
             },
+            "textSize": {
+                "title": "Text Size",
+                "postTextSize": "Post Text Size"
+            },
             "blockedUsers": {
                 "title": "Go away"
             },
