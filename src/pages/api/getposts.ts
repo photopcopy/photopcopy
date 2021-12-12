@@ -110,6 +110,7 @@ Sint aliquam molestiae eaque, beatae magni eos atque repellendus doloremque dolo
 		attachments: [],
 		likes: 0,
 		isLiked: false,
+		timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5 * i)
 	}
 })
 

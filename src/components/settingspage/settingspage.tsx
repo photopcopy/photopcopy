@@ -178,7 +178,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 						<Section title={strings.sections.theme.title}>
 							<RadioSelection
 								items={[strings.sections.theme.lightMode, strings.sections.theme.darkMode]}
-								default={1}
+								default={["light", "dark"].indexOf(settings.theme)}
 								updated={(value) => {
 									switch (value) {
 										case 0:

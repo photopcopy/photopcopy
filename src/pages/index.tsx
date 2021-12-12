@@ -9,6 +9,7 @@ import mainsidebarstyles from "../styles/mainsidebar.module.css";
 
 import { NoScript } from "../components/noscript";
 import { SidebarLeft } from "../components/maincontent/sidebarleft";
+import { CreatePostPage } from "../components/createpostpage/createpostpage";
 
 function PopupContainer(props: {
 	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
@@ -87,9 +88,22 @@ function App() {
 					state.popupMethods = popupMethods;
 				}}
 				init={(popupMethods) => {
-					popupMethods.AddPopup("SettingsMenu", false, (onRequestClose, isOpen) => {
-						return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
-					});
+					popupMethods.AddPopups([
+						{
+							key: "CreatePostMenu",
+							isOpen: false,
+							callback: (onRequestClose, isOpen) => {
+								return <CreatePostPage onRequestClose={onRequestClose} isOpen={isOpen} />;
+							},
+						},
+						{
+							key: "SettingsMenu",
+							isOpen: false,
+							callback: (onRequestClose, isOpen) => {
+								return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
+							},
+						},
+					]);
 				}}
 			/>
 		</>

@@ -51,7 +51,11 @@ export function SidebarLeft({ state }: { state: { popupMethods?: ReturnType<type
 				className={theme.backgroundTertiary}
 				style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 2px 4px" }}
 			>
-				<SidebarButton onClick={() => {}}>
+				<SidebarButton
+					onClick={() => {
+						state.popupMethods?.SetPopupState("CreatePostMenu", true);
+					}}
+				>
 					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faPlus} />
 					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.post}</span>
 				</SidebarButton>
