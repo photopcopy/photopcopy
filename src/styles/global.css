@@ -31,3 +31,7 @@ shut the fuck up i dont have time to resolve some shitty "global css cannot be i
 body {
   margin: 0px;
 }
+
+textarea:focus, input:focus{
+  outline: none;
+}

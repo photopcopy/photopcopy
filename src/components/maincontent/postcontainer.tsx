@@ -4,30 +4,16 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
+import { PostData } from "../../types/post";
 import { Post } from "./post";
 
 // Can refactor to another file another time
-interface PostData {
-	text: string;
-	media: string[];
-	id: string;
-	author: string;
-}
 
-async function loadMore(amount: number) {
-	return new Promise<PostData[]>((res, rej) => {
-		setTimeout(() => {
-			const a = Array.from({ length: amount }).map(() => {
-				return {
-					text: "Yea boy",
-					media: [],
-					id: "",
-					author: "",
-				};
-			});
-			res(a);
-		});
-	});
+async function loadMore(last: string, amount: number): Promise<PostData[]> {
+	const u = new URL("/api/getposts", location.origin);
+	u.searchParams.append("last", last);
+
+	return (await fetch(u.href).then((r) => r.json())).posts;
 }
 
 export function PostContainer() {
@@ -37,7 +23,7 @@ export function PostContainer() {
 	const theme = themes[settings.theme];
 
 	useEffect(() => {
-		loadMore(10).then((newChildren) => {
+		loadMore(posts[posts.length - 1]?.id, 10).then((newChildren) => {
 			setPosts([...posts, ...newChildren]);
 		});
 	}, []);
@@ -52,7 +38,10 @@ export function PostContainer() {
 			<InfiniteScroll
 				scrollableTarget="postContainer"
 				next={() => {
-					loadMore(5).then((newChildren) => setPosts([...posts, ...newChildren]));
+					loadMore(posts[posts.length - 1].id, 5).then((newChildren) => {
+						console.log(newChildren);
+						setPosts([...posts, ...newChildren]);
+					});
 				}}
 				hasMore={true}
 				loader={<h4 className={theme.textPrimary}>loadin mor posts ;)</h4>}
@@ -60,7 +49,18 @@ export function PostContainer() {
 				endMessage={<div>No more :(</div>}
 			>
 				{posts.map((data) => {
-					return <Post key={Math.random().toString()} postId={data.id} media={data.media} text={data.text} />;
+					return (
+						<Post
+							author={data.author}
+							isLiked={data.isLiked}
+							likes={data.likes}
+							comments={data.comments}
+							key={data.id}
+							id={data.id}
+							attachments={data.attachments}
+							content={data.content}
+						/>
+					);
 				})}
 			</InfiniteScroll>
 		</div>

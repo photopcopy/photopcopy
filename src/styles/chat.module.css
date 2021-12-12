@@ -1,0 +1,11 @@
+@media screen and (max-width: 900px) and (min-width: 750px) {
+    .chat {
+        display: none
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .chat {
+        display: none
+    }
+}
