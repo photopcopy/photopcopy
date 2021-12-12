@@ -8,7 +8,7 @@ import { faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-s
 import { faIdCard } from "@fortawesome/free-regular-svg-icons";
 import { Comment } from "../../types/post";
 import TextareaAutosize from "react-textarea-autosize";
-import { setClipboard } from "../../modules/clipboard";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function Post(props: {
 	id: string;
@@ -57,7 +57,8 @@ function Post(props: {
 						{props.author}
 					</span>
 					<div style={{ position: "absolute", right: 5, display: "flex" }}>
-						<div
+						<button
+							style={{ border: "none" }}
 							data-liked={liked}
 							className={`${poststyles.postactioncontainer} ${theme.backgroundTertiary}`}
 							onClick={() => {
@@ -68,27 +69,29 @@ function Post(props: {
 								{props.likes + (liked && !props.isLiked ? 1 : 0)}
 							</span>{" "}
 							<FontAwesomeIcon icon={faHeart} color={liked ? settings.accentColor : "grey"} />
-						</div>
-						<div
-							className={`${poststyles.postactioncontainer} ${theme.backgroundTertiary}`}
-							title="Copy Post ID"
-							onClick={() => {
-								copyIDIcon.current?.animate(
-									[
-										{
-											color: settings.accentColor,
-										},
-										{
-											color: "grey",
-										},
-									],
-									{ duration: 500 },
-								);
-								setClipboard(props.id);
-							}}
-						>
-							<FontAwesomeIcon forwardedRef={copyIDIcon} icon={faHashtag} color="grey" />
-						</div>
+						</button>
+						<CopyToClipboard text={props.id}>
+							<button
+								style={{ border: "none" }}
+								className={`${poststyles.postactioncontainer} ${theme.backgroundTertiary}`}
+								title="Copy Post ID"
+								onClick={() => {
+									copyIDIcon.current?.animate(
+										[
+											{
+												color: settings.accentColor,
+											},
+											{
+												color: "grey",
+											},
+										],
+										{ duration: 500 },
+									);
+								}}
+							>
+								<FontAwesomeIcon forwardedRef={copyIDIcon} icon={faHashtag} color="grey" />
+							</button>
+						</CopyToClipboard>
 					</div>
 				</div>
 				<div className={`${theme.textSecondary} ${poststyles.postcontent}`}>{props.content}</div>
@@ -143,14 +146,16 @@ function Post(props: {
 							}}
 						></TextareaAutosize>
 					</div>
-					<div
+					<button
 						style={{
 							float: "right",
-							height: 20,
+							height: 28,
 							padding: 4,
-							width: 20,
+							width: 28,
 							display: "inline-block",
 							position: "relative",
+							border: "none",
+							background: "transparent",
 						}}
 					>
 						<FontAwesomeIcon
@@ -178,7 +183,7 @@ function Post(props: {
 							}}
 							forwardedRef={sendMessageIcon}
 						/>
-					</div>
+					</button>
 				</div>
 			</div>
 		</div>
