@@ -1,5 +1,23 @@
-@media screen and (max-width: 900px) {
-    .post {
-        display: none
-    }
+.postcontent {
+	padding: 10px	
+}
+.post {
+	margin-bottom: 5px
+}
+.postactioncontainer {
+	padding: 6px;
+	margin-left: 4px;
+	cursor: pointer;
+	border-radius: 4px;
+	z-index: 0;
+	transition: box-shadow .5s;
+}
+
+.postactioncontainer>svg {
+	transition: color .5s ease-out
+}
+
+.postactioncontainer:hover {
+	z-index: 1;
+	box-shadow: 0 8px 16px rgba(0,0,0,0.44);
 }

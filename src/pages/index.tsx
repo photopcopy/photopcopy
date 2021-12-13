@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-//import { Settings } from "../modules/settings";
 import { SettingsPage } from "../components/settingspage/settingspage";
-import { Post } from "../components/maincontent/post";
 import { PopupManager } from "../modules/popupmanager";
-import { SidebarButton } from "../components/maincontent/sidebarbutton";
 import { ISettings, Settings } from "../modules/settings";
-import { languages } from "../modules/localizationmanager";
 import themes from "../modules/themes";
 import { PostContainer } from "../components/maincontent/postcontainer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import mainsidebarstyles from "../styles/mainsidebar.module.css";
 
-import { faSync, faTimes, faPlus, faBell, faSignOutAlt, faCog, faHome } from "@fortawesome/free-solid-svg-icons";
+import { NoScript } from "../components/noscript";
+import { SidebarLeft } from "../components/maincontent/sidebarleft";
+import { CreatePostPage } from "../components/createpostpage/createpostpage";
 
 function PopupContainer(props: {
 	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
@@ -34,7 +32,7 @@ function PopupContainer(props: {
 					height: "100%",
 					position: "fixed",
 					pointerEvents: shouldShowOverlay ? "unset" : "none",
-					backdropFilter: shouldShowOverlay ? "blur(5px)" : "unset",
+					backdropFilter: shouldShowOverlay ? "blur(5px)" : "blur(0px)",
 					transition: "backdrop-filter .5s",
 				}}
 			/>
@@ -43,11 +41,16 @@ function PopupContainer(props: {
 	);
 }
 
+// this needs to use redux, too lazy tho
+export interface AppState {
+	resetFunc?: () => void;
+	popupMethods?: ReturnType<typeof PopupManager>;
+}
+
 function App() {
-	const [state] = useState<{ popupMethods?: ReturnType<typeof PopupManager> }>({});
+	const [state] = useState<AppState>({});
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
-	const strings = languages[settings.language].mainpage;
 
 	return (
 		<>
@@ -61,21 +64,7 @@ function App() {
 			<Head>
 				<title>Oh baby a triple!</title>
 			</Head>
-			<noscript>
-				<div
-					style={{
-						position: "fixed",
-						width: "100%",
-						height: "100%",
-						backgroundColor: "grey",
-						zIndex: 100,
-					}}
-				>
-					<h1>Enable javascript retard.</h1>
-					<a href="https://www.nhentai.net/g/364624">Click me for a surprise</a>
-					<span style={{ opacity: 0.02 }}>Just kidding dont click it lmao</span>
-				</div>
-			</noscript>
+			<NoScript />
 			<div
 				key="mainContainer"
 				className={`${theme.backgroundPrimary}`}
@@ -93,91 +82,13 @@ function App() {
 						height: "100%",
 					}}
 				>
-					<div key="sidebarLeft" style={{ width: 220, minWidth: 220, padding: "0px 4px" }}>
-						<div
-							className={theme.backgroundTertiary}
-							style={{
-								borderWidth: 6,
-								textAlign: "center",
-								borderStyle: "solid",
-								borderColor: "rgb(0, 0, 0, 0)",
-								borderRadius: 4,
-								color: settings.accentColor,
-							}}
-						>
-							<div style={{ fontWeight: 1000, userSelect: "none" }}>
-								<span style={{ fontSize: 40 }}>Photop</span>copy
-							</div>
-						</div>
-						<div
-							className={theme.backgroundTertiary}
-							style={{
-								marginTop: 4,
-								borderRadius: 4,
-								padding: "4px 4px 0px 4px",
-							}}
-						>
-							<SidebarButton onClick={() => {}}>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faHome}
-								/>
-								{strings.sidebar.home}
-							</SidebarButton>
-							<SidebarButton onClick={() => {}}>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faSync}
-								/>
-								{strings.sidebar.refresh}
-							</SidebarButton>
-						</div>
-						<div
-							className={theme.backgroundTertiary}
-							style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 0px 4px" }}
-						>
-							<SidebarButton onClick={() => {}}>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faPlus}
-								/>
-								{strings.sidebar.post}
-							</SidebarButton>
-							<SidebarButton
-								onClick={() => {
-									state.popupMethods?.SetPopupState("SettingsMenu", true);
-								}}
-							>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faCog}
-								/>
-								{strings.sidebar.settings}
-							</SidebarButton>
-							<SidebarButton onClick={() => {}}>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faBell}
-								/>
-								{strings.sidebar.notifications}
-							</SidebarButton>
-							<SidebarButton onClick={() => {}}>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faSignOutAlt}
-								/>
-								{strings.sidebar.logout}
-							</SidebarButton>
-						</div>
-					</div>
-					<PostContainer />
-					<div key="sidebarRight" style={{ minWidth: 200, width: 200 }}>
+					<SidebarLeft state={state} />
+					<PostContainer
+						getResetFunc={(func) => {
+							state.resetFunc = func;
+						}}
+					/>
+					<div key="sidebarRight" className={mainsidebarstyles.sidebar_minimal} style={{ minWidth: 200 }}>
 						Roblox Ad Goes here
 					</div>
 				</div>
@@ -187,9 +98,22 @@ function App() {
 					state.popupMethods = popupMethods;
 				}}
 				init={(popupMethods) => {
-					popupMethods.AddPopup("SettingsMenu", false, (onRequestClose, isOpen) => {
-						return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
-					});
+					popupMethods.AddPopups([
+						{
+							key: "CreatePostMenu",
+							isOpen: false,
+							callback: (onRequestClose, isOpen) => {
+								return <CreatePostPage onRequestClose={onRequestClose} isOpen={isOpen} />;
+							},
+						},
+						{
+							key: "SettingsMenu",
+							isOpen: false,
+							callback: (onRequestClose, isOpen) => {
+								return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
+							},
+						},
+					]);
 				}}
 			/>
 		</>

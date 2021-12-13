@@ -13,6 +13,9 @@
             "settings": "Settings"
         }
     },
+    "createpostpage": {
+        "title": "Create Post"
+    },
     "settingspage": {
         "title": "Settings",
 

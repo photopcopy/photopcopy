@@ -1,0 +1,13 @@
+@media screen and (max-width: 750px) {
+	.sidebar {
+		min-width: 45px
+	}
+	.sidebar_minimal {
+		display: none
+	}
+}
+@media screen and (min-width: 750px) {
+	.sidebar {
+		min-width: 220px
+	}
+}
