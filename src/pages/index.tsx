@@ -41,8 +41,14 @@ function PopupContainer(props: {
 	);
 }
 
+// this needs to use redux, too lazy tho
+export interface AppState {
+	resetFunc?: () => void;
+	popupMethods?: ReturnType<typeof PopupManager>;
+}
+
 function App() {
-	const [state] = useState<{ popupMethods?: ReturnType<typeof PopupManager> }>({});
+	const [state] = useState<AppState>({});
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 
@@ -77,7 +83,11 @@ function App() {
 					}}
 				>
 					<SidebarLeft state={state} />
-					<PostContainer />
+					<PostContainer
+						getResetFunc={(func) => {
+							state.resetFunc = func;
+						}}
+					/>
 					<div key="sidebarRight" className={mainsidebarstyles.sidebar_minimal} style={{ minWidth: 200 }}>
 						Roblox Ad Goes here
 					</div>

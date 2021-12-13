@@ -9,22 +9,30 @@ import { Post } from "./post";
 
 // Can refactor to another file another time
 
-async function loadMore(last: string, amount: number): Promise<PostData[]> {
+async function loadMore(last: string | undefined, amount: number): Promise<PostData[]> {
 	const u = new URL("/api/getposts", location.origin);
-	u.searchParams.append("last", last);
+	if (last) u.searchParams.append("last", last);
 
 	return (await fetch(u.href).then((r) => r.json())).posts;
 }
 
-export function PostContainer() {
+export function PostContainer(props: { getResetFunc: (func: () => void) => void }) {
 	//const divRef = useRef<HTMLDivElement>(null);
 	const [posts, setPosts] = useState<PostData[]>([]);
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 
+	props.getResetFunc(() => {
+		setPosts([]);
+		loadMore(undefined, 10).then((newChildren) => {
+			setPosts(newChildren);
+		});
+	});
+
 	useEffect(() => {
-		loadMore(posts[posts.length - 1]?.id, 10).then((newChildren) => {
-			setPosts([...posts, ...newChildren]);
+		loadMore(undefined, 10).then((newChildren) => {
+			//posts is guaranteed to be e
+			setPosts(newChildren);
 		});
 	}, []);
 	//useEffect(() => void loadMore(10).then((newChildren) => setChildren([...children, ...newChildren])), []);
@@ -38,7 +46,7 @@ export function PostContainer() {
 			<InfiniteScroll
 				scrollableTarget="postContainer"
 				next={() => {
-					loadMore(posts[posts.length - 1].id, 5).then((newChildren) => {
+					loadMore(posts[posts.length - 1]?.id, 5).then((newChildren) => {
 						console.log(newChildren);
 						setPosts([...posts, ...newChildren]);
 					});

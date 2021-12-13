@@ -116,7 +116,6 @@ Sint aliquam molestiae eaque, beatae magni eos atque repellendus doloremque dolo
 
 export default function(req: NextApiRequest, res: NextApiResponse<{posts: PostData[]}>) {
 	if (req.method!="GET") { res.status(405); return}
-
 	const lastIndex = req.query.last?posts.findIndex((u)=>{return u.id===req.query.last}):-1;
 	
 	res.json({

@@ -1,14 +1,13 @@
-import { forwardRef, useContext, useEffect, useRef, useState } from "react";
+import React, { forwardRef, useContext, useEffect, useRef, useState } from "react";
 import ChatStyle from "../../styles/chat.module.css";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
 import poststyles from "../../styles/post.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { faIdCard } from "@fortawesome/free-regular-svg-icons";
 import { Comment } from "../../types/post";
-import TextareaAutosize from "react-textarea-autosize";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { CommentInput } from "./commentinput";
 
 function Post(props: {
 	id: string;
@@ -47,15 +46,17 @@ function Post(props: {
 
 						borderRadius: 4,
 						boxSizing: "border-box",
-						height: 40,
+						height: 30,
 						display: "flex",
 						alignItems: "center",
 					}}
 				>
-					<img alt="profilepic" src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
-					<span style={{ fontSize: 25, marginLeft: 5 }} className={theme.textPrimary}>
-						{props.author}
-					</span>
+					<div key="userDetails" style={{ height: "100%", cursor: "pointer", userSelect: "none" }}>
+						<img alt="profilepic" src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
+						<span style={{ fontSize: 20, marginLeft: 5 }} className={theme.textPrimary}>
+							{props.author}
+						</span>
+					</div>
 					<div style={{ position: "absolute", right: 5, display: "flex" }}>
 						<button
 							style={{ border: "none" }}
@@ -64,6 +65,7 @@ function Post(props: {
 							onClick={() => {
 								setLiked(!liked);
 							}}
+							title="I like this post."
 						>
 							<span className={`${theme.textSecondary}`}>
 								{props.likes + (liked && !props.isLiked ? 1 : 0)}
@@ -119,44 +121,21 @@ function Post(props: {
 				</div>
 				<div
 					className={`${theme.backgroundSecondary}`}
-					style={{ position: "absolute", width: "100%", bottom: 0, display: "flex" }}
+					style={{ position: "absolute", width: "100%", bottom: 0, display: "flex", alignItems: "center" }}
 				>
-					<div
-						style={{
-							flexGrow: 1,
-							minHeight: 20,
-							maxHeight: 50,
-							padding: 4,
-							overflow: "scroll",
-							display: "flex",
-							alignItems: "center",
-						}}
-					>
-						<TextareaAutosize
-							placeholder="Type something here..."
-							className={`${theme.textSecondary}`}
-							style={{
-								fontFamily: "unset",
-								width: "100%",
-								backgroundColor: "transparent",
-								border: "none",
-								padding: 0,
-								margin: 0,
-								resize: "none",
-							}}
-						></TextareaAutosize>
-					</div>
+					<CommentInput />
 					<button
 						style={{
 							float: "right",
-							height: 28,
+							height: 24,
 							padding: 4,
-							width: 28,
+							width: 24,
 							display: "inline-block",
 							position: "relative",
 							border: "none",
 							background: "transparent",
 						}}
+						title="Send Message"
 					>
 						<FontAwesomeIcon
 							icon={faPaperPlane}

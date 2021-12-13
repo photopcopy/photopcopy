@@ -7,8 +7,9 @@ import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
 import { SidebarButton } from "./sidebarbutton";
 import mainsidebarstyles from "../../styles/mainsidebar.module.css";
+import { AppState } from "../../pages";
 
-export function SidebarLeft({ state }: { state: { popupMethods?: ReturnType<typeof PopupManager> } }) {
+export function SidebarLeft({ state }: { state: AppState }) {
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].mainpage;
@@ -42,7 +43,11 @@ export function SidebarLeft({ state }: { state: { popupMethods?: ReturnType<type
 					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faHome} />
 					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.home}</span>
 				</SidebarButton>
-				<SidebarButton onClick={() => {}}>
+				<SidebarButton
+					onClick={() => {
+						state.resetFunc?.();
+					}}
+				>
 					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faSync} />
 					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.refresh}</span>
 				</SidebarButton>
