@@ -46,10 +46,10 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					minHeight: "200px",
 					borderRadius: 8,
 					overflow: "hidden",
-					display: "flex",
 					flexDirection: "column",
 					border: "none",
 					padding: 0,
+					//display: "flex"
 				},
 				overlay: { position: "fixed", inset: 0, backgroundColor: "rgb(0, 0, 0, 0)" },
 			}}
@@ -80,7 +80,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					/>
 				</div>
 			</div>
-			<div key="body" style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}>
+			<div key="body" style={{ width: "100%", height: "calc(100% - 60px)", display: "flex", overflow: "hidden" }}>
 				<div
 					key="sidebar"
 					className={theme.backgroundQuaternary}
