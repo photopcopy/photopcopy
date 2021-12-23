@@ -4,7 +4,9 @@
   "description": "Source for photopcopy",
   "scripts": {
     "build": "next build && next export",
-    "test": "next dev"
+    "//": "So i don't have to copy my output to my server project each time",
+    "buildncopy": "npm run build && cp -a -R out ~/Projects/photopcopy-server/photopcopy-server/public",
+    "dev": "next dev"
   },
   "repository": {
     "type": "git",
@@ -13,9 +15,9 @@
   "author": "e",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/photopcopy/frontend/issues"
+    "url": "https://github.com/photopcopy/photopcopy/issues"
   },
-  "homepage": "https://github.com/photopcopy/frontend#readme",
+  "homepage": "https://github.com/photopcopy/photopcopy#readme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",

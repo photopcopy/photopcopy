@@ -1,10 +1,10 @@
-export const enum API_URLS {
+export const API_URLS = {
 	// GET
-	GetPosts = "/api/getposts",
+	GetPosts: "/api/getposts",
 
 	// POST
-	CreateComment = "/api/comment",
-	CreatePost = "/api/post",
-	RegisterUser = "/api/register",
-	LoginUser = "/api/login",
-}
+	CreateComment: "/api/comment",
+	CreatePost: "/api/post",
+	RegisterUser: "/api/register",
+	LoginUser: "/api/login",
+};
