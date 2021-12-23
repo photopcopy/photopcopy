@@ -16,74 +16,76 @@ export function SidebarLeft({ state }: { state: AppState }) {
 
 	return (
 		<div key="sidebarLeft" className={`${mainsidebarstyles.sidebar}`} style={{ padding: "0px 4px" }}>
-			<div
-				className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_minimal}`}
-				style={{
-					borderWidth: 6,
-					textAlign: "center",
-					borderStyle: "solid",
-					borderColor: "rgb(0, 0, 0, 0)",
-					borderRadius: 4,
-					color: settings.accentColor,
-				}}
-			>
-				<div style={{ fontWeight: 1000, userSelect: "none" }}>
-					<span style={{ fontSize: 40 }}>Photop</span>copy
+			<div className={`${mainsidebarstyles.sidebar}`} style={{ position: "fixed" }}>
+				<div
+					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_minimal}`}
+					style={{
+						borderWidth: 6,
+						textAlign: "center",
+						borderStyle: "solid",
+						borderColor: "rgb(0, 0, 0, 0)",
+						borderRadius: 4,
+						color: settings.accentColor,
+					}}
+				>
+					<div style={{ fontWeight: 1000, userSelect: "none" }}>
+						<span style={{ fontSize: 40 }}>Photop</span>copy
+					</div>
 				</div>
-			</div>
-			<div
-				className={theme.backgroundTertiary}
-				style={{
-					marginTop: 4,
-					borderRadius: 4,
-					padding: "4px 4px 2px 4px",
-				}}
-			>
-				<SidebarButton onClick={() => {}}>
-					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faHome} />
-					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.home}</span>
-				</SidebarButton>
-				<SidebarButton
-					onClick={() => {
-						state.resetFunc?.();
+				<div
+					className={theme.backgroundTertiary}
+					style={{
+						marginTop: 4,
+						borderRadius: 4,
+						padding: "4px 4px 2px 4px",
 					}}
 				>
-					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faSync} />
-					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.refresh}</span>
-				</SidebarButton>
-			</div>
-			<div
-				className={theme.backgroundTertiary}
-				style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 2px 4px" }}
-			>
-				<SidebarButton
-					onClick={() => {
-						state.popupMethods?.SetPopupState("CreatePostMenu", true);
-					}}
+					<SidebarButton onClick={() => {}}>
+						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faHome} />
+						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.home}</span>
+					</SidebarButton>
+					<SidebarButton
+						onClick={() => {
+							state.resetFunc?.();
+						}}
+					>
+						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faSync} />
+						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.refresh}</span>
+					</SidebarButton>
+				</div>
+				<div
+					className={theme.backgroundTertiary}
+					style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 2px 4px" }}
 				>
-					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faPlus} />
-					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.post}</span>
-				</SidebarButton>
-				<SidebarButton
-					onClick={() => {
-						state.popupMethods?.SetPopupState("SettingsMenu", true);
-					}}
-				>
-					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faCog} />
-					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.settings}</span>
-				</SidebarButton>
-				<SidebarButton onClick={() => {}}>
-					<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faBell} />
-					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.notifications}</span>
-				</SidebarButton>
-				<SidebarButton onClick={() => {}}>
-					<FontAwesomeIcon
-						color={settings.accentColor}
-						style={{ width: 25, padding: 5 }}
-						icon={faSignOutAlt}
-					/>
-					<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.logout}</span>
-				</SidebarButton>
+					<SidebarButton
+						onClick={() => {
+							state.popupMethods?.SetPopupState("CreatePostMenu", true);
+						}}
+					>
+						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faPlus} />
+						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.post}</span>
+					</SidebarButton>
+					<SidebarButton
+						onClick={() => {
+							state.popupMethods?.SetPopupState("SettingsMenu", true);
+						}}
+					>
+						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faCog} />
+						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.settings}</span>
+					</SidebarButton>
+					<SidebarButton onClick={() => {}}>
+						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faBell} />
+						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.notifications}</span>
+					</SidebarButton>
+					<SidebarButton onClick={() => {}}>
+						<FontAwesomeIcon
+							color={settings.accentColor}
+							style={{ width: 25, padding: 5 }}
+							icon={faSignOutAlt}
+						/>
+						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.logout}</span>
+					</SidebarButton>
+				</div>
 			</div>
 		</div>
 	);

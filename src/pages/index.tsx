@@ -52,11 +52,22 @@ function App() {
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 
+	useEffect(() => {
+		const body = document.querySelector("body");
+		if (body) {
+			body.className = "";
+			body.classList.add(theme.backgroundPrimary);
+			body.classList.add("scroll");
+		}
+	});
+
 	return (
 		<>
 			<style jsx global>{`
 				body {
 					font-family: "SF Mono", "Roboto", sans-serif;
+					display: flex;
+					justify-content: center;
 				}
 
 				@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
@@ -66,32 +77,19 @@ function App() {
 			</Head>
 			<NoScript />
 			<div
-				key="mainContainer"
-				className={`${theme.backgroundPrimary}`}
-				style={{ position: "fixed", width: "100%", height: "100%" }}
+				key="content"
+				style={{
+					maxWidth: 1100,
+					display: "flex",
+					width: "calc(100vw - 8px)", // bandaid fix to whatever shitty fucking exception html throws at me
+				}}
 			>
-				<div
-					key="content"
-					style={{
-						width: "100%",
-						maxWidth: 1200,
-						position: "absolute",
-						left: "50%",
-						transform: "translate(-50%)",
-						display: "flex",
-						height: "100%",
+				<SidebarLeft state={state} />
+				<PostContainer
+					getResetFunc={(func) => {
+						state.resetFunc = func;
 					}}
-				>
-					<SidebarLeft state={state} />
-					<PostContainer
-						getResetFunc={(func) => {
-							state.resetFunc = func;
-						}}
-					/>
-					<div key="sidebarRight" className={mainsidebarstyles.sidebar_minimal} style={{ minWidth: 200 }}>
-						Roblox Ad Goes here
-					</div>
-				</div>
+				/>
 			</div>
 			<PopupContainer
 				callback={(popupMethods) => {

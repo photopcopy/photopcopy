@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build && next export",
     "//": "So i don't have to copy my output to my server project each time",
-    "buildncopy": "npm run build && cp -a -R out ~/Projects/photopcopy-server/photopcopy-server/public",
+    "buildncopy": "npm run build && rm -R ~/Projects/photopcopy-server/photopcopy-server/public; cp -a -R out ~/Projects/photopcopy-server/photopcopy-server/public",
     "dev": "next dev"
   },
   "repository": {

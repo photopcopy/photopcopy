@@ -38,14 +38,8 @@ export function PostContainer(props: { getResetFunc: (func: () => void) => void 
 	}, []);
 	//useEffect(() => void loadMore(10).then((newChildren) => setChildren([...children, ...newChildren])), []);
 	return (
-		<div
-			key="postContainer"
-			id="postContainer"
-			className="scroll"
-			style={{ width: "100%", height: "100%", overflow: "auto" }}
-		>
+		<div key="postContainer" style={{ width: "100%" }}>
 			<InfiniteScroll
-				scrollableTarget="postContainer"
 				next={() => {
 					loadMore(posts[posts.length - 1]?.id, 5).then((newChildren) => {
 						console.log(newChildren);
