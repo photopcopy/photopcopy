@@ -8,6 +8,7 @@ import { faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-s
 import { Comment } from "../../types/post";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CommentInput } from "./commentinput";
+import { API_URLS } from "../../modules/constants";
 
 function Post(props: {
 	id: string;
@@ -123,7 +124,18 @@ function Post(props: {
 					className={`${theme.backgroundSecondary}`}
 					style={{ position: "absolute", width: "100%", bottom: 0, display: "flex", alignItems: "center" }}
 				>
-					<CommentInput />
+					<CommentInput
+						submitMessage={(msg) => {
+							fetch(API_URLS.CreateComment, {
+								method: "POST",
+								body: JSON.stringify({
+									content: msg,
+									postId: props.id,
+									auth: (console.warn("TODO: authorization for comment"), ""),
+								}),
+							});
+						}}
+					/>
 					<button
 						style={{
 							float: "right",

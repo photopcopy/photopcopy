@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Source for photopcopy",
   "scripts": {
-    "build": "next build",
+    "build": "next build && next export",
     "test": "next dev"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "react-redux": "^7.2.4",
     "react-textarea-autosize": "^8.3.3",
     "redux": "^4.1.0",
+    "socket.io": "^4.4.0",
     "typescript": "^4.3.5"
   },
   "devDependencies": {

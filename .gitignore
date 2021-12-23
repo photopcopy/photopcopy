@@ -2,6 +2,9 @@ gcloudkey.json
 next-env.d.ts
 .vscode
 
+# Static file build
+out
+
 # Logs
 logs
 *.log

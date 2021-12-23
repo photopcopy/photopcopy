@@ -46,7 +46,6 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					minHeight: "200px",
 					borderRadius: 8,
 					overflow: "hidden",
-					display: "flex",
 					flexDirection: "column",
 					border: "none",
 					padding: 0,

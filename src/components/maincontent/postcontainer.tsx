@@ -2,6 +2,7 @@
 
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { API_URLS } from "../../modules/constants";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
 import { PostData } from "../../types/post";
@@ -10,7 +11,7 @@ import { Post } from "./post";
 // Can refactor to another file another time
 
 async function loadMore(last: string | undefined, amount: number): Promise<PostData[]> {
-	const u = new URL("/api/getposts", location.origin);
+	const u = new URL(API_URLS.GetPosts, location.origin);
 	if (last) u.searchParams.append("last", last);
 
 	return (await fetch(u.href).then((r) => r.json())).posts;
