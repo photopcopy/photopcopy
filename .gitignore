@@ -1,6 +1,7 @@
 gcloudkey.json
 next-env.d.ts
 .vscode
+.DS_STORE
 
 # Static file build
 out
