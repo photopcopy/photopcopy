@@ -11,8 +11,10 @@ import themes from "../../modules/themes";
 import { languages } from "../../modules/localizationmanager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { RootState } from "../../modules/store";
 
-enum PageTypes {
+enum PageType {
 	Account,
 	Appearance,
 	Privacy,
@@ -20,11 +22,54 @@ enum PageTypes {
 	Language,
 }
 
-function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
+function AccountPage({ current: page }: { current: PageType }) {
 	const settings = useContext(Settings);
+
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].settingspage;
-	const [page, setPage] = useState<PageTypes>(PageTypes.Account);
+
+	const { username } = useSelector((state: RootState) => state);
+
+	return (
+		<Page self={PageType.Account} current={page}>
+			<Section title={strings.sections.account.title}>
+				<div style={{ display: "flex" }}>
+					<span>{strings.sections.account.username}:</span>
+					<span
+						style={{
+							margin: "0px 5px",
+							display: "inline-block",
+							overflow: "hidden",
+							maxWidth: 120,
+							textOverflow: "ellipsis",
+						}}
+					>
+						{username}
+					</span>
+					<button
+						className={`${theme.textInverted}`}
+						style={{
+							backgroundColor: settings.accentColor,
+							float: "right",
+							margin: 0,
+							border: "none",
+							cursor: "pointer",
+						}}
+					>
+						Edit
+					</button>
+				</div>
+			</Section>
+		</Page>
+	);
+}
+
+function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
+	const settings = useContext(Settings);
+
+	const theme = themes[settings.theme];
+	const strings = languages[settings.language].settingspage;
+	const [page, setPage] = useState<PageType>(PageType.Account);
 
 	return (
 		<ReactModal
@@ -96,46 +141,46 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					{
 						<>
 							<TabButton
-								self={PageTypes.Account}
+								self={PageType.Account}
 								current={page}
 								onClick={() => {
-									setPage(PageTypes.Account);
+									setPage(PageType.Account);
 								}}
 							>
 								{strings.tabs.account}
 							</TabButton>
 							<TabButton
-								self={PageTypes.Appearance}
+								self={PageType.Appearance}
 								current={page}
 								onClick={() => {
-									setPage(PageTypes.Appearance);
+									setPage(PageType.Appearance);
 								}}
 							>
 								{strings.tabs.appearance}
 							</TabButton>
 							<TabButton
-								self={PageTypes.Privacy}
+								self={PageType.Privacy}
 								current={page}
 								onClick={() => {
-									setPage(PageTypes.Privacy);
+									setPage(PageType.Privacy);
 								}}
 							>
 								{strings.tabs.privacy}
 							</TabButton>
 							<TabButton
-								self={PageTypes.Sessions}
+								self={PageType.Sessions}
 								current={page}
 								onClick={() => {
-									setPage(PageTypes.Sessions);
+									setPage(PageType.Sessions);
 								}}
 							>
 								{strings.tabs.sessions}
 							</TabButton>
 							<TabButton
-								self={PageTypes.Language}
+								self={PageType.Language}
 								current={page}
 								onClick={() => {
-									setPage(PageTypes.Language);
+									setPage(PageType.Language);
 								}}
 							>
 								{strings.tabs.language}
@@ -144,37 +189,8 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 					}
 				</div>
 				<div key="contentContainer" style={{ position: "relative", width: "100%", height: "100%" }}>
-					<Page self={PageTypes.Account} current={page}>
-						<Section title={strings.sections.account.title}>
-							<div style={{ display: "flex" }}>
-								<span>{strings.sections.account.username}:</span>
-								<span
-									style={{
-										margin: "0px 5px",
-										display: "inline-block",
-										overflow: "hidden",
-										maxWidth: 120,
-										textOverflow: "ellipsis",
-									}}
-								>
-									Photopcopy
-								</span>
-								<button
-									className={`${theme.textInverted}`}
-									style={{
-										backgroundColor: settings.accentColor,
-										float: "right",
-										margin: 0,
-										border: "none",
-										cursor: "pointer",
-									}}
-								>
-									Edit
-								</button>
-							</div>
-						</Section>
-					</Page>
-					<Page self={PageTypes.Appearance} current={page}>
+					<AccountPage current={page} />
+					<Page self={PageType.Appearance} current={page}>
 						<Section title={strings.sections.theme.title}>
 							<RadioSelection
 								items={[strings.sections.theme.lightMode, strings.sections.theme.darkMode]}
@@ -237,10 +253,10 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 							/>
 						</Section>
 					</Page>
-					<Page self={PageTypes.Privacy} current={page}>
+					<Page self={PageType.Privacy} current={page}>
 						<Section title={strings.sections.blockedUsers.title}>tba</Section>
 					</Page>
-					<Page self={PageTypes.Sessions} current={page}>
+					<Page self={PageType.Sessions} current={page}>
 						<Section title={strings.sections.activeSessions.title}>
 							<button
 								className={`${theme.textInverted}`}
@@ -258,7 +274,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 							</button>
 						</Section>
 					</Page>
-					<Page self={PageTypes.Language} current={page}>
+					<Page self={PageType.Language} current={page}>
 						<Section title={strings.sections.language.title}>
 							<span className={theme.textSecondary} style={{ fontSize: 12 }}>
 								{strings.sections.language.description}
@@ -286,4 +302,4 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 	);
 }
 
-export { SettingsPage, PageTypes };
+export { SettingsPage, PageType as PageTypes };

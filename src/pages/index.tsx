@@ -10,19 +10,23 @@ import mainsidebarstyles from "../styles/mainsidebar.module.css";
 import { NoScript } from "../components/noscript";
 import { SidebarLeft } from "../components/maincontent/sidebarleft";
 import { CreatePostPage } from "../components/createpostpage/createpostpage";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { AppStore, closePopup, RootState } from "../modules/store";
 
-function PopupContainer(props: {
-	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
-	init: (popupMethods: ReturnType<typeof PopupManager>) => void;
-}) {
-	const popupMethods = PopupManager();
-	const { Render: RenderPopups, shouldShowOverlay } = popupMethods;
+function PopupContainer() {
+	const popups = useSelector((state: RootState) => state.popups);
+	const dispatch = useDispatch();
 
-	useEffect(() => {
-		props.init(popupMethods);
-	}, []);
+	let shouldShowOverlay = false;
 
-	props.callback(popupMethods);
+	const popupsElements = Object.keys(popups).map((key) => {
+		if (popups[key].isOpen) {
+			shouldShowOverlay = true;
+		}
+		return popups[key].renderer(() => {
+			dispatch(closePopup(key));
+		}, popups[key].isOpen);
+	});
 
 	return (
 		<>
@@ -36,7 +40,7 @@ function PopupContainer(props: {
 					transition: "backdrop-filter .5s",
 				}}
 			/>
-			{RenderPopups()}
+			{popupsElements}
 		</>
 	);
 }
@@ -91,29 +95,7 @@ function App() {
 					}}
 				/>
 			</div>
-			<PopupContainer
-				callback={(popupMethods) => {
-					state.popupMethods = popupMethods;
-				}}
-				init={(popupMethods) => {
-					popupMethods.AddPopups([
-						{
-							key: "CreatePostMenu",
-							isOpen: false,
-							callback: (onRequestClose, isOpen) => {
-								return <CreatePostPage onRequestClose={onRequestClose} isOpen={isOpen} />;
-							},
-						},
-						{
-							key: "SettingsMenu",
-							isOpen: false,
-							callback: (onRequestClose, isOpen) => {
-								return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
-							},
-						},
-					]);
-				}}
-			/>
+			<PopupContainer />
 		</>
 	);
 }
@@ -149,10 +131,13 @@ function AppWrapper() {
 		);
 	}, []);
 
+	// TODO(Maybe): Use a more meaning value for token for "not signed in" instead of an empty string.
 	return (
-		<Settings.Provider value={settings}>
-			<App />
-		</Settings.Provider>
+		<Provider store={AppStore}>
+			<Settings.Provider value={settings}>
+				<App />
+			</Settings.Provider>
+		</Provider>
 	);
 }
 

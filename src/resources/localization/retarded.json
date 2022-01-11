@@ -5,12 +5,13 @@
     },
     "mainpage": {
         "sidebar": {
-            "home": "Home",
-            "notifications": "Notifications",
-            "refresh": "Refresh",
-            "post": "Post",
-            "logout": "Logout",
-            "settings": "Settings"
+            "home": "House",
+            "notifications": "Bell",
+            "refresh": "Again",
+            "post": "Tweet",
+            "logout": "Unexist",
+            "settings": "Change Thinger",
+            "search": "See"
         }
     },
     "createpostpage": {

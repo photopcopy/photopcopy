@@ -1,26 +1,30 @@
-import React, { forwardRef, useContext, useEffect, useRef, useState } from "react";
+import React, { forwardRef, ReactElement, useContext, useEffect, useRef, useState } from "react";
 import ChatStyle from "../../styles/chat.module.css";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
 import poststyles from "../../styles/post.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { Comment } from "../../types/post";
+import { faCommentSlash, faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { Comment, User } from "../../types/post";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CommentInput } from "./commentinput";
 import { API_URLS } from "../../modules/constants";
+import { useSelector } from "react-redux";
+import { RootState } from "../../modules/store";
 
 function Post(props: {
 	id: string;
 	isLiked: boolean;
 	comments: Comment[];
 	content: string;
-	author: string;
+	author: User;
 	attachments: string[];
 	likes: number;
 }) {
 	const settings = useContext(Settings);
 	const theme = themes[settings.theme];
+
+	const token = useSelector((s: RootState) => s.token);
 
 	const [liked, setLiked] = useState<boolean>(props.isLiked);
 	const copyIDIcon = useRef<SVGElement>(null);
@@ -55,7 +59,7 @@ function Post(props: {
 					<div key="userDetails" style={{ height: "100%", cursor: "pointer", userSelect: "none" }}>
 						<img alt="profilepic" src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
 						<span style={{ fontSize: 20, marginLeft: 5 }} className={theme.textPrimary}>
-							{props.author}
+							{props.author.username}
 						</span>
 					</div>
 					<div style={{ position: "absolute", right: 5, display: "flex" }}>
@@ -108,6 +112,8 @@ function Post(props: {
 					borderRadius: 8,
 					overflow: "hidden",
 					position: "relative",
+					display: "flex",
+					flexDirection: "column",
 				}}
 			>
 				<div
@@ -120,18 +126,70 @@ function Post(props: {
 				>
 					Chat
 				</div>
+				{/* Position relative and absolute so the content inside chat doesn't resize the post itself */}
+				<div style={{ height: "100%", overflowY: "scroll", position: "relative" }}>
+					<div style={{ position: "absolute" }}>
+						{(() => {
+							const elements: ReactElement[] = [];
+							let lastUser: User | undefined;
+							for (const comment of props.comments) {
+								if (lastUser != comment.author) {
+									elements.push(
+										<div
+											style={{ position: "relative", paddingLeft: 30, minHeight: 30 }}
+											key={comment.id}
+										>
+											<div style={{ fontSize: 14, margin: 0 }} className={`${theme.textPrimary}`}>
+												{comment.author.username}
+											</div>
+											<img
+												width={25}
+												height={25}
+												style={{
+													top: 15,
+													left: 15,
+													transform: "translate(-50%, -50%)",
+													position: "absolute",
+												}}
+												src={comment.author.avatar}
+												alt="Profile Picture"
+											/>
+											<div style={{ fontSize: 11 }} className={`${theme.textSecondary}`}>
+												{comment.content}
+											</div>
+										</div>,
+									);
+									lastUser = comment.author;
+								} else {
+									elements.push(
+										<div
+											style={{ paddingLeft: 30, fontSize: 11, paddingBottom: 2 }}
+											className={`${theme.textSecondary}`}
+										>
+											{comment.content}
+										</div>,
+									);
+								}
+							}
+							return elements;
+						})()}
+					</div>
+				</div>
 				<div
 					className={`${theme.backgroundSecondary}`}
-					style={{ position: "absolute", width: "100%", bottom: 0, display: "flex", alignItems: "center" }}
+					style={{ width: "100%", bottom: 0, display: "flex", alignItems: "center" }}
 				>
 					<CommentInput
 						submitMessage={(msg) => {
 							fetch(API_URLS.CreateComment, {
 								method: "POST",
+								headers: {
+									"content-type": "application/json",
+									authorization: token,
+								},
 								body: JSON.stringify({
 									content: msg,
-									postId: props.id,
-									auth: (console.warn("TODO: authorization for comment"), ""),
+									post: props.id,
 								}),
 							});
 						}}
