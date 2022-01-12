@@ -1,5 +1,5 @@
 import React from "react";
-import { Settings } from "../../modules/settings";
+import { Settings } from "../../lib/settings";
 
 function AccentOption(props: { color: string }) {
 	const settings = React.useContext(Settings);

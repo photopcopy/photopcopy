@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactElement } from "react";
-import { Settings } from "../modules/settings";
-import themes from "../modules/themes";
+import { Settings } from "../lib/settings";
+import themes from "../lib/themes";
 
 import Component from "assets/fa-icons/plus-square-regular.svg";
 

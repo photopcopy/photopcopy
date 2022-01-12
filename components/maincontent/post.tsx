@@ -1,16 +1,16 @@
 import React, { forwardRef, ReactElement, useContext, useEffect, useRef, useState } from "react";
 import ChatStyle from "../../styles/chat.module.css";
-import { Settings } from "../../modules/settings";
-import themes from "../../modules/themes";
+import { Settings } from "../../lib/settings";
+import themes from "../../lib/themes";
 import poststyles from "../../styles/post.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentSlash, faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Comment, User } from "../../types/post";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CommentInput } from "./commentinput";
-import { API_URLS } from "../../modules/constants";
+import { API_URLS } from "../../lib/constants";
 import { useSelector } from "react-redux";
-import { RootState } from "../../modules/store";
+import { RootState } from "../../lib/store";
 
 function Post(props: {
 	id: string;

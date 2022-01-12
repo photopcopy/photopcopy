@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { ISettings, Settings } from "../modules/settings";
-import themes from "../modules/themes";
+import { ISettings, Settings } from "../lib/settings";
+import themes from "../lib/themes";
 import { PostContainer } from "../components/maincontent/postcontainer";
 
 import { NoScript } from "../components/noscript";
 import { SidebarLeft } from "../components/maincontent/sidebarleft";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AppStore, closePopup, RootState } from "../modules/store";
+import { AppStore, closePopup, RootState } from "../lib/store";
 
 function PopupContainer() {
 	const popups = useSelector((state: RootState) => state.popups);

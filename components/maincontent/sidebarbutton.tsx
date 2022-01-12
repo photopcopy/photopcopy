@@ -1,6 +1,6 @@
 import React from "react";
-import { Settings } from "../../modules/settings";
-import themes from "../../modules/themes";
+import { Settings } from "../../lib/settings";
+import themes from "../../lib/themes";
 import tabstyle from "../../styles/tab.module.css";
 
 function SidebarButton(props: React.PropsWithChildren<{ onClick: React.MouseEventHandler<HTMLButtonElement> }>) {

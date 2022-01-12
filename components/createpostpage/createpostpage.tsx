@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import ReactModal from "react-modal";
 
-import themes from "../../modules/themes";
-import { languages } from "../../modules/localizationmanager";
+import themes from "../../lib/themes";
+import { languages } from "../../lib/localizationmanager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Settings } from "../../modules/settings";
+import { Settings } from "../../lib/settings";
 
 function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean }) {
 	const settings = useContext(Settings);

@@ -1,6 +1,6 @@
-import { Settings } from "../../modules/settings";
+import { Settings } from "../../lib/settings";
 import { PageTypes } from "./settingspage";
-import themes from "../../modules/themes";
+import themes from "../../lib/themes";
 import React from "react";
 
 function Page(props: React.PropsWithChildren<{ self: PageTypes; current: PageTypes }>) {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Settings } from "../../modules/settings";
+import { Settings } from "../../lib/settings";
 import { PageTypes } from "./settingspage";
-import themes from "../../modules/themes";
+import themes from "../../lib/themes";
 import tabstyle from "../../styles/tab.module.css";
 
 function TabButton(
