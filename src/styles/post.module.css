@@ -1,5 +1,6 @@
 .postcontent {
-	padding: 10px	
+	padding: 10px;
+	white-space: pre-wrap
 }
 .post {
 	margin-bottom: 5px

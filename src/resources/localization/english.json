@@ -10,7 +10,8 @@
             "refresh": "Refresh",
             "post": "Post",
             "logout": "Logout",
-            "settings": "Settings"
+            "settings": "Settings",
+            "search": "Search"
         }
     },
     "createpostpage": {

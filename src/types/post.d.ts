@@ -1,12 +1,17 @@
 interface Comment {
 	id: string;
-	author: string;
+	author: User;
 	content: string;
 }
 
+interface User {
+	id: string;
+	username: string;
+	avatar: string;
+}
 interface PostData {
 	id: string;
-	author: string;
+	author: User;
 	content: string;
 	attachments: string[]; // in the form of url
 	comments: Comment[];
@@ -14,4 +19,4 @@ interface PostData {
 	likes: number;
 }
 
-export type { Comment, PostData };
+export type { Comment, User, PostData };

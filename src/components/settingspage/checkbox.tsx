@@ -34,6 +34,7 @@ function Checkbox<items extends string[]>(props: {
 								position: "relative",
 								cursor: "pointer",
 								display: "inline-block",
+								flexShrink: 0,
 								width: 30,
 								height: 30,
 							}}

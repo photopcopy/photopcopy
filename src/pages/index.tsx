@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { SettingsPage } from "../components/settingspage/settingspage";
-import { PopupManager } from "../modules/popupmanager";
 import { ISettings, Settings } from "../modules/settings";
 import themes from "../modules/themes";
 import { PostContainer } from "../components/maincontent/postcontainer";
-import mainsidebarstyles from "../styles/mainsidebar.module.css";
 
 import { NoScript } from "../components/noscript";
 import { SidebarLeft } from "../components/maincontent/sidebarleft";
-import { CreatePostPage } from "../components/createpostpage/createpostpage";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { AppStore, closePopup, RootState } from "../modules/store";
 
-function PopupContainer(props: {
-	callback: (popupMethods: ReturnType<typeof PopupManager>) => void;
-	init: (popupMethods: ReturnType<typeof PopupManager>) => void;
-}) {
-	const popupMethods = PopupManager();
-	const { Render: RenderPopups, shouldShowOverlay } = popupMethods;
+function PopupContainer() {
+	const popups = useSelector((state: RootState) => state.popups);
+	const dispatch = useDispatch();
 
-	useEffect(() => {
-		props.init(popupMethods);
-	}, []);
+	let shouldShowOverlay = false;
 
-	props.callback(popupMethods);
+	const popupsElements = Object.keys(popups).map((key) => {
+		if (popups[key].isOpen) {
+			shouldShowOverlay = true;
+		}
+		return popups[key].renderer(() => {
+			dispatch(closePopup(key));
+		}, popups[key].isOpen);
+	});
 
 	return (
 		<>
@@ -31,32 +31,39 @@ function PopupContainer(props: {
 					width: "100%",
 					height: "100%",
 					position: "fixed",
+					top: 0,
 					pointerEvents: shouldShowOverlay ? "unset" : "none",
 					backdropFilter: shouldShowOverlay ? "blur(5px)" : "blur(0px)",
 					transition: "backdrop-filter .5s",
 				}}
 			/>
-			{RenderPopups()}
+			{popupsElements}
 		</>
 	);
 }
 
 // this needs to use redux, too lazy tho
-export interface AppState {
-	resetFunc?: () => void;
-	popupMethods?: ReturnType<typeof PopupManager>;
-}
 
 function App() {
-	const [state] = useState<AppState>({});
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
+
+	useEffect(() => {
+		const body = document.querySelector("body");
+		if (body) {
+			body.className = "";
+			body.classList.add(theme.backgroundPrimary);
+			body.classList.add("scroll");
+		}
+	});
 
 	return (
 		<>
 			<style jsx global>{`
 				body {
 					font-family: "SF Mono", "Roboto", sans-serif;
+					display: flex;
+					justify-content: center;
 				}
 
 				@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
@@ -66,56 +73,17 @@ function App() {
 			</Head>
 			<NoScript />
 			<div
-				key="mainContainer"
-				className={`${theme.backgroundPrimary}`}
-				style={{ position: "fixed", width: "100%", height: "100%" }}
+				key="content"
+				style={{
+					maxWidth: 1100,
+					display: "flex",
+					width: "calc(100vw - 8px)", // bandaid fix to whatever shitty fucking exception html throws at me
+				}}
 			>
-				<div
-					key="content"
-					style={{
-						width: "100%",
-						maxWidth: 1200,
-						position: "absolute",
-						left: "50%",
-						transform: "translate(-50%)",
-						display: "flex",
-						height: "100%",
-					}}
-				>
-					<SidebarLeft state={state} />
-					<PostContainer
-						getResetFunc={(func) => {
-							state.resetFunc = func;
-						}}
-					/>
-					<div key="sidebarRight" className={mainsidebarstyles.sidebar_minimal} style={{ minWidth: 200 }}>
-						Roblox Ad Goes here
-					</div>
-				</div>
+				<SidebarLeft />
+				<PostContainer />
 			</div>
-			<PopupContainer
-				callback={(popupMethods) => {
-					state.popupMethods = popupMethods;
-				}}
-				init={(popupMethods) => {
-					popupMethods.AddPopups([
-						{
-							key: "CreatePostMenu",
-							isOpen: false,
-							callback: (onRequestClose, isOpen) => {
-								return <CreatePostPage onRequestClose={onRequestClose} isOpen={isOpen} />;
-							},
-						},
-						{
-							key: "SettingsMenu",
-							isOpen: false,
-							callback: (onRequestClose, isOpen) => {
-								return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
-							},
-						},
-					]);
-				}}
-			/>
+			<PopupContainer />
 		</>
 	);
 }
@@ -151,10 +119,13 @@ function AppWrapper() {
 		);
 	}, []);
 
+	// TODO(Maybe): Use a more meaning value for token for "not signed in" instead of an empty string.
 	return (
-		<Settings.Provider value={settings}>
-			<App />
-		</Settings.Provider>
+		<Provider store={AppStore}>
+			<Settings.Provider value={settings}>
+				<App />
+			</Settings.Provider>
+		</Provider>
 	);
 }
 
