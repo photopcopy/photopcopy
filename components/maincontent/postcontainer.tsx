@@ -3,11 +3,11 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
-import { loadMorePosts } from "../../modules/api";
-import { API_URLS } from "../../modules/constants";
-import { Settings } from "../../modules/settings";
-import { addPosts, RootState, setPosts } from "../../modules/store";
-import themes from "../../modules/themes";
+import { loadMorePosts } from "../../lib/api";
+import { API_URLS } from "../../lib/constants";
+import { Settings } from "../../lib/settings";
+import { addPosts, RootState, setPosts } from "../../lib/store";
+import themes from "../../lib/themes";
 import { PostData } from "../../types/post";
 import { Post } from "./post";
 

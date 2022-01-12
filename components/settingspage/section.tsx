@@ -1,6 +1,6 @@
 import React from "react";
-import { Settings } from "../../modules/settings";
-import themes from "../../modules/themes";
+import { Settings } from "../../lib/settings";
+import themes from "../../lib/themes";
 function Section(props: React.PropsWithChildren<{ title: string }>) {
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];

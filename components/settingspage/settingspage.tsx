@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
 import ReactModal from "react-modal";
-import { Settings } from "../../modules/settings";
+import { Settings } from "../../lib/settings";
 import { AccentOption } from "./accentoption";
 import { Checkbox } from "./checkbox";
 import { Page } from "./page";
 import { RadioSelection } from "./radioselection";
 import { Section } from "./section";
 import { TabButton } from "./tabbutton";
-import themes from "../../modules/themes";
-import { languages } from "../../modules/localizationmanager";
+import themes from "../../lib/themes";
+import { languages } from "../../lib/localizationmanager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { RootState } from "../../modules/store";
+import { RootState } from "../../lib/store";
 
 enum PageType {
 	Account,

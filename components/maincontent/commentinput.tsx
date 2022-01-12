@@ -1,8 +1,8 @@
 import React from "react";
 import { useContext, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { Settings } from "../../modules/settings";
-import themes from "../../modules/themes";
+import { Settings } from "../../lib/settings";
+import themes from "../../lib/themes";
 
 // moved to different function to prevent rerender (the entire post) every keystroke
 const CommentInput = React.forwardRef<HTMLTextAreaElement, { submitMessage: (msg: string) => void }>(

@@ -1,14 +1,14 @@
 import { faHome, faSync, faPlus, faCog, faBell, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { languages } from "../../modules/localizationmanager";
-import { Settings } from "../../modules/settings";
-import themes from "../../modules/themes";
+import { languages } from "../../lib/localizationmanager";
+import { Settings } from "../../lib/settings";
+import themes from "../../lib/themes";
 import { SidebarButton } from "./sidebarbutton";
 import mainsidebarstyles from "../../styles/mainsidebar.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { openPopup, RootState, setPosts, signOut } from "../../modules/store";
-import { loadMorePosts } from "../../modules/api";
+import { openPopup, RootState, setPosts, signOut } from "../../lib/store";
+import { loadMorePosts } from "../../lib/api";
 
 export function SidebarLeft() {
 	const settings = React.useContext(Settings);

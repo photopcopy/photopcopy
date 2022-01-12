@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Settings } from "../../modules/settings";
-import themes from "../../modules/themes";
+import { Settings } from "../../lib/settings";
+import themes from "../../lib/themes";
 
 function RadioSelection(props: { items: string[]; default: number; updated: (current: number) => void }) {
 	const [current, setCurrent] = useState(props.default);
