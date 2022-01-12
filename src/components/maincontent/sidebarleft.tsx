@@ -2,16 +2,15 @@ import { faHome, faSync, faPlus, faCog, faBell, faSignOutAlt, faSearch } from "@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { languages } from "../../modules/localizationmanager";
-import { PopupManager } from "../../modules/popupmanager";
 import { Settings } from "../../modules/settings";
 import themes from "../../modules/themes";
 import { SidebarButton } from "./sidebarbutton";
 import mainsidebarstyles from "../../styles/mainsidebar.module.css";
-import { AppState } from "../../pages";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, signOut } from "../../modules/store";
+import { openPopup, RootState, setPosts, signOut } from "../../modules/store";
+import { loadMorePosts } from "../../modules/api";
 
-export function SidebarLeft({ state }: { state: AppState }) {
+export function SidebarLeft() {
 	const settings = React.useContext(Settings);
 
 	const theme = themes[settings.theme];
@@ -28,8 +27,8 @@ export function SidebarLeft({ state }: { state: AppState }) {
 				This is what twitter uses. It's not a perfect solution and it's finnicky, but it does the trick.
 			*/}
 			<div
-				className={`${mainsidebarstyles.sidebar_inner}`}
-				style={{ position: "fixed", left: sidebarOpen ? 5 : undefined, transition: "left .5s" }}
+				className={`${mainsidebarstyles.sidebar_inner} ${sidebarOpen ? mainsidebarstyles.open : ""}`}
+				style={{ position: "fixed", transition: "left .5s" }}
 			>
 				<div
 					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_minimal}`}
@@ -68,7 +67,9 @@ export function SidebarLeft({ state }: { state: AppState }) {
 					</SidebarButton>
 					<SidebarButton
 						onClick={() => {
-							state.resetFunc?.();
+							loadMorePosts(undefined, 10).then((newChildren) => {
+								dispatch(setPosts(newChildren));
+							});
 						}}
 					>
 						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faSync} />
@@ -84,7 +85,7 @@ export function SidebarLeft({ state }: { state: AppState }) {
 						<>
 							<SidebarButton
 								onClick={() => {
-									state.popupMethods?.SetPopupState("CreatePostMenu", true);
+									dispatch(openPopup("CreatePostMenu"));
 								}}
 							>
 								<FontAwesomeIcon
@@ -96,7 +97,7 @@ export function SidebarLeft({ state }: { state: AppState }) {
 							</SidebarButton>
 							<SidebarButton
 								onClick={() => {
-									state.popupMethods?.SetPopupState("SettingsMenu", true);
+									dispatch(openPopup("SettingsMenu"));
 								}}
 							>
 								<FontAwesomeIcon
@@ -119,7 +120,8 @@ export function SidebarLeft({ state }: { state: AppState }) {
 							<SidebarButton
 								onClick={() => {
 									//POV: you forgot to use redux and now your project is a mess
-									dispatch(signOut);
+									//POV: you converted ur project to redux and you're confused but at least your project isn't a mess
+									dispatch(signOut());
 								}}
 							>
 								<FontAwesomeIcon

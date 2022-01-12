@@ -28,7 +28,7 @@ function AccountPage({ current: page }: { current: PageType }) {
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].settingspage;
 
-	const { username } = useSelector((state: RootState) => state);
+	const { username } = useSelector((state: RootState) => state.user);
 
 	return (
 		<Page self={PageType.Account} current={page}>

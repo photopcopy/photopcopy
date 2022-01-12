@@ -24,7 +24,7 @@ function Post(props: {
 	const settings = useContext(Settings);
 	const theme = themes[settings.theme];
 
-	const token = useSelector((s: RootState) => s.token);
+	const token = useSelector((s: RootState) => s.user.token);
 
 	const [liked, setLiked] = useState<boolean>(props.isLiked);
 	const copyIDIcon = useRef<SVGElement>(null);
@@ -47,8 +47,7 @@ function Post(props: {
 						width: "calc(100% - 12px)",
 						padding: 4,
 
-						position: "relative",
-
+						justifyContent: "space-between",
 						borderRadius: 4,
 						boxSizing: "border-box",
 						height: 30,
@@ -62,7 +61,7 @@ function Post(props: {
 							{props.author.username}
 						</span>
 					</div>
-					<div style={{ position: "absolute", right: 5, display: "flex" }}>
+					<div style={{ marginRight: 5, display: "flex" }}>
 						<button
 							style={{ border: "none" }}
 							data-liked={liked}

@@ -8,8 +8,11 @@
 		padding: 0px;
 		/* flex-shrink: 0; */
 	}
-	.sidebar_inner {
+	.sidebar_inner:not(.open) {
 		left: -50px;
+	}
+	.sidebar_inner.open {
+		left: 5px;
 	}
 	.sidebar_minimal {
 		display: none
@@ -20,7 +23,7 @@
 }
 
 .sidebar {
-	z-index: 1;
+	/* z-index: 1; */
 }
 
 @media screen and (min-width: 750px) {

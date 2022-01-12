@@ -2,56 +2,37 @@
 
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useDispatch, useSelector } from "react-redux";
+import { loadMorePosts } from "../../modules/api";
 import { API_URLS } from "../../modules/constants";
 import { Settings } from "../../modules/settings";
+import { addPosts, RootState, setPosts } from "../../modules/store";
 import themes from "../../modules/themes";
 import { PostData } from "../../types/post";
 import { Post } from "./post";
 
-// Can refactor to another file another time
-
-async function loadMore(last: string | undefined, amount: number): Promise<PostData[]> {
-	const u = new URL(API_URLS.GetPosts, location.origin);
-	if (last) u.searchParams.append("last", last);
-
-	// i dont even know what im doing anymore
-	const result = await fetch(u.href).then((r) => r.json());
-	for (const post of result.posts) {
-		post.author = result.users[post.author];
-		for (const comment of post.comments) {
-			comment.author = result.users[comment.author];
-		}
-	}
-	return result.posts;
-}
-
-export function PostContainer(props: { getResetFunc: (func: () => void) => void }) {
+export function PostContainer() {
 	//const divRef = useRef<HTMLDivElement>(null);
-	const [posts, setPosts] = useState<PostData[]>([]);
+	const posts = useSelector((state: RootState) => state.ui.posts);
 	const settings = React.useContext(Settings);
 	const theme = themes[settings.theme];
 
-	props.getResetFunc(() => {
-		setPosts([]);
-		loadMore(undefined, 10).then((newChildren) => {
-			setPosts(newChildren);
-		});
-	});
-
+	const dispatch = useDispatch();
 	useEffect(() => {
-		loadMore(undefined, 10).then((newChildren) => {
+		loadMorePosts(undefined, 10).then((newChildren) => {
 			//posts is guaranteed to be e
-			setPosts(newChildren);
+			dispatch(setPosts(newChildren));
 		});
 	}, []);
+
 	//useEffect(() => void loadMore(10).then((newChildren) => setChildren([...children, ...newChildren])), []);
 	return (
 		<div key="postContainer" style={{ width: "100%" }}>
 			<InfiniteScroll
 				next={() => {
-					loadMore(posts[posts.length - 1]?.id, 5).then((newChildren) => {
+					loadMorePosts(posts[posts.length - 1]?.id, 5).then((newChildren) => {
 						console.log(newChildren);
-						setPosts([...posts, ...newChildren]);
+						dispatch(addPosts(newChildren));
 					});
 				}}
 				hasMore={true}
