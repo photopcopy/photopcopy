@@ -28,6 +28,11 @@ shut the fuck up i dont have time to resolve some shitty "global css cannot be i
     opacity: 0;
   }
 
+button {
+  cursor: pointer;
+  border: none;
+}
+
 body {
   margin: 0px;
 }

@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { ISettings, Settings } from "../lib/settings";
 import themes from "../lib/themes";
+import topbarstyles from "../styles/topbar.module.css";
+
 import { PostContainer } from "../components/maincontent/postcontainer";
 
 import { NoScript } from "../components/noscript";
 import { SidebarLeft } from "../components/maincontent/sidebarleft";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AppStore, closePopup, RootState } from "../lib/store";
+import { AppStore, closePopup, hideSidebar, RootState, showSidebar } from "../lib/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faChevronRight, faHamburger } from "@fortawesome/free-solid-svg-icons";
 
 function PopupContainer() {
 	const popups = useSelector((state: RootState) => state.popups);
@@ -42,6 +46,45 @@ function PopupContainer() {
 	);
 }
 
+function Topbar() {
+	const settings = React.useContext(Settings);
+	const theme = themes[settings.theme];
+	const dispatch = useDispatch();
+	const sidebarOpen = useSelector((state: RootState) => {
+		return state.ui.sidebarOpen;
+	});
+	return (
+		<div
+			className={`${theme.backgroundTertiary} ${topbarstyles.topbar}`}
+			style={{ fontSize: 30, color: settings.accentColor, alignItems: "center" }}
+		>
+			<button
+				className={`${theme.backgroundSecondary}`}
+				style={{ display: "flex", alignItems: "center", width: 35, height: 35, margin: 7, borderRadius: 2 }}
+			>
+				<FontAwesomeIcon
+					style={{
+						width: 25,
+						height: 25,
+						transition: "transform .5s",
+					}}
+					icon={faBars}
+					color={settings.accentColor}
+					onClick={() => {
+						if (sidebarOpen) {
+							dispatch(hideSidebar());
+						} else {
+							dispatch(showSidebar());
+						}
+					}}
+				/>
+			</button>
+			Photopcopy
+		</div>
+	);
+	return <></>;
+}
+
 // this needs to use redux, too lazy tho
 
 function App() {
@@ -66,12 +109,17 @@ function App() {
 					justify-content: center;
 				}
 
+				#__next {
+					width: 100%;
+				}
+
 				@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 			`}</style>
 			<Head>
 				<title>Oh baby a triple!</title>
 			</Head>
 			<NoScript />
+			<Topbar />
 			<div
 				key="content"
 				style={{

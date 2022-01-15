@@ -24,6 +24,7 @@ function RadioSelection(props: { items: string[]; default: number; updated: (cur
 								cursor: "pointer",
 								display: "inline-block",
 								width: 20,
+								flexShrink: 0,
 								height: 20,
 								padding: 5,
 								borderRadius: "100%",
