@@ -18,6 +18,7 @@ shut the fuck up i dont have time to resolve some shitty "global css cannot be i
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity .5s;
+    z-index: 2;
   }
   
   .ReactModal__Overlay--after-open {

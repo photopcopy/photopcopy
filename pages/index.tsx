@@ -11,7 +11,7 @@ import { SidebarLeft } from "../components/maincontent/sidebarleft";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AppStore, closePopup, hideSidebar, RootState, showSidebar } from "../lib/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faChevronRight, faHamburger } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function PopupContainer() {
 	const popups = useSelector((state: RootState) => state.popups);
@@ -35,6 +35,7 @@ function PopupContainer() {
 					width: "100%",
 					height: "100%",
 					position: "fixed",
+					zIndex: 1,
 					top: 0,
 					pointerEvents: shouldShowOverlay ? "unset" : "none",
 					backdropFilter: shouldShowOverlay ? "blur(5px)" : "blur(0px)",
@@ -61,6 +62,13 @@ function Topbar() {
 			<button
 				className={`${theme.backgroundSecondary}`}
 				style={{ display: "flex", alignItems: "center", width: 35, height: 35, margin: 7, borderRadius: 2 }}
+				onClick={() => {
+					if (sidebarOpen) {
+						dispatch(hideSidebar());
+					} else {
+						dispatch(showSidebar());
+					}
+				}}
 			>
 				<FontAwesomeIcon
 					style={{
@@ -70,13 +78,6 @@ function Topbar() {
 					}}
 					icon={faBars}
 					color={settings.accentColor}
-					onClick={() => {
-						if (sidebarOpen) {
-							dispatch(hideSidebar());
-						} else {
-							dispatch(showSidebar());
-						}
-					}}
 				/>
 			</button>
 			Photopcopy
@@ -107,10 +108,6 @@ function App() {
 					font-family: "SF Mono", "Roboto", sans-serif;
 					display: flex;
 					justify-content: center;
-				}
-
-				#__next {
-					width: 100%;
 				}
 
 				@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");

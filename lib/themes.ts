@@ -29,7 +29,9 @@ class ThemeGetter {
 	}
 }
 
-export default {
+const themes = {
 	light: new ThemeGetter(lightMode),
 	dark: new ThemeGetter(darkMode),
 };
+
+export default themes;
