@@ -13,6 +13,7 @@ function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean }) 
 	const strings = languages[settings.language].createpostpage;
 	return (
 		<ReactModal
+			key="createpostpage"
 			isOpen={props.isOpen}
 			closeTimeoutMS={500}
 			onAfterClose={() => {}}

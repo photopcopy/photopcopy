@@ -4,6 +4,11 @@
         "tba": "To be added"
     },
     "mainpage": {
+        "post": {
+            "like": "+1 social credit",
+            "unlike": "-999 social credits",
+            "comment": "Argue"
+        },
         "sidebar": {
             "home": "House",
             "notifications": "Bell",

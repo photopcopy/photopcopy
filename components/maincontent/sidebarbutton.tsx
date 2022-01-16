@@ -8,19 +8,11 @@ function SidebarButton(props: React.PropsWithChildren<{ onClick: React.MouseEven
 	const theme = themes[settings.theme];
 	return (
 		<button
-			className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary}`}
+			className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary} ${tabstyle.button}`}
 			onClick={props.onClick}
 			style={{
-				cursor: "pointer",
-				padding: 0,
-				border: "none",
 				marginBottom: 4,
-				width: "100%",
-				height: 35,
-				fontSize: 23,
 				textAlign: "left",
-				display: "flex",
-				alignItems: "center",
 			}}
 		>
 			{props.children}

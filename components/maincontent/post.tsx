@@ -1,16 +1,24 @@
 import React, { forwardRef, ReactElement, useContext, useEffect, useRef, useState } from "react";
-import ChatStyle from "../../styles/chat.module.css";
+import CommentStyle from "../../styles/comment.module.css";
 import { Settings } from "../../lib/settings";
 import themes from "../../lib/themes";
 import poststyles from "../../styles/post.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCommentSlash, faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+	faComment,
+	faCommentSlash,
+	faHashtag,
+	faHeart,
+	faIdBadge,
+	faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 import { Comment, User } from "../../types/post";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CommentInput } from "./commentinput";
 import { API_URLS } from "../../lib/constants";
 import { useSelector } from "react-redux";
 import { RootState } from "../../lib/store";
+import { languages } from "../../lib/localizationmanager";
 
 function Post(props: {
 	id: string;
@@ -29,6 +37,8 @@ function Post(props: {
 	const [liked, setLiked] = useState<boolean>(props.isLiked);
 	const copyIDIcon = useRef<SVGElement>(null);
 	const sendMessageIcon = useRef<SVGElement>(null);
+
+	const poststrings = languages[settings.language].mainpage.post;
 
 	return (
 		<div
@@ -69,12 +79,24 @@ function Post(props: {
 							onClick={() => {
 								setLiked(!liked);
 							}}
-							title="I like this post."
+							title={liked ? poststrings.unlike : poststrings.like}
 						>
 							<span className={`${theme.textSecondary}`}>
 								{props.likes + (liked && !props.isLiked ? 1 : 0)}
 							</span>{" "}
 							<FontAwesomeIcon icon={faHeart} color={liked ? settings.accentColor : "grey"} />
+						</button>
+						<button
+							style={{ border: "none" }}
+							className={`${poststyles.postactioncontainer} ${theme.backgroundTertiary}`}
+							onClick={() => {}}
+							title={poststrings.comment}
+						>
+							<span className={`${theme.textSecondary}`}>{props.comments.length}</span>{" "}
+							<FontAwesomeIcon
+								icon={faComment}
+								color={props.comments.length ? settings.accentColor : "grey"}
+							/>
 						</button>
 						<CopyToClipboard text={props.id}>
 							<button
@@ -103,8 +125,8 @@ function Post(props: {
 				<div className={`${theme.textSecondary} ${poststyles.postcontent}`}>{props.content}</div>
 			</div>
 			<div
-				key="chatContainer"
-				className={`${ChatStyle.chat} ${theme.backgroundTertiary}`}
+				key="commentContainer"
+				className={`${CommentStyle.commentsection} ${theme.backgroundTertiary}`}
 				style={{
 					width: "70%",
 					margin: "6px 6px 6px 0px",

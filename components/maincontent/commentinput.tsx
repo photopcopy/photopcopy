@@ -1,7 +1,9 @@
 import React from "react";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import TextareaAutosize from "react-textarea-autosize";
 import { Settings } from "../../lib/settings";
+import { RootState } from "../../lib/store";
 import themes from "../../lib/themes";
 
 // moved to different function to prevent rerender (the entire post) every keystroke
@@ -9,6 +11,7 @@ const CommentInput = React.forwardRef<HTMLTextAreaElement, { submitMessage: (msg
 	({ submitMessage }, ref) => {
 		const settings = useContext(Settings);
 		const theme = themes[settings.theme];
+		const signedIn = useSelector((s: RootState) => s.user.signedIn);
 
 		const [textareaValue, setTextareaValue] = useState<string>("");
 		return (
@@ -25,9 +28,11 @@ const CommentInput = React.forwardRef<HTMLTextAreaElement, { submitMessage: (msg
 				maxRows={3}
 				value={textareaValue}
 				onChange={(ev) => setTextareaValue(ev.target.value)}
-				placeholder="Type something here..."
+				disabled={!signedIn}
+				placeholder={signedIn ? "Type stuff here" : "You must be signed in to chat."}
 				className={`${theme.textSecondary}`}
 				style={{
+					cursor: signedIn ? "not-allowed" : undefined,
 					fontFamily: "unset",
 					width: "100%",
 					backgroundColor: "transparent",

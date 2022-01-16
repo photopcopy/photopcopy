@@ -14,8 +14,11 @@
 	.sidebar_inner.open {
 		left: 5px;
 	}
-	.sidebar_minimal {
+	.sidebar_maximized {
 		display: none
+	}
+	.sidebar_minified {
+		display: block;
 	}
 	.sidebar_tab_group {
 		box-shadow: 0 8px 16px rgb(0 0 0 / 44%);
@@ -27,6 +30,12 @@
 }
 
 @media screen and (min-width: 750px) {
+	.sidebar_maximized {
+		display: block
+	}
+	.sidebar_minified {
+		display: none;
+	}
 	.sidebar, .sidebar_inner {
 		width: 220px;
 		flex-shrink: 0;

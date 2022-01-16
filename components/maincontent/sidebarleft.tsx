@@ -1,4 +1,13 @@
-import { faHome, faSync, faPlus, faCog, faBell, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+	faHome,
+	faSync,
+	faPlus,
+	faCog,
+	faBell,
+	faSignOutAlt,
+	faSearch,
+	faSignInAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { languages } from "../../lib/localizationmanager";
@@ -9,6 +18,7 @@ import mainsidebarstyles from "../../styles/mainsidebar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { openPopup, RootState, setPosts, signOut } from "../../lib/store";
 import { loadMorePosts } from "../../lib/api";
+import tabstyle from "../../styles/tab.module.css";
 
 export function SidebarLeft() {
 	const settings = React.useContext(Settings);
@@ -31,7 +41,7 @@ export function SidebarLeft() {
 				style={{ position: "fixed", transition: "left .5s" }}
 			>
 				<div
-					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_minimal}`}
+					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_maximized}`}
 					style={{
 						borderWidth: 6,
 						textAlign: "center",
@@ -55,7 +65,7 @@ export function SidebarLeft() {
 				>
 					<SidebarButton onClick={() => {}}>
 						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faHome} />
-						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.home}</span>
+						<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.home}</span>
 					</SidebarButton>
 					<SidebarButton onClick={() => {}}>
 						<FontAwesomeIcon
@@ -63,7 +73,7 @@ export function SidebarLeft() {
 							style={{ width: 25, padding: 5 }}
 							icon={faSearch}
 						/>
-						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.search}</span>
+						<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.search}</span>
 					</SidebarButton>
 					<SidebarButton
 						onClick={() => {
@@ -73,7 +83,7 @@ export function SidebarLeft() {
 						}}
 					>
 						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faSync} />
-						<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.refresh}</span>
+						<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.refresh}</span>
 					</SidebarButton>
 				</div>
 
@@ -93,7 +103,7 @@ export function SidebarLeft() {
 									style={{ width: 25, padding: 5 }}
 									icon={faPlus}
 								/>
-								<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.post}</span>
+								<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.post}</span>
 							</SidebarButton>
 							<SidebarButton
 								onClick={() => {
@@ -105,7 +115,7 @@ export function SidebarLeft() {
 									style={{ width: 25, padding: 5 }}
 									icon={faCog}
 								/>
-								<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.settings}</span>
+								<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.settings}</span>
 							</SidebarButton>
 							<SidebarButton onClick={() => {}}>
 								<FontAwesomeIcon
@@ -113,7 +123,7 @@ export function SidebarLeft() {
 									style={{ width: 25, padding: 5 }}
 									icon={faBell}
 								/>
-								<span className={mainsidebarstyles.sidebar_minimal}>
+								<span className={mainsidebarstyles.sidebar_maximized}>
 									{strings.sidebar.notifications}
 								</span>
 							</SidebarButton>
@@ -129,51 +139,69 @@ export function SidebarLeft() {
 									style={{ width: 25, padding: 5 }}
 									icon={faSignOutAlt}
 								/>
-								<span className={mainsidebarstyles.sidebar_minimal}>{strings.sidebar.logout}</span>
+								<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.logout}</span>
 							</SidebarButton>
 						</>
 					) : (
-						<div style={{ width: "100%", flexDirection: "column" }}>
-							<label
-								className={`${theme.textSecondary}  ${theme.backgroundSecondary}`}
-								style={{
-									padding: 4,
-									fontSize: 14,
-									userSelect: "none",
-									display: "block",
-									borderRadius: 4,
-								}}
-							>
-								You need a Photopcopy account in order to do cool stuff like posting or personalizing!
-							</label>
-							<div style={{ display: "flex", marginTop: 3, marginBottom: 3 }}>
+						<>
+							<div className={`${mainsidebarstyles.sidebar_minified}`}>
 								<button
-									className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
-									style={{
-										cursor: "pointer",
-										marginRight: 2,
-										borderRadius: 4,
-										width: "100%",
-										border: "none",
-									}}
+									style={{ marginBottom: 4 }}
+									className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary} ${tabstyle.button}`}
 								>
-									Sign In
-								</button>
-								<button
-									className={`${theme.textPrimary}`}
-									style={{
-										cursor: "pointer",
-										marginLeft: 2,
-										borderRadius: 4,
-										width: "100%",
-										border: "none",
-										backgroundColor: settings.accentColor,
-									}}
-								>
-									Register
+									<FontAwesomeIcon
+										color={settings.accentColor}
+										style={{ width: 25, padding: 5 }}
+										icon={faSignInAlt}
+									/>
 								</button>
 							</div>
-						</div>
+							<div
+								className={`${mainsidebarstyles.sidebar_maximized}`}
+								style={{ width: "100%", flexDirection: "column" }}
+							>
+								<label
+									className={`${theme.textSecondary}  ${theme.backgroundSecondary}`}
+									style={{
+										padding: 4,
+										fontSize: 14,
+										userSelect: "none",
+										display: "block",
+										borderRadius: 4,
+									}}
+								>
+									You need a Photopcopy account in order to do cool stuff like posting or
+									personalizing!
+								</label>
+								<div style={{ display: "flex", marginTop: 3, marginBottom: 3 }}>
+									<button
+										className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
+										style={{
+											cursor: "pointer",
+											marginRight: 2,
+											borderRadius: 4,
+											width: "100%",
+											border: "none",
+										}}
+									>
+										Sign In
+									</button>
+									<button
+										className={`${theme.textPrimary}`}
+										style={{
+											cursor: "pointer",
+											marginLeft: 2,
+											borderRadius: 4,
+											width: "100%",
+											border: "none",
+											backgroundColor: settings.accentColor,
+										}}
+									>
+										Register
+									</button>
+								</div>
+							</div>
+						</>
 					)}
 				</div>
 			</div>
