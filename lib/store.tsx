@@ -10,6 +10,7 @@ import {
 import { CreatePostPage } from "../components/createpostpage/createpostpage";
 import { SettingsPage } from "../components/settingspage/settingspage";
 import { PostData } from "../types/post";
+import { SignInPage } from "../components/signinpage/signinpage";
 
 interface State {
 	sidebarOpen: boolean;
@@ -75,7 +76,8 @@ export const UISlice = createSlice({
 
 interface Popup {
 	isOpen: boolean;
-	renderer: (onRequestClose: () => void, isOpen: boolean) => ReactElement;
+	renderer: (onRequestClose: () => void, isOpen: boolean, state: any) => ReactElement;
+	state: any;
 }
 
 export const PopupSlice = createSlice({
@@ -83,34 +85,48 @@ export const PopupSlice = createSlice({
 	initialState: {
 		CreatePostMenu: {
 			isOpen: false,
-			renderer: (onRequestClose, isOpen) => {
-				return <CreatePostPage onRequestClose={onRequestClose} isOpen={isOpen} />;
+			renderer: (onRequestClose, isOpen, state) => {
+				return <CreatePostPage onRequestClose={onRequestClose} isOpen={isOpen} state={state} />;
 			},
+			state: {},
 		},
 		SettingsMenu: {
 			isOpen: false,
-			renderer: (onRequestClose, isOpen) => {
-				return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} />;
+			renderer: (onRequestClose, isOpen, state) => {
+				return <SettingsPage onRequestClose={onRequestClose} isOpen={isOpen} state={state} />;
 			},
+			state: {},
+		},
+		SignInMenu: {
+			isOpen: false,
+			renderer: (onRequestClose, isOpen, state) => {
+				return <SignInPage onRequestClose={onRequestClose} isOpen={isOpen} state={state}></SignInPage>;
+			},
+			state: {},
 		},
 	} as Record<string, Popup>,
 	reducers: {
-		openPopup(state, { payload: name }: PayloadAction<string>) {
+		openPopup(state, { payload: { name, state: popupState } }: PayloadAction<{ name: string; state?: {} }>) {
 			state[name].isOpen = true;
+			if (popupState) {
+				state[name].state = popupState;
+			}
 			return state;
 		},
+
 		closePopup(state, { payload: name }: PayloadAction<string>) {
 			state[name].isOpen = false;
 		},
 		addPopups(
 			state,
 			{
-				payload: { key, renderer, isOpen },
-			}: PayloadAction<{ key: string; isOpen: boolean; renderer: () => ReactElement }>,
+				payload: { key, renderer, isOpen, state: popupState },
+			}: PayloadAction<{ key: string; isOpen: boolean; renderer: () => ReactElement; state: any }>,
 		) {
 			state[key] = {
 				renderer,
 				isOpen,
+				state: popupState,
 			};
 			return state;
 		},

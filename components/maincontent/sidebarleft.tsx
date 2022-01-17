@@ -95,7 +95,7 @@ export function SidebarLeft() {
 						<>
 							<SidebarButton
 								onClick={() => {
-									dispatch(openPopup("CreatePostMenu"));
+									dispatch(openPopup({ name: "CreatePostMenu" }));
 								}}
 							>
 								<FontAwesomeIcon
@@ -107,7 +107,7 @@ export function SidebarLeft() {
 							</SidebarButton>
 							<SidebarButton
 								onClick={() => {
-									dispatch(openPopup("SettingsMenu"));
+									dispatch(openPopup({ name: "SettingsMenu" }));
 								}}
 							>
 								<FontAwesomeIcon
@@ -182,6 +182,9 @@ export function SidebarLeft() {
 											borderRadius: 4,
 											width: "100%",
 											border: "none",
+										}}
+										onClick={() => {
+											dispatch(openPopup({ name: "SignInMenu" }));
 										}}
 									>
 										Sign In

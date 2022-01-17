@@ -64,7 +64,7 @@ function AccountPage({ current: page }: { current: PageType }) {
 	);
 }
 
-function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean }) {
+function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; state: {} }) {
 	const settings = useContext(Settings);
 
 	const theme = themes[settings.theme];

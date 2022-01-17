@@ -23,9 +23,13 @@ function PopupContainer() {
 		if (popups[key].isOpen) {
 			shouldShowOverlay = true;
 		}
-		return popups[key].renderer(() => {
-			dispatch(closePopup(key));
-		}, popups[key].isOpen);
+		return popups[key].renderer(
+			() => {
+				dispatch(closePopup(key));
+			},
+			popups[key].isOpen,
+			popups[key].state,
+		);
 	});
 
 	return (
@@ -38,7 +42,7 @@ function PopupContainer() {
 					zIndex: 1,
 					top: 0,
 					pointerEvents: shouldShowOverlay ? "unset" : "none",
-					backdropFilter: shouldShowOverlay ? "blur(5px)" : "blur(0px)",
+					backdropFilter: shouldShowOverlay ? "blur(3px)" : "blur(0px)",
 					transition: "backdrop-filter .5s",
 				}}
 			/>

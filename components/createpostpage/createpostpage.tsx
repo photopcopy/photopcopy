@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Settings } from "../../lib/settings";
 
-function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean }) {
+function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean; state: {} }) {
 	const settings = useContext(Settings);
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].createpostpage;
