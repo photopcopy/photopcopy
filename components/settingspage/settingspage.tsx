@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../lib/store";
+import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
 
 enum PageType {
 	Account,
@@ -37,7 +38,7 @@ function AccountPage({ current: page }: { current: PageType }) {
 					<span>{strings.sections.account.username}:</span>
 					<span
 						style={{
-							margin: "0px 5px",
+							marginRight: 5,
 							display: "inline-block",
 							overflow: "hidden",
 							maxWidth: 120,
@@ -77,24 +78,11 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 			closeTimeoutMS={500}
 			onAfterClose={() => {}}
 			ariaHideApp={false}
-			className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
+			className={`${theme.backgroundSecondary} ${SettingsPageStyles.settingspage} ${theme.textPrimary}`}
 			style={{
 				content: {
-					position: "absolute",
-					inset: "50% 0% 0% 50%",
-					transform: "translate(-50%, -50%)",
-					height: "50%",
-					width: "50%",
-					maxWidth: "min(600px, 100vw)",
-					minWidth: "min(450px, 100vw)",
-					maxHeight: "400px",
-					minHeight: "200px",
-					borderRadius: 8,
 					overflow: "hidden",
-					flexDirection: "column",
-					border: "none",
 					padding: 0,
-					//display: "flex"
 				},
 				overlay: { position: "fixed", inset: 0, backgroundColor: "rgb(0, 0, 0, 0)" },
 			}}

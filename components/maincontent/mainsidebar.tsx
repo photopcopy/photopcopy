@@ -14,7 +14,7 @@ import { languages } from "../../lib/localizationmanager";
 import { Settings } from "../../lib/settings";
 import themes from "../../lib/themes";
 import { SidebarButton } from "./sidebarbutton";
-import mainsidebarstyles from "../../styles/mainsidebar.module.css";
+import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { openPopup, RootState, setPosts, signOut } from "../../lib/store";
 import { loadMorePosts } from "../../lib/api";
@@ -30,18 +30,15 @@ export function SidebarLeft() {
 	const dispatch = useDispatch();
 
 	return (
-		<div key="sidebarLeft" className={`${mainsidebarstyles.sidebar}`} style={{ padding: "0px 4px" }}>
+		<div key="sidebarLeft" className={`${MainSidebarStyles.sidebar}`} style={{ marginRight: 4 }}>
 			{/* 
 				We want to make the sidebar be "sticky"
 				But it does not work. So we use "fixed" instead.	
 				This is what twitter uses. It's not a perfect solution and it's finnicky, but it does the trick.
 			*/}
-			<div
-				className={`${mainsidebarstyles.sidebar_inner} ${sidebarOpen ? mainsidebarstyles.open : ""}`}
-				style={{ position: "fixed", transition: "left .5s" }}
-			>
+			<div className={`${MainSidebarStyles.sidebar_inner} ${sidebarOpen ? MainSidebarStyles.open : ""}`}>
 				<div
-					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_maximized}`}
+					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_maximized}`}
 					style={{
 						borderWidth: 6,
 						textAlign: "center",
@@ -56,7 +53,7 @@ export function SidebarLeft() {
 					</div>
 				</div>
 				<div
-					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_tab_group}`}
+					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_tab_group}`}
 					style={{
 						marginTop: 4,
 						borderRadius: 4,
@@ -64,16 +61,12 @@ export function SidebarLeft() {
 					}}
 				>
 					<SidebarButton onClick={() => {}}>
-						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faHome} />
-						<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.home}</span>
+						<FontAwesomeIcon color={settings.accentColor} icon={faHome} />
+						<span>{strings.sidebar.home}</span>
 					</SidebarButton>
 					<SidebarButton onClick={() => {}}>
-						<FontAwesomeIcon
-							color={settings.accentColor}
-							style={{ width: 25, padding: 5 }}
-							icon={faSearch}
-						/>
-						<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.search}</span>
+						<FontAwesomeIcon color={settings.accentColor} icon={faSearch} />
+						<span>{strings.sidebar.search}</span>
 					</SidebarButton>
 					<SidebarButton
 						onClick={() => {
@@ -82,13 +75,13 @@ export function SidebarLeft() {
 							});
 						}}
 					>
-						<FontAwesomeIcon color={settings.accentColor} style={{ width: 25, padding: 5 }} icon={faSync} />
-						<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.refresh}</span>
+						<FontAwesomeIcon color={settings.accentColor} icon={faSync} />
+						<span>{strings.sidebar.refresh}</span>
 					</SidebarButton>
 				</div>
 
 				<div
-					className={`${theme.backgroundTertiary} ${mainsidebarstyles.sidebar_tab_group}`}
+					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_tab_group}`}
 					style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 2px 4px" }}
 				>
 					{signedIn ? (
@@ -98,34 +91,20 @@ export function SidebarLeft() {
 									dispatch(openPopup({ name: "CreatePostMenu" }));
 								}}
 							>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faPlus}
-								/>
-								<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.post}</span>
+								<FontAwesomeIcon color={settings.accentColor} icon={faPlus} />
+								<span>{strings.sidebar.post}</span>
 							</SidebarButton>
 							<SidebarButton
 								onClick={() => {
 									dispatch(openPopup({ name: "SettingsMenu" }));
 								}}
 							>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faCog}
-								/>
-								<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.settings}</span>
+								<FontAwesomeIcon color={settings.accentColor} icon={faCog} />
+								<span>{strings.sidebar.settings}</span>
 							</SidebarButton>
 							<SidebarButton onClick={() => {}}>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faBell}
-								/>
-								<span className={mainsidebarstyles.sidebar_maximized}>
-									{strings.sidebar.notifications}
-								</span>
+								<FontAwesomeIcon color={settings.accentColor} icon={faBell} />
+								<span>{strings.sidebar.notifications}</span>
 							</SidebarButton>
 							<SidebarButton
 								onClick={() => {
@@ -134,17 +113,13 @@ export function SidebarLeft() {
 									dispatch(signOut());
 								}}
 							>
-								<FontAwesomeIcon
-									color={settings.accentColor}
-									style={{ width: 25, padding: 5 }}
-									icon={faSignOutAlt}
-								/>
-								<span className={mainsidebarstyles.sidebar_maximized}>{strings.sidebar.logout}</span>
+								<FontAwesomeIcon color={settings.accentColor} icon={faSignOutAlt} />
+								<span>{strings.sidebar.logout}</span>
 							</SidebarButton>
 						</>
 					) : (
 						<>
-							<div className={`${mainsidebarstyles.sidebar_minified}`}>
+							{/* <div className={`${MainSidebarStyles.sidebar_minified}`}>
 								<button
 									style={{ marginBottom: 4 }}
 									className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary} ${tabstyle.button}`}
@@ -155,13 +130,10 @@ export function SidebarLeft() {
 										icon={faSignInAlt}
 									/>
 								</button>
-							</div>
-							<div
-								className={`${mainsidebarstyles.sidebar_maximized}`}
-								style={{ width: "100%", flexDirection: "column" }}
-							>
+							</div> */}
+							<div style={{ width: "100%", flexDirection: "column" }}>
 								<label
-									className={`${theme.textSecondary}  ${theme.backgroundSecondary}`}
+									className={`${MainSidebarStyles.signin_title}`}
 									style={{
 										padding: 4,
 										fontSize: 14,
@@ -175,29 +147,18 @@ export function SidebarLeft() {
 								</label>
 								<div style={{ display: "flex", marginTop: 3, marginBottom: 3 }}>
 									<button
-										className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
-										style={{
-											cursor: "pointer",
-											marginRight: 2,
-											borderRadius: 4,
-											width: "100%",
-											border: "none",
-										}}
+										style={{ backgroundColor: settings.accentColor }}
+										className={`${MainSidebarStyles.signin_btn}`}
 										onClick={() => {
-											dispatch(openPopup({ name: "SignInMenu" }));
+											dispatch(openPopup({ name: "SignInMenu", state: { page: "signin" } }));
 										}}
 									>
 										Sign In
 									</button>
 									<button
-										className={`${theme.textPrimary}`}
-										style={{
-											cursor: "pointer",
-											marginLeft: 2,
-											borderRadius: 4,
-											width: "100%",
-											border: "none",
-											backgroundColor: settings.accentColor,
+										className={`${MainSidebarStyles.signin_btn}`}
+										onClick={() => {
+											dispatch(openPopup({ name: "SignInMenu", state: { page: "register" } }));
 										}}
 									>
 										Register

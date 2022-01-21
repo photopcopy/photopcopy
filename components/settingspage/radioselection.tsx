@@ -1,12 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
+import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
 
 function RadioSelection(props: { items: string[]; default: number; updated: (current: number) => void }) {
 	const [current, setCurrent] = useState(props.default);
 	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
 
 	return (
 		<div>
@@ -14,7 +13,7 @@ function RadioSelection(props: { items: string[]; default: number; updated: (cur
 				return (
 					<div key={index} style={{ display: "flex", marginTop: 4 }}>
 						<div
-							className={theme.backgroundSecondary}
+							className={SettingsPageStyles.radio_select}
 							onClick={() => {
 								setCurrent(index);
 								props.updated(index);
@@ -23,11 +22,6 @@ function RadioSelection(props: { items: string[]; default: number; updated: (cur
 								position: "relative",
 								cursor: "pointer",
 								display: "inline-block",
-								width: 20,
-								flexShrink: 0,
-								height: 20,
-								padding: 5,
-								borderRadius: "100%",
 							}}
 						>
 							<div

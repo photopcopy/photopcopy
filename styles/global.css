@@ -8,6 +8,15 @@ shut the fuck up i dont have time to resolve some shitty "global css cannot be i
     width: 5px
 }
 
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  border: none;
+}
+
 /*
     Might make this *computed* in the future because this looks awkward in light mode
 */

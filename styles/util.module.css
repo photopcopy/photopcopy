@@ -1,5 +1,0 @@
-/* I STILL don't know how css modules work*/
-/* this is completely useless and i will probably never use it */
-.marginaway :matches(h1,h2,h3,h4,h5,h6) {
-	margin: 0px;
-}

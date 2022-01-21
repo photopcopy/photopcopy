@@ -1,0 +1,23 @@
+@import "./modals.scss";
+@import "../themes.scss";
+
+.settingspage {
+	@include modal;
+	height: 50%;
+	width: 50%;
+	max-width: min(600px, 100vw);
+	min-width: min(450px, 100vw);
+	max-height: 400px;
+	min-height: 200px;
+}
+
+.radio_select {
+	@include themed(){
+		background-color: t($bg-2);
+	}
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}

@@ -7,7 +7,7 @@ import topbarstyles from "../styles/topbar.module.css";
 import { PostContainer } from "../components/maincontent/postcontainer";
 
 import { NoScript } from "../components/noscript";
-import { SidebarLeft } from "../components/maincontent/sidebarleft";
+import { SidebarLeft } from "../components/maincontent/mainsidebar";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AppStore, closePopup, hideSidebar, RootState, showSidebar } from "../lib/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -102,8 +102,9 @@ function App() {
 			body.className = "";
 			body.classList.add(theme.backgroundPrimary);
 			body.classList.add("scroll");
+			body.setAttribute("data-theme", settings.theme);
 		}
-	});
+	}, [settings.theme]);
 
 	return (
 		<>

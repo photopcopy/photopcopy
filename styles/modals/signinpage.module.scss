@@ -1,0 +1,66 @@
+@import "../themes.scss";
+@import "./modals.scss";
+
+.signinpage {
+	@include modal;
+	@include themed() {
+		color: t($text);
+		background-color: t($bg-1),
+	}
+	height: 50%;
+	width: 30%;
+	max-width: 300px;
+	max-height: 400px;
+	min-width: 300px;
+	min-height: 200px;
+}
+
+.signinpage .closebtn {
+	@include themed(){
+		color: t($text)
+	}
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	border: none;
+	background-color: transparent;
+	position: absolute;
+	right: 0px;
+	transform: translateX(-50%);
+	padding: 0px;
+}
+
+.signinpage input {
+	@include themed(){
+		background-color: t($bg-2);
+		color: t($text)
+	}
+	border: none;
+	padding: 5px;
+	font-size: 15px;
+	margin-bottom: 10px;
+}
+
+.signinpage p {
+	@include themed(){
+		color: t($text-2);
+	}
+}
+
+.primarybtn, .secondarybtn {
+	padding: 4px;
+	font-size: 15px;
+	@include themed(){
+		color: t($text);
+	}
+}
+
+// .primarybtn {
+	
+// }
+
+.secondarybtn {
+	@include themed(){
+		background-color: t($bg-2);
+	}
+}
