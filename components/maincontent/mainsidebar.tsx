@@ -16,11 +16,10 @@ import themes from "../../lib/themes";
 import { SidebarButton } from "./sidebarbutton";
 import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { openPopup, RootState, setPosts, signOut } from "../../lib/store";
+import { hideSidebar, openPopup, RootState, setPosts, signOut } from "../../lib/store";
 import { loadMorePosts } from "../../lib/api";
-import tabstyle from "../../styles/tab.module.css";
 
-export function SidebarLeft() {
+export function MainSidebar() {
 	const settings = React.useContext(Settings);
 
 	const theme = themes[settings.theme];
@@ -38,7 +37,7 @@ export function SidebarLeft() {
 			*/}
 			<div className={`${MainSidebarStyles.sidebar_inner} ${sidebarOpen ? MainSidebarStyles.open : ""}`}>
 				<div
-					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_maximized}`}
+					className={`${MainSidebarStyles.sidebar_tab_group} ${MainSidebarStyles.sidebar_maximized}`}
 					style={{
 						borderWidth: 6,
 						textAlign: "center",
@@ -53,7 +52,7 @@ export function SidebarLeft() {
 					</div>
 				</div>
 				<div
-					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_tab_group}`}
+					className={`${MainSidebarStyles.sidebar_tab_group}`}
 					style={{
 						marginTop: 4,
 						borderRadius: 4,
@@ -119,18 +118,6 @@ export function SidebarLeft() {
 						</>
 					) : (
 						<>
-							{/* <div className={`${MainSidebarStyles.sidebar_minified}`}>
-								<button
-									style={{ marginBottom: 4 }}
-									className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary} ${tabstyle.button}`}
-								>
-									<FontAwesomeIcon
-										color={settings.accentColor}
-										style={{ width: 25, padding: 5 }}
-										icon={faSignInAlt}
-									/>
-								</button>
-							</div> */}
 							<div style={{ width: "100%", flexDirection: "column" }}>
 								<label
 									className={`${MainSidebarStyles.signin_title}`}
@@ -150,6 +137,7 @@ export function SidebarLeft() {
 										style={{ backgroundColor: settings.accentColor }}
 										className={`${MainSidebarStyles.signin_btn}`}
 										onClick={() => {
+											dispatch(hideSidebar());
 											dispatch(openPopup({ name: "SignInMenu", state: { page: "signin" } }));
 										}}
 									>
@@ -158,6 +146,7 @@ export function SidebarLeft() {
 									<button
 										className={`${MainSidebarStyles.signin_btn}`}
 										onClick={() => {
+											dispatch(hideSidebar());
 											dispatch(openPopup({ name: "SignInMenu", state: { page: "register" } }));
 										}}
 									>

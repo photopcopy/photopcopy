@@ -96,7 +96,6 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 					height: 60,
 					display: "flex",
 					alignItems: "center",
-					boxSizing: "border-box",
 					padding: 10,
 					//borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}`,
 				}}
@@ -253,7 +252,6 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 									borderRadius: 4,
 									width: "100%",
 									padding: 4,
-									boxSizing: "border-box",
 									border: "none",
 									cursor: "pointer",
 								}}

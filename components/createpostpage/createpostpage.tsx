@@ -49,9 +49,7 @@ function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean; st
 					height: 60,
 					display: "flex",
 					alignItems: "center",
-					boxSizing: "border-box",
 					padding: 10,
-					//borderBottom: `solid ${Settings.currentState.backgroundColorQuaternary}`,
 				}}
 			>
 				<div style={{ width: "100%", height: "100%", fontSize: 40 }}>{strings.title}</div>

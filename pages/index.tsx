@@ -7,11 +7,11 @@ import topbarstyles from "../styles/topbar.module.css";
 import { PostContainer } from "../components/maincontent/postcontainer";
 
 import { NoScript } from "../components/noscript";
-import { SidebarLeft } from "../components/maincontent/mainsidebar";
+import { MainSidebar } from "../components/maincontent/mainsidebar";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AppStore, closePopup, hideSidebar, RootState, showSidebar } from "../lib/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCross, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function PopupContainer() {
 	const popups = useSelector((state: RootState) => state.popups);
@@ -80,7 +80,7 @@ function Topbar() {
 						height: 25,
 						transition: "transform .5s",
 					}}
-					icon={faBars}
+					icon={sidebarOpen ? faTimes : faBars}
 					color={settings.accentColor}
 				/>
 			</button>
@@ -130,7 +130,7 @@ function App() {
 					width: "calc(100vw - 8px)", // bandaid fix to whatever shitty fucking exception html throws at me
 				}}
 			>
-				<SidebarLeft />
+				<MainSidebar />
 				<PostContainer />
 			</div>
 			<PopupContainer />

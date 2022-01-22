@@ -16,7 +16,6 @@ function Page(props: React.PropsWithChildren<{ self: PageTypes; current: PageTyp
 				transition: "opacity .3s",
 				width: "100%",
 				height: "100%",
-				boxSizing: "border-box",
 				position: "absolute",
 				padding: 8,
 				overflow: "auto",
@@ -29,7 +28,6 @@ function Page(props: React.PropsWithChildren<{ self: PageTypes; current: PageTyp
 					width: "100%",
 					borderRadius: 8,
 					padding: "0px 8px 8px 8px",
-					boxSizing: "border-box",
 				}}
 			>
 				<div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}>

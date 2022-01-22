@@ -1,0 +1,24 @@
+@mixin button-shadow($haszindex: true, $implementtransition: true) {
+	body[data-theme=light] &:hover {
+		box-shadow: 0 2px 4px rgba(0,0,0,0.44);
+	}
+	body[data-theme=dark] &:hover {
+		box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+	}
+	&:hover {
+		@if $haszindex {
+			z-index: 1;
+		}
+	}
+
+	& {
+		@if $haszindex {
+			z-index: 0;
+		}
+		@if $implementtransition {
+			transition: box-shadow .5s;
+		}
+		box-shadow: unset;
+		position: relative
+	}
+}

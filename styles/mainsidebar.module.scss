@@ -1,4 +1,5 @@
 @import "./themes.scss";
+@import "./util.scss";
 
 /*
 	Worst css responsive stylesheet you have ever seen in your life
@@ -49,6 +50,7 @@
 }
 
 .sidebar_btn {
+	@include button-shadow;
 	@include themed(){
 		color: t($text);
 		background-color: t($bg-2);
@@ -59,6 +61,12 @@
 		height: 30px;
 		padding: 5px;
 	}
+	padding: 0px;
+	width: 100%;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	font-size: 23px;
 }
 
 .signin_title {

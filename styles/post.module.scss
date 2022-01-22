@@ -1,0 +1,46 @@
+@import "./themes.scss";
+@import "./util.scss";
+
+.postcontent {
+	padding: 10px;
+	white-space: pre-wrap
+}
+
+.user_details {
+	height: 100%;
+	cursor: pointer;
+	user-select: none;
+
+	@include themed(){
+		.username {
+			color: t($text)
+		}
+	}
+}
+
+.post {
+	@include themed(){
+		background-color: t($bg-1);
+		color: t($text-2)
+	}
+	margin-bottom: 5px
+}
+
+.post_action {
+	@include button-shadow;
+	padding: 6px;
+	margin-left: 4px;
+	cursor: pointer;
+	border-radius: 4px;
+	z-index: 0;
+	&>svg {
+		transition: color .5s ease-out
+	}
+
+	@include themed(){
+		background-color: t($bg-2);
+		span {
+			color: t($text-2)
+		}
+	}
+}
