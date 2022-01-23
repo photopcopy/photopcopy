@@ -4,6 +4,11 @@
         "tba": "To be added"
     },
     "mainpage": {
+        "post": {
+            "like": "Like",
+            "unlike": "Unlike",
+            "comment": "Chat"
+        },
         "sidebar": {
             "home": "Home",
             "notifications": "Notifications",

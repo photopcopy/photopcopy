@@ -1,0 +1,23 @@
+@import "modals.scss";
+@import "../themes.scss";
+
+.page {
+    @include modal;
+    height: 50%;
+    width: 50%;
+    max-width: 600px;
+    max-height: 400px;
+    min-width: 350px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+
+    > header {
+        @include themed() {
+            height: 60px;
+            background-color: t($bg-2);
+
+        }
+    }
+}

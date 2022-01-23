@@ -1,16 +1,15 @@
-import React, { forwardRef, ReactElement, useContext, useEffect, useRef, useState } from "react";
-import ChatStyle from "../../styles/chat.module.css";
-import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
-import poststyles from "../../styles/post.module.css";
+import React, { ReactElement, useRef, useState } from "react";
+import CommentStyles from "../../styles/comment.module.scss";
+import PostStyles from "../../styles/post.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCommentSlash, faHashtag, faHeart, faIdBadge, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faHashtag, faHeart, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Comment, User } from "../../types/post";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CommentInput } from "./commentinput";
 import { API_URLS } from "../../lib/constants";
 import { useSelector } from "react-redux";
-import { RootState } from "../../lib/store";
+import { RootState, settingsSelector } from "../../lib/store";
+import { languages } from "../../lib/localizationmanager";
 
 function Post(props: {
 	id: string;
@@ -21,8 +20,7 @@ function Post(props: {
 	attachments: string[];
 	likes: number;
 }) {
-	const settings = useContext(Settings);
-	const theme = themes[settings.theme];
+	const settings = useSelector(settingsSelector);
 
 	const token = useSelector((s: RootState) => s.user.token);
 
@@ -30,56 +28,47 @@ function Post(props: {
 	const copyIDIcon = useRef<SVGElement>(null);
 	const sendMessageIcon = useRef<SVGElement>(null);
 
+	const poststrings = languages[settings.language].mainpage.post;
+
 	return (
 		<div
-			className={`${theme.backgroundQuaternary} ${poststyles.post}`}
+			className={`${PostStyles.post}`}
 			style={{
 				borderRadius: 8,
 				minHeight: 100,
 				display: "flex",
 			}}
 		>
-			<div key="contentContainer" style={{ minWidth: 300, width: "100%" }}>
-				<div
-					key="postDataContainer"
-					style={{
-						margin: "6px",
-						width: "calc(100% - 12px)",
-						padding: 4,
-
-						justifyContent: "space-between",
-						borderRadius: 4,
-						boxSizing: "border-box",
-						height: 30,
-						display: "flex",
-						alignItems: "center",
-					}}
-				>
-					<div key="userDetails" style={{ height: "100%", cursor: "pointer", userSelect: "none" }}>
+			<div key="postbody" className={PostStyles.body}>
+				<div key="postdata" className={PostStyles.data}>
+					<div key="userDetails" className={PostStyles.user_details}>
 						<img alt="profilepic" src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
-						<span style={{ fontSize: 20, marginLeft: 5 }} className={theme.textPrimary}>
+						<span style={{ fontSize: 20, marginLeft: 5 }} className={PostStyles.username}>
 							{props.author.username}
 						</span>
 					</div>
 					<div style={{ marginRight: 5, display: "flex" }}>
 						<button
-							style={{ border: "none" }}
 							data-liked={liked}
-							className={`${poststyles.postactioncontainer} ${theme.backgroundTertiary}`}
+							className={`${PostStyles.post_action}`}
 							onClick={() => {
 								setLiked(!liked);
 							}}
-							title="I like this post."
+							title={liked ? poststrings.unlike : poststrings.like}
 						>
-							<span className={`${theme.textSecondary}`}>
-								{props.likes + (liked && !props.isLiked ? 1 : 0)}
-							</span>{" "}
+							<span>{props.likes + (liked && !props.isLiked ? 1 : 0)}</span>{" "}
 							<FontAwesomeIcon icon={faHeart} color={liked ? settings.accentColor : "grey"} />
+						</button>
+						<button className={`${PostStyles.post_action}`} onClick={() => {}} title={poststrings.comment}>
+							<span>{props.comments.length}</span>{" "}
+							<FontAwesomeIcon
+								icon={faComment}
+								color={props.comments.length ? settings.accentColor : "grey"}
+							/>
 						</button>
 						<CopyToClipboard text={props.id}>
 							<button
-								style={{ border: "none" }}
-								className={`${poststyles.postactioncontainer} ${theme.backgroundTertiary}`}
+								className={`${PostStyles.post_action}`}
 								title="Copy Post ID"
 								onClick={() => {
 									copyIDIcon.current?.animate(
@@ -100,23 +89,11 @@ function Post(props: {
 						</CopyToClipboard>
 					</div>
 				</div>
-				<div className={`${theme.textSecondary} ${poststyles.postcontent}`}>{props.content}</div>
+				<div className={`${PostStyles.postcontent}`}>{props.content}</div>
 			</div>
-			<div
-				key="chatContainer"
-				className={`${ChatStyle.chat} ${theme.backgroundTertiary}`}
-				style={{
-					width: "70%",
-					margin: "6px 6px 6px 0px",
-					borderRadius: 8,
-					overflow: "hidden",
-					position: "relative",
-					display: "flex",
-					flexDirection: "column",
-				}}
-			>
+			<div key="commentContainer" className={`${CommentStyles.comment_section}`}>
 				<div
-					className={`${theme.backgroundSecondary} ${theme.textSecondary}`}
+					className={`${CommentStyles.header}`}
 					style={{
 						textAlign: "center",
 						padding: "2px 0px",
@@ -130,17 +107,26 @@ function Post(props: {
 					<div style={{ position: "absolute" }}>
 						{(() => {
 							const elements: ReactElement[] = [];
+
+							if (props.comments.length === 0) {
+								elements.push(
+									<>
+										<div style={{ width: "100%", textAlign: "center" }}>Chat empty</div>
+									</>,
+								);
+								return elements;
+							}
+
 							let lastUser: User | undefined;
 							for (const comment of props.comments) {
 								if (lastUser != comment.author) {
 									elements.push(
 										<div
+											className={CommentStyles.comment}
 											style={{ position: "relative", paddingLeft: 30, minHeight: 30 }}
 											key={comment.id}
 										>
-											<div style={{ fontSize: 14, margin: 0 }} className={`${theme.textPrimary}`}>
-												{comment.author.username}
-											</div>
+											<div className={`${CommentStyles.username}`}>{comment.author.username}</div>
 											<img
 												width={25}
 												height={25}
@@ -153,18 +139,13 @@ function Post(props: {
 												src={comment.author.avatar}
 												alt="Profile Picture"
 											/>
-											<div style={{ fontSize: 11 }} className={`${theme.textSecondary}`}>
-												{comment.content}
-											</div>
+											<div style={{ fontSize: 11 }}>{comment.content}</div>
 										</div>,
 									);
 									lastUser = comment.author;
 								} else {
 									elements.push(
-										<div
-											style={{ paddingLeft: 30, fontSize: 11, paddingBottom: 2 }}
-											className={`${theme.textSecondary}`}
-										>
+										<div style={{ paddingLeft: 30, fontSize: 11, paddingBottom: 2 }}>
 											{comment.content}
 										</div>,
 									);
@@ -175,7 +156,7 @@ function Post(props: {
 					</div>
 				</div>
 				<div
-					className={`${theme.backgroundSecondary}`}
+					className={CommentStyles.comment_box}
 					style={{ width: "100%", bottom: 0, display: "flex", alignItems: "center" }}
 				>
 					<CommentInput
@@ -201,7 +182,6 @@ function Post(props: {
 							width: 24,
 							display: "inline-block",
 							position: "relative",
-							border: "none",
 							background: "transparent",
 						}}
 						title="Send Message"

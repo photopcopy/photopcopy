@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
 import React from "react";
+import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../lib/store";
 
 function Checkbox<items extends string[]>(props: {
 	items: items;
 	default: { [k: number]: true };
 	updated: (current: { [k: number]: boolean }) => void;
 }) {
-	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
+	const settings = useSelector(settingsSelector);
 
 	const map: { [s: number]: boolean } = {};
 	props.items.forEach((_, index) => {
@@ -23,36 +23,22 @@ function Checkbox<items extends string[]>(props: {
 			{props.items.map((value, index) => {
 				return (
 					<div key={index} style={{ display: "flex", marginTop: 4 }} title={value}>
-						<div
+						<button
+							data-selected={current[index]}
 							onClick={() => {
 								current[index] = !current[index];
 								props.updated(current);
 								update(nonce + 1);
 							}}
-							className={theme.backgroundSecondary}
-							style={{
-								position: "relative",
-								cursor: "pointer",
-								display: "inline-block",
-								flexShrink: 0,
-								width: 30,
-								height: 30,
-							}}
+							className={SettingsPageStyles.checkbox}
 						>
 							<div
+								className={SettingsPageStyles.inner}
 								style={{
-									width: current[index] ? "calc(100% - 10px)" : "0%",
-									height: current[index] ? "calc(100% - 10px)" : "0%",
-									opacity: current[index] ? 1 : 0,
-									left: "50%",
-									top: "50%",
 									backgroundColor: settings.accentColor,
-									transform: "translate(-50%, -50%)",
-									position: "absolute",
-									transition: "opacity .2s, width .2s, height .2s",
 								}}
 							/>
-						</div>
+						</button>
 						<div style={{ width: "100%", position: "relative" }}>
 							<div
 								style={{

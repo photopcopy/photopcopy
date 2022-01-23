@@ -1,0 +1,13 @@
+@import "../themes.scss";
+@mixin modal {
+	position: absolute;
+	inset: 50% 0% 0% 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 8px;
+	overflow: hidden;
+	border: none;
+	@include themed(){
+		background-color: t($bg-2);
+		color: t($text);
+	}
+}

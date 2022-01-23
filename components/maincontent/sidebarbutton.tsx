@@ -1,26 +1,14 @@
 import React from "react";
-import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
-import tabstyle from "../../styles/tab.module.css";
+import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
 
 function SidebarButton(props: React.PropsWithChildren<{ onClick: React.MouseEventHandler<HTMLButtonElement> }>) {
-	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
 	return (
 		<button
-			className={`${tabstyle.selectabletab} ${theme.backgroundSecondary} ${theme.textPrimary}`}
+			className={`${MainSidebarStyles.sidebar_btn}`}
 			onClick={props.onClick}
 			style={{
-				cursor: "pointer",
-				padding: 0,
-				border: "none",
 				marginBottom: 4,
-				width: "100%",
-				height: 35,
-				fontSize: 23,
 				textAlign: "left",
-				display: "flex",
-				alignItems: "center",
 			}}
 		>
 			{props.children}

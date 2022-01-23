@@ -1,0 +1,46 @@
+@import "./themes.scss";
+
+@media screen and (max-width: 900px) and (min-width: 750px) {
+    .comment_section {
+        display: none
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .comment_section {
+        display: none
+    }
+}
+
+.comment_section {
+    @include themed(){
+        background-color: t($bg-2);
+        .header {
+            color: t($text);
+            background-color: t($bg-3);
+        }
+        .comment_box {
+            background-color: t($bg-3);            
+        }
+    }
+    &, .header {
+        border-radius: 8px;
+    }
+    width: 70%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment {
+    @include themed(){
+        .username {
+            font-size: 14px;
+            margin: 0px;
+            color: t($text);
+        }
+        font-size: 11px;
+        color: t($text-2);
+    }
+}

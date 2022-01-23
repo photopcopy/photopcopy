@@ -1,0 +1,18 @@
+@import "./themes.scss";
+@import "./util.scss";
+
+//global css bullshit
+.body {
+	@include scroll;
+	&[data-theme=dark] {
+		background-color: $dark-bg-0;
+	}
+	&[data-theme=light] {
+		background-color: $light-bg-0;
+	}
+	font-family: "SF Mono", "Roboto", sans-serif;
+	display: flex;
+	justify-content: center;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");

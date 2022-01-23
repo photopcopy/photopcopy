@@ -1,0 +1,66 @@
+@import "./themes.scss";
+@import "./util.scss";
+
+.postcontent {
+	padding: 10px;
+	white-space: pre-wrap
+}
+
+.post {
+	@include themed(){
+		background-color: t($bg-1);
+		color: t($text-2)
+	}
+	margin-bottom: 5px;
+
+	.body {
+		min-width: 300;
+		width: 100%;
+
+		.data {
+			margin: 6px;
+			width: 100%;
+			padding: 4;
+			justify-content: space-between;
+			border-radius: 4;
+			height: 30;
+			display: flex;
+			align-items: center;
+			
+			.user_details {
+				img {
+					width: 30px;
+				}
+
+				height: 100%;
+				cursor: pointer;
+				user-select: none;
+			
+				@include themed(){
+					.username {
+						color: t($text)
+					}
+				}
+			}
+		}
+	}
+}
+
+.post_action {
+	@include button-shadow;
+	padding: 6px;
+	margin-left: 4px;
+	cursor: pointer;
+	border-radius: 4px;
+	z-index: 0;
+	&>svg {
+		transition: color .5s ease-out
+	}
+
+	@include themed(){
+		background-color: t($bg-2);
+		span {
+			color: t($text-2)
+		}
+	}
+}

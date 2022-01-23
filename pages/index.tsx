@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { ISettings, Settings } from "../lib/settings";
 import themes from "../lib/themes";
+import MainContentStyles from "../styles/maincontent.module.scss";
+
 import { PostContainer } from "../components/maincontent/postcontainer";
 
 import { NoScript } from "../components/noscript";
-import { SidebarLeft } from "../components/maincontent/sidebarleft";
+import { MainSidebar } from "../components/maincontent/mainsidebar";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AppStore, closePopup, RootState } from "../lib/store";
+import { AppStore, closePopup, hideSidebar, RootState, settingsSelector, showSidebar } from "../lib/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import IndexPageStyles from "../styles/index.module.scss";
 
 function PopupContainer() {
 	const popups = useSelector((state: RootState) => state.popups);
@@ -19,9 +24,13 @@ function PopupContainer() {
 		if (popups[key].isOpen) {
 			shouldShowOverlay = true;
 		}
-		return popups[key].renderer(() => {
-			dispatch(closePopup(key));
-		}, popups[key].isOpen);
+		return popups[key].renderer(
+			() => {
+				dispatch(closePopup(key));
+			},
+			popups[key].isOpen,
+			popups[key].state,
+		);
 	});
 
 	return (
@@ -31,9 +40,10 @@ function PopupContainer() {
 					width: "100%",
 					height: "100%",
 					position: "fixed",
+					zIndex: 1,
 					top: 0,
 					pointerEvents: shouldShowOverlay ? "unset" : "none",
-					backdropFilter: shouldShowOverlay ? "blur(5px)" : "blur(0px)",
+					backdropFilter: shouldShowOverlay ? "blur(3px)" : "blur(0px)",
 					transition: "backdrop-filter .5s",
 				}}
 			/>
@@ -42,36 +52,63 @@ function PopupContainer() {
 	);
 }
 
+function Topbar() {
+	const settings = useSelector(settingsSelector);
+	const dispatch = useDispatch();
+	const sidebarOpen = useSelector((state: RootState) => {
+		return state.ui.sidebarOpen;
+	});
+	return (
+		<header
+			className={`${MainContentStyles.topbar}`}
+			style={{ fontSize: 30, color: settings.accentColor, alignItems: "center" }}
+		>
+			<button
+				className={`${MainContentStyles.sidebar_btn}`}
+				onClick={() => {
+					if (sidebarOpen) {
+						dispatch(hideSidebar());
+					} else {
+						dispatch(showSidebar());
+					}
+				}}
+			>
+				<FontAwesomeIcon
+					style={{
+						width: 25,
+						height: 25,
+						transition: "transform .5s",
+					}}
+					icon={sidebarOpen ? faTimes : faBars}
+					color={settings.accentColor}
+				/>
+			</button>
+			Photopcopy
+		</header>
+	);
+	return <></>;
+}
+
 // this needs to use redux, too lazy tho
 
 function App() {
-	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
+	const settings = useSelector(settingsSelector);
 
 	useEffect(() => {
-		const body = document.querySelector("body");
+		const body = document.querySelector("body"); //document.body breaks next.js during ssr. really shitty
 		if (body) {
-			body.className = "";
-			body.classList.add(theme.backgroundPrimary);
-			body.classList.add("scroll");
+			body.className = IndexPageStyles.body;
+			body.setAttribute("data-theme", settings.theme);
 		}
-	});
+	}, [settings.theme]);
 
 	return (
 		<>
-			<style jsx global>{`
-				body {
-					font-family: "SF Mono", "Roboto", sans-serif;
-					display: flex;
-					justify-content: center;
-				}
-
-				@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-			`}</style>
 			<Head>
 				<title>Oh baby a triple!</title>
 			</Head>
 			<NoScript />
+			<Topbar />
 			<div
 				key="content"
 				style={{
@@ -80,7 +117,7 @@ function App() {
 					width: "calc(100vw - 8px)", // bandaid fix to whatever shitty fucking exception html throws at me
 				}}
 			>
-				<SidebarLeft />
+				<MainSidebar />
 				<PostContainer />
 			</div>
 			<PopupContainer />
@@ -88,45 +125,11 @@ function App() {
 	);
 }
 
-interface AppWrapperState {
-	settings: ISettings;
-	nonce: number;
-	update: () => void;
-}
-
 function AppWrapper() {
-	const [_, update] = React.useState({});
-	const [settings] = React.useState<ISettings>({
-		theme: "dark",
-		language: "english",
-		accentColor: "#5ab7fa",
-		postTextSize: 30,
-		update() {
-			update({});
-		},
-	});
-
-	useEffect(() => {
-		console.log(
-			`
-	%cPhotopcopy
-	%cStop trying to inspect element and look through source like you're some pro hacker or something.
-		
-	This project is open source. https://github.com/photopcopy/photopcopy. Feel free to contribute! Thx <3 uwu
-		`.trim(),
-			"font-style: italic; font-size: 20px",
-			"font-size: unset",
-		);
-	}, []);
-
-	// TODO(Maybe): Use a more meaning value for token for "not signed in" instead of an empty string.
 	return (
 		<Provider store={AppStore}>
-			<Settings.Provider value={settings}>
-				<App />
-			</Settings.Provider>
+			<App />
 		</Provider>
 	);
 }
-
 export default AppWrapper;
