@@ -59,7 +59,7 @@ function Topbar() {
 		return state.ui.sidebarOpen;
 	});
 	return (
-		<div
+		<header
 			className={`${MainContentStyles.topbar}`}
 			style={{ fontSize: 30, color: settings.accentColor, alignItems: "center" }}
 		>
@@ -84,7 +84,7 @@ function Topbar() {
 				/>
 			</button>
 			Photopcopy
-		</div>
+		</header>
 	);
 	return <></>;
 }

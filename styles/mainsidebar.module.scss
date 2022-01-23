@@ -23,7 +23,7 @@
 	.sidebar_maximized {
 		display: none;
 	}
-	.sidebar_tab_group {
+	.sidebar_section {
 		box-shadow: 0 8px 16px rgb(0 0 0 / 44%);
 	}
 }
@@ -34,7 +34,7 @@
 }
 
 
-.sidebar_tab_group {
+.sidebar_section {
 	@include themed(){
 		background-color: t($bg-1);
 	}

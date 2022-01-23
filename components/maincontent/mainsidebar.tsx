@@ -1,17 +1,7 @@
-import {
-	faHome,
-	faSync,
-	faPlus,
-	faCog,
-	faBell,
-	faSignOutAlt,
-	faSearch,
-	faSignInAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faSync, faPlus, faCog, faBell, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { languages } from "../../lib/localizationmanager";
-import { Settings } from "../../lib/settings";
 import themes from "../../lib/themes";
 import { SidebarButton } from "./sidebarbutton";
 import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
@@ -29,15 +19,10 @@ export function MainSidebar() {
 	const dispatch = useDispatch();
 
 	return (
-		<div key="sidebarLeft" className={`${MainSidebarStyles.sidebar}`} style={{ marginRight: 4 }}>
-			{/* 
-				We want to make the sidebar be "sticky"
-				But it does not work. So we use "fixed" instead.	
-				This is what twitter uses. It's not a perfect solution and it's finnicky, but it does the trick.
-			*/}
+		<aside key="sidebarLeft" className={`${MainSidebarStyles.sidebar}`} style={{ marginRight: 4 }}>
 			<div className={`${MainSidebarStyles.sidebar_inner} ${sidebarOpen ? MainSidebarStyles.open : ""}`}>
 				<div
-					className={`${MainSidebarStyles.sidebar_tab_group} ${MainSidebarStyles.sidebar_maximized}`}
+					className={`${MainSidebarStyles.sidebar_section} ${MainSidebarStyles.sidebar_maximized}`}
 					style={{
 						borderWidth: 6,
 						textAlign: "center",
@@ -51,8 +36,8 @@ export function MainSidebar() {
 						<span style={{ fontSize: 40 }}>Photop</span>copy
 					</div>
 				</div>
-				<div
-					className={`${MainSidebarStyles.sidebar_tab_group}`}
+				<section
+					className={`${MainSidebarStyles.sidebar_section}`}
 					style={{
 						marginTop: 4,
 						borderRadius: 4,
@@ -77,10 +62,10 @@ export function MainSidebar() {
 						<FontAwesomeIcon color={settings.accentColor} icon={faSync} />
 						<span>{strings.sidebar.refresh}</span>
 					</SidebarButton>
-				</div>
+				</section>
 
-				<div
-					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_tab_group}`}
+				<section
+					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_section}`}
 					style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 2px 4px" }}
 				>
 					{signedIn ? (
@@ -119,7 +104,7 @@ export function MainSidebar() {
 					) : (
 						<>
 							<div style={{ width: "100%", flexDirection: "column" }}>
-								<label
+								<p
 									className={`${MainSidebarStyles.signin_title}`}
 									style={{
 										padding: 4,
@@ -131,7 +116,7 @@ export function MainSidebar() {
 								>
 									You need a Photopcopy account in order to do cool stuff like posting or
 									personalizing!
-								</label>
+								</p>
 								<div style={{ display: "flex", marginTop: 3, marginBottom: 3 }}>
 									<button
 										style={{ backgroundColor: settings.accentColor }}
@@ -156,8 +141,8 @@ export function MainSidebar() {
 							</div>
 						</>
 					)}
-				</div>
+				</section>
 			</div>
-		</div>
+		</aside>
 	);
 }

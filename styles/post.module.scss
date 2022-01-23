@@ -28,6 +28,10 @@
 			align-items: center;
 			
 			.user_details {
+				img {
+					width: 30px;
+				}
+
 				height: 100%;
 				cursor: pointer;
 				user-select: none;
