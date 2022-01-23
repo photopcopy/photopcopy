@@ -16,11 +16,11 @@ import themes from "../../lib/themes";
 import { SidebarButton } from "./sidebarbutton";
 import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { hideSidebar, openPopup, RootState, setPosts, signOut } from "../../lib/store";
+import { hideSidebar, openPopup, RootState, setPosts, settingsSelector, signOut } from "../../lib/store";
 import { loadMorePosts } from "../../lib/api";
 
 export function MainSidebar() {
-	const settings = React.useContext(Settings);
+	const settings = useSelector(settingsSelector);
 
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].mainpage;

@@ -1,9 +1,8 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
 import ReactModal from "react-modal";
-import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../lib/store";
 import SignInPageStyles from "../../styles/modals/signinpage.module.scss";
 
 export function SignInPage(props: {
@@ -11,7 +10,7 @@ export function SignInPage(props: {
 	onRequestClose: () => void;
 	state: { page: "signin" | "register" };
 }) {
-	const settings = useContext(Settings);
+	const settings = useSelector(settingsSelector);
 
 	return (
 		<ReactModal

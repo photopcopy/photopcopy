@@ -1,21 +1,18 @@
 // react-infinite-scroll-component is shit but i'm too lazy to implement natively so amazing
 
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMorePosts } from "../../lib/api";
-import { API_URLS } from "../../lib/constants";
 import { Settings } from "../../lib/settings";
-import { addPosts, RootState, setPosts } from "../../lib/store";
+import { addPosts, RootState, setPosts, settingsSelector } from "../../lib/store";
 import themes from "../../lib/themes";
-import { PostData } from "../../types/post";
 import { Post } from "./post";
+import MainContentStyles from "../../styles/maincontent.module.scss";
 
 export function PostContainer() {
 	//const divRef = useRef<HTMLDivElement>(null);
 	const posts = useSelector((state: RootState) => state.ui.posts);
-	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
 
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -36,7 +33,7 @@ export function PostContainer() {
 					});
 				}}
 				hasMore={true}
-				loader={<h4 className={theme.textPrimary}>loadin mor posts ;)</h4>}
+				loader={<h4 className={MainContentStyles.posts_loading_text}>loadin mor posts ;)</h4>}
 				dataLength={posts.length}
 				endMessage={<div>No more :(</div>}
 			>

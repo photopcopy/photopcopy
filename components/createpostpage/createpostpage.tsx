@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import ReactModal from "react-modal";
 
-import themes from "../../lib/themes";
 import { languages } from "../../lib/localizationmanager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Settings } from "../../lib/settings";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../lib/store";
+import CreatePostPageStyles from "../../styles/modals/createpostpage.module.scss";
 
 function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean; state: {} }) {
-	const settings = useContext(Settings);
-	const theme = themes[settings.theme];
+	const settings = useSelector(settingsSelector);
 	const strings = languages[settings.language].createpostpage;
 	return (
 		<ReactModal
@@ -18,35 +18,15 @@ function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean; st
 			closeTimeoutMS={500}
 			onAfterClose={() => {}}
 			ariaHideApp={false}
-			className={`${theme.backgroundSecondary} ${theme.textPrimary}`}
+			className={`${CreatePostPageStyles.page}`}
 			style={{
-				content: {
-					position: "absolute",
-					inset: "50% 0% 0% 50%",
-					transform: "translate(-50%, -50%)",
-					height: "50%",
-					width: "50%",
-					maxWidth: "600px",
-					maxHeight: "400px",
-					minWidth: "350px",
-					minHeight: "200px",
-					borderRadius: 8,
-					overflow: "hidden",
-					display: "flex",
-					flexDirection: "column",
-					border: "none",
-					padding: 0,
-				},
 				overlay: { position: "fixed", inset: 0, backgroundColor: "rgb(0, 0, 0, 0)" },
 			}}
 		>
-			<div
-				key="topbar"
-				className={theme.backgroundTertiary}
+			<header
 				style={{
 					userSelect: "none",
 					width: "100%",
-					height: 60,
 					display: "flex",
 					alignItems: "center",
 					padding: 10,
@@ -63,7 +43,7 @@ function CreatePostPage(props: { onRequestClose: () => void; isOpen: boolean; st
 						icon={faTimes}
 					/>
 				</div>
-			</div>
+			</header>
 			<div key="body" style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}></div>
 		</ReactModal>
 	);

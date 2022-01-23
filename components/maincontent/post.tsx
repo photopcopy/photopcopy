@@ -1,23 +1,14 @@
-import React, { forwardRef, ReactElement, useContext, useEffect, useRef, useState } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import CommentStyles from "../../styles/comment.module.scss";
-import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
 import PostStyles from "../../styles/post.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faComment,
-	faCommentSlash,
-	faHashtag,
-	faHeart,
-	faIdBadge,
-	faPaperPlane,
-} from "@fortawesome/free-solid-svg-icons";
+import { faComment, faHashtag, faHeart, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Comment, User } from "../../types/post";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CommentInput } from "./commentinput";
 import { API_URLS } from "../../lib/constants";
 import { useSelector } from "react-redux";
-import { RootState } from "../../lib/store";
+import { RootState, settingsSelector } from "../../lib/store";
 import { languages } from "../../lib/localizationmanager";
 
 function Post(props: {
@@ -29,7 +20,7 @@ function Post(props: {
 	attachments: string[];
 	likes: number;
 }) {
-	const settings = useContext(Settings);
+	const settings = useSelector(settingsSelector);
 
 	const token = useSelector((s: RootState) => s.user.token);
 
@@ -48,21 +39,8 @@ function Post(props: {
 				display: "flex",
 			}}
 		>
-			<div key="contentContainer" style={{ minWidth: 300, width: "100%" }}>
-				<div
-					key="postDataContainer"
-					style={{
-						margin: "6px",
-						width: "100%",
-						padding: 4,
-
-						justifyContent: "space-between",
-						borderRadius: 4,
-						height: 30,
-						display: "flex",
-						alignItems: "center",
-					}}
-				>
+			<div key="postbody" className={PostStyles.body}>
+				<div key="postdata" className={PostStyles.data}>
 					<div key="userDetails" className={PostStyles.user_details}>
 						<img alt="profilepic" src="./assets/DefaultProfilePic.svg" style={{ height: "100%" }} />
 						<span style={{ fontSize: 20, marginLeft: 5 }} className={PostStyles.username}>
@@ -71,7 +49,6 @@ function Post(props: {
 					</div>
 					<div style={{ marginRight: 5, display: "flex" }}>
 						<button
-							style={{ border: "none" }}
 							data-liked={liked}
 							className={`${PostStyles.post_action}`}
 							onClick={() => {
@@ -82,12 +59,7 @@ function Post(props: {
 							<span>{props.likes + (liked && !props.isLiked ? 1 : 0)}</span>{" "}
 							<FontAwesomeIcon icon={faHeart} color={liked ? settings.accentColor : "grey"} />
 						</button>
-						<button
-							style={{ border: "none" }}
-							className={`${PostStyles.post_action}`}
-							onClick={() => {}}
-							title={poststrings.comment}
-						>
+						<button className={`${PostStyles.post_action}`} onClick={() => {}} title={poststrings.comment}>
 							<span>{props.comments.length}</span>{" "}
 							<FontAwesomeIcon
 								icon={faComment}
@@ -96,7 +68,6 @@ function Post(props: {
 						</button>
 						<CopyToClipboard text={props.id}>
 							<button
-								style={{ border: "none" }}
 								className={`${PostStyles.post_action}`}
 								title="Copy Post ID"
 								onClick={() => {
@@ -211,7 +182,6 @@ function Post(props: {
 							width: 24,
 							display: "inline-block",
 							position: "relative",
-							border: "none",
 							background: "transparent",
 						}}
 						title="Send Message"

@@ -22,3 +22,13 @@
 		position: relative
 	}
 }
+
+@mixin scroll {
+	&::-webkit-scrollbar {
+	  background-color: rgba(0, 0, 0, 0);
+	  width: 5px;
+	}
+	&:-webkit-scrollbar-thumb {
+	  background-color: #444459;
+	}
+  }

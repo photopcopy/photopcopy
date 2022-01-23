@@ -1,32 +1,10 @@
 import React, { ReactElement } from "react";
-import {
-	combineReducers,
-	configureStore,
-	createSlice,
-	createStore,
-	PayloadAction,
-	StoreEnhancer,
-} from "@reduxjs/toolkit";
+import { combineReducers, createSlice, createStore, PayloadAction } from "@reduxjs/toolkit";
 import { CreatePostPage } from "../components/createpostpage/createpostpage";
 import { SettingsPage } from "../components/settingspage/settingspage";
 import { PostData } from "../types/post";
 import { SignInPage } from "../components/signinpage/signinpage";
-
-interface State {
-	sidebarOpen: boolean;
-	token: string;
-	username: string;
-	userid: string;
-	signedIn: boolean;
-}
-
-const defaultState: State = {
-	token: "test_user_token",
-	userid: "test_user",
-	username: "Test_User",
-	signedIn: true,
-	sidebarOpen: false,
-};
+import { languages } from "./localizationmanager";
 
 export const UserSlice = createSlice({
 	name: "UserSlice",
@@ -133,15 +111,57 @@ export const PopupSlice = createSlice({
 	},
 });
 
+interface UserSettings {
+	theme: "dark" | "light";
+	language: keyof typeof languages;
+	accentColor: string;
+	postTextSize: number;
+}
+
+export const UserSettings = createSlice({
+	name: "User Settings",
+	initialState: {
+		theme: "dark",
+		language: "english",
+		accentColor: "#5ab7fa",
+		postTextSize: 20,
+	} as UserSettings,
+	reducers: {
+		updateSettings: (state, { payload: settings }: PayloadAction<Partial<UserSettings>>) => {
+			state = { ...state, ...settings };
+			return state;
+		},
+	},
+});
+
 export const AppStore = createStore(
-	combineReducers({ user: UserSlice.reducer, ui: UISlice.reducer, popups: PopupSlice.reducer }),
+	combineReducers({
+		settings: UserSettings.reducer,
+		user: UserSlice.reducer,
+		ui: UISlice.reducer,
+		popups: PopupSlice.reducer,
+	}),
 );
 
 const { showSidebar, hideSidebar, setPosts, addPosts } = UISlice.actions;
 const { openPopup, closePopup, addPopups } = PopupSlice.actions;
 const { signIn, signOut } = UserSlice.actions;
+const { updateSettings } = UserSettings.actions;
 
-export { showSidebar, hideSidebar, setPosts, addPosts, openPopup, closePopup, addPopups, signIn, signOut };
+export const settingsSelector = (state: RootState) => state.settings;
+
+export {
+	showSidebar,
+	hideSidebar,
+	setPosts,
+	addPosts,
+	openPopup,
+	closePopup,
+	addPopups,
+	signIn,
+	signOut,
+	updateSettings,
+};
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof AppStore.getState>;

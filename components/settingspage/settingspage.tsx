@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
-import { Settings } from "../../lib/settings";
 import { AccentOption } from "./accentoption";
 import { Checkbox } from "./checkbox";
 import { Page } from "./page";
@@ -11,8 +10,8 @@ import themes from "../../lib/themes";
 import { languages } from "../../lib/localizationmanager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import { RootState } from "../../lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, settingsSelector, updateSettings } from "../../lib/store";
 import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
 
 enum PageType {
@@ -24,7 +23,7 @@ enum PageType {
 }
 
 function AccountPage({ current: page }: { current: PageType }) {
-	const settings = useContext(Settings);
+	const settings = useSelector(settingsSelector);
 
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].settingspage;
@@ -53,7 +52,6 @@ function AccountPage({ current: page }: { current: PageType }) {
 							backgroundColor: settings.accentColor,
 							float: "right",
 							margin: 0,
-							border: "none",
 							cursor: "pointer",
 						}}
 					>
@@ -66,7 +64,8 @@ function AccountPage({ current: page }: { current: PageType }) {
 }
 
 function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; state: {} }) {
-	const settings = useContext(Settings);
+	const settings = useSelector(settingsSelector);
+	const dispatch = useDispatch();
 
 	const theme = themes[settings.theme];
 	const strings = languages[settings.language].settingspage;
@@ -78,18 +77,16 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 			closeTimeoutMS={500}
 			onAfterClose={() => {}}
 			ariaHideApp={false}
-			className={`${theme.backgroundSecondary} ${SettingsPageStyles.settingspage} ${theme.textPrimary}`}
+			className={`${SettingsPageStyles.settingspage}`}
 			style={{
 				content: {
-					overflow: "hidden",
-					padding: 0,
+					display: "flex",
+					flexDirection: "column",
 				},
 				overlay: { position: "fixed", inset: 0, backgroundColor: "rgb(0, 0, 0, 0)" },
 			}}
 		>
-			<div
-				key="topbar"
-				className={theme.backgroundTertiary}
+			<header
 				style={{
 					userSelect: "none",
 					width: "100%",
@@ -111,8 +108,8 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 						icon={faTimes}
 					/>
 				</div>
-			</div>
-			<div key="body" style={{ width: "100%", height: "calc(100% - 60px)", display: "flex", overflow: "hidden" }}>
+			</header>
+			<div key="body" style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden" }}>
 				<div
 					key="sidebar"
 					className={theme.backgroundQuaternary}
@@ -185,13 +182,12 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 								updated={(value) => {
 									switch (value) {
 										case 0:
-											settings.theme = "light";
+											dispatch(updateSettings({ theme: "light" }));
 											break;
 										case 1:
-											settings.theme = "dark";
+											dispatch(updateSettings({ theme: "dark" }));
 											break;
 									}
-									settings.update();
 								}}
 							/>
 						</Section>
@@ -211,15 +207,15 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 								items={["Cozy", "Compact"]}
 								default={0}
 								updated={(value) => {
+									// this will be changed in the future
 									switch (value) {
 										case 0:
-											settings.postTextSize = 30;
+											dispatch(updateSettings({ postTextSize: 30 }));
 											break;
 										case 1:
-											settings.postTextSize = 20;
+											dispatch(updateSettings({ postTextSize: 20 }));
 											break;
 									}
-									settings.update();
 								}}
 							/>
 						</Section>
@@ -252,7 +248,6 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 									borderRadius: 4,
 									width: "100%",
 									padding: 4,
-									border: "none",
 									cursor: "pointer",
 								}}
 							>
@@ -271,13 +266,12 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 								updated={(value) => {
 									switch (value) {
 										case 0:
-											settings.language = "english";
+											dispatch(updateSettings({ language: "english" }));
 											break;
 										case 1:
-											settings.language = "retarded";
+											dispatch(updateSettings({ language: "retarded" }));
 											break;
 									}
-									settings.update();
 								}}
 							/>
 						</Section>

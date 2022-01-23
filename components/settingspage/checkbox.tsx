@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { Settings } from "../../lib/settings";
-import themes from "../../lib/themes";
 import React from "react";
 import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../lib/store";
 
 function Checkbox<items extends string[]>(props: {
 	items: items;
 	default: { [k: number]: true };
 	updated: (current: { [k: number]: boolean }) => void;
 }) {
-	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
+	const settings = useSelector(settingsSelector);
 
 	const map: { [s: number]: boolean } = {};
 	props.items.forEach((_, index) => {

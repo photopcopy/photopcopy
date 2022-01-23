@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { Settings } from "../../lib/settings";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../lib/store";
 import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
 
 function RadioSelection(props: { items: string[]; default: number; updated: (current: number) => void }) {
 	const [current, setCurrent] = useState(props.default);
-	const settings = React.useContext(Settings);
+	const settings = useSelector(settingsSelector);
 
 	return (
 		<div>

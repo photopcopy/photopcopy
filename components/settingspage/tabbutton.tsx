@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Settings } from "../../lib/settings";
+import React from "react";
 import { PageTypes } from "./settingspage";
-import themes from "../../lib/themes";
 import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
+import { useSelector } from "react-redux";
+import { settingsSelector } from "../../lib/store";
 
 function TabButton(
 	props: React.PropsWithChildren<{
@@ -11,8 +11,7 @@ function TabButton(
 		current: PageTypes;
 	}>,
 ) {
-	const settings = React.useContext(Settings);
-	const theme = themes[settings.theme];
+	const settings = useSelector(settingsSelector);
 
 	return (
 		<button
