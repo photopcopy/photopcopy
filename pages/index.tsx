@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { ISettings, Settings } from "../lib/settings";
-import themes from "../lib/themes";
 import MainContentStyles from "../styles/maincontent.module.scss";
 
 import { PostContainer } from "../components/maincontent/postcontainer";

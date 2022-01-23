@@ -57,7 +57,9 @@
 	}
 	svg {
 		font-size: 33px;
-		width: 30px !important; // welp this is what i get
+		// https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#:~:text=Only%20use%20!important%20on%20page%2Dspecific%20CSS%20that%20overrides%20foreign%20CSS%20(from%20external%20libraries%2C%20like%20Bootstrap%20or%20normalize.css).
+		// stfu
+		width: 30px !important;
 		height: 30px;
 		padding: 5px;
 	}

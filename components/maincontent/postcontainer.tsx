@@ -4,9 +4,7 @@ import React, { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMorePosts } from "../../lib/api";
-import { Settings } from "../../lib/settings";
-import { addPosts, RootState, setPosts, settingsSelector } from "../../lib/store";
-import themes from "../../lib/themes";
+import { addPosts, RootState, setPosts } from "../../lib/store";
 import { Post } from "./post";
 import MainContentStyles from "../../styles/maincontent.module.scss";
 

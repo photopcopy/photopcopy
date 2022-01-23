@@ -25,7 +25,6 @@ function RadioSelection(props: { items: string[]; default: number; updated: (cur
 								className={SettingsPageStyles.inner}
 								style={{
 									backgroundColor: settings.accentColor,
-									borderRadius: "100%",
 								}}
 							/>
 						</button>

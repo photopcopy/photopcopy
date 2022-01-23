@@ -1,14 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { settingsSelector } from "../../lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { settingsSelector, updateSettings } from "../../lib/store";
+import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
 
 function AccentOption(props: { color: string }) {
+	const dispatch = useDispatch();
 	const settings = useSelector(settingsSelector);
 	return (
 		<button
-			style={{ backgroundColor: props.color, width: 30, height: 30, flexShrink: 0, margin: 2, cursor: "pointer" }}
+			data-selected={settings.accentColor === props.color}
+			className={SettingsPageStyles.accent_option}
+			style={{ backgroundColor: props.color }}
 			onClick={() => {
-				settings.accentColor = props.color;
+				dispatch(updateSettings({ accentColor: props.color }));
 			}}
 		></button>
 	);

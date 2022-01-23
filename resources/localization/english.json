@@ -36,7 +36,8 @@
             "account":{
                 "title": "Account",
                 "username": "Username",
-                "password": "Username"
+                "password": "Password",
+                "token": "Token"
             },
             "theme":{
                 "title": "Theme",

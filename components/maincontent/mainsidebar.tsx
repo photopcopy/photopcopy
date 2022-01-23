@@ -2,7 +2,6 @@ import { faHome, faSync, faPlus, faCog, faBell, faSignOutAlt, faSearch } from "@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { languages } from "../../lib/localizationmanager";
-import themes from "../../lib/themes";
 import { SidebarButton } from "./sidebarbutton";
 import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +11,6 @@ import { loadMorePosts } from "../../lib/api";
 export function MainSidebar() {
 	const settings = useSelector(settingsSelector);
 
-	const theme = themes[settings.theme];
 	const strings = languages[settings.language].mainpage;
 
 	const [signedIn, sidebarOpen] = useSelector((state: RootState) => [state.user.signedIn, state.ui.sidebarOpen]);
@@ -37,7 +35,7 @@ export function MainSidebar() {
 					</div>
 				</div>
 				<section
-					className={`${MainSidebarStyles.sidebar_section}`}
+					className={MainSidebarStyles.sidebar_section}
 					style={{
 						marginTop: 4,
 						borderRadius: 4,
@@ -65,7 +63,7 @@ export function MainSidebar() {
 				</section>
 
 				<section
-					className={`${theme.backgroundTertiary} ${MainSidebarStyles.sidebar_section}`}
+					className={MainSidebarStyles.sidebar_section}
 					style={{ marginTop: 4, borderRadius: 4, padding: "4px 4px 2px 4px" }}
 				>
 					{signedIn ? (

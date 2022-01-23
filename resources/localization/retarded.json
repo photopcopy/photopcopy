@@ -36,7 +36,8 @@
             "account":{
                 "title": "Me",
                 "username": "Stupid",
-                "password": "Password"
+                "password": "Password",
+                "token": "Token"
             },
             "theme":{
                 "title": "Look",
