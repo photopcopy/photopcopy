@@ -159,6 +159,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 									strings.sections.embeds.embedYouTube,
 									strings.sections.embeds.embedTwitchStreams,
 									strings.sections.embeds.embedTwitchLiveChat,
+									strings.sections.embeds.embedGIFs,
 									strings.sections.embeds.embedScratch,
 									strings.sections.embeds.embedCodeDotOrg,
 								]}

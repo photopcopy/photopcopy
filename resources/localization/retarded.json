@@ -54,6 +54,7 @@
                 "embedTwitchStreams": "The square below the square at the top",
                 "embedTwitchLiveChat": "The square in the middle",
                 "embedScratch": "The square below the square in the middle",
+                "embedGIFs": "The Penultimate Square",
                 "embedCodeDotOrg": "The Final Square"
             },
             "textSize": {

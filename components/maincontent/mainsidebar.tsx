@@ -110,6 +110,7 @@ export function MainSidebar() {
 										userSelect: "none",
 										display: "block",
 										borderRadius: 4,
+										margin: 0,
 									}}
 								>
 									You need a Photopcopy account in order to do cool stuff like posting or

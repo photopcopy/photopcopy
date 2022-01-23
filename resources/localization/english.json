@@ -53,6 +53,7 @@
                 "embedYouTube": "Embed YouTube Videos",
                 "embedTwitchStreams": "Embed Twitch Streams",
                 "embedTwitchLiveChat": "Embed Twitch Live Chat",
+                "embedGIFs": "Embed GIFs",
                 "embedScratch": "Embed Scratch Games",
                 "embedCodeDotOrg": "Embed code.org Projects"
             },

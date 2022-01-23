@@ -1,21 +1,25 @@
 @import "../themes.scss";
 @import "./modals.scss";
 
-.signinpage {
+.signinmenu {
 	@include modal;
 	@include themed() {
 		color: t($text);
 		background-color: t($bg-1),
 	}
-	height: 50%;
-	width: 30%;
-	max-width: 300px;
-	max-height: 400px;
-	min-width: 300px;
-	min-height: 200px;
+
+	transition: height .5s;
+
+	width: 300px;
+	height: 320px;
 }
 
-.signinpage .closebtn {
+.register {
+	width: 350px;
+	height: 430px;		
+}
+
+.closebtn {
 	@include themed(){
 		color: t($text)
 	}
@@ -25,23 +29,25 @@
 	border: none;
 	background-color: transparent;
 	position: absolute;
+	top: 10px;
 	right: 0px;
 	transform: translateX(-50%);
 	padding: 0px;
 }
 
-.signinpage input {
+.signinmenu input {
 	@include themed(){
 		background-color: t($bg-2);
 		color: t($text)
 	}
+	border-radius: 4px;
 	border: none;
 	padding: 5px;
-	font-size: 15px;
-	margin-bottom: 10px;
+	font-size: 20px;
+	margin: 5px 0px;
 }
 
-.signinpage p {
+.signinmenu p {
 	@include themed(){
 		color: t($text-2);
 	}
@@ -62,5 +68,25 @@
 .secondarybtn {
 	@include themed(){
 		background-color: t($bg-2);
+	}
+}
+
+$container-padding: 10px;
+
+.container {
+	height: 100%;
+	width: 100%;
+    position: absolute;
+    padding: $container-padding;
+    transition: left .5s;
+    display: flex;
+    flex-direction: column;
+	> footer {
+		position: absolute;
+		bottom: $container-padding;
+		width: calc(100% - $container-padding * 2);
+		display: flex;
+		justify-content: center;
+		margin-top: 4px;
 	}
 }
