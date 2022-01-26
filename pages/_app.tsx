@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useEffect } from "react";
 import "../styles/global.scss";
 
@@ -14,6 +15,13 @@ This project is open source. https://github.com/photopcopy/photopcopy. Feel free
 			"font-size: unset",
 		);
 	}, []);
-	return <Component {...pageProps} />;
+	return (
+		<>
+			<Head>
+				<link rel="manifest" href="./manifest.json" />
+			</Head>
+			<Component {...pageProps} />
+		</>
+	);
 }
 export default Wrapper;

@@ -40,9 +40,9 @@
                 "token": "Token"
             },
             "theme":{
-                "title": "Look",
-                "lightMode": "White",
-                "darkMode": "Black"
+                "title": "Race",
+                "lightMode": "White people",
+                "darkMode": "African"
             },
             "accentColor": {
                 "title": "Skittles"
@@ -53,19 +53,21 @@
                 "embedYouTube": "The square at the top",
                 "embedTwitchStreams": "The square below the square at the top",
                 "embedTwitchLiveChat": "The square in the middle",
-                "embedScratch": "The square below the square in the middle",
-                "embedGIFs": "The Penultimate Square",
+                "embedGIFs": "The square below the square in the middle",
+                "embedScratch": "The Penultimate Square",
                 "embedCodeDotOrg": "The Final Square"
             },
             "textSize": {
-                "title": "Text Size",
-                "postTextSize": "Post Text Size"
+                "title": "Cock Size",
+                "postTextSize": "Post Text Size",
+                "cozy": "The size of my cock",
+                "compact": "The size of your cock"
             },
             "blockedUsers": {
                 "title": "Go away"
             },
             "activeSessions":{
-                "title": "History",
+                "title": "Search    History",
                 "signOutAll": "Clear search history"
             },
             "language":{

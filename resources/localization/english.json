@@ -59,7 +59,9 @@
             },
             "textSize": {
                 "title": "Text Size",
-                "postTextSize": "Post Text Size"
+                "postTextSize": "Post Text Size",
+                "cozy": "Cozy",
+                "compact": "Compact"
             },
             "blockedUsers": {
                 "title": "Blocked Users"

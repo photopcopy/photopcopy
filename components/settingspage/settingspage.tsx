@@ -135,7 +135,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 						<Section title={strings.sections.textSize.title}>
 							<span className={SettingsPageStyles.description}>Does not work yet lol</span>
 							<RadioSelection
-								items={["Cozy", "Compact"]}
+								items={[strings.sections.textSize.cozy, strings.sections.textSize.compact]}
 								default={0}
 								updated={(value) => {
 									// this will be changed in the future
