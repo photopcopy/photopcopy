@@ -124,7 +124,7 @@
 
 .sidebar_tab {
     &[data-selected=false] {
-        @include button-shadow;
+        @include button-shadow(true, false);
     }
     user-select: none;
     width: 100%;
