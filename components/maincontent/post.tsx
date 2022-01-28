@@ -4,12 +4,13 @@ import PostStyles from "../../styles/post.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHashtag, faHeart, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Comment, User } from "../../types/post";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import copy from "copy-to-clipboard";
 import { CommentInput } from "./commentinput";
 import { API_URLS } from "../../lib/constants";
 import { useSelector } from "react-redux";
 import { RootState, settingsSelector } from "../../lib/store";
 import { languages } from "../../lib/localizationmanager";
+import { Tooltip } from "@mui/material";
 
 function Post(props: {
 	id: string;
@@ -47,30 +48,33 @@ function Post(props: {
 							{props.author.username}
 						</span>
 					</div>
-					<div style={{ marginRight: 5, display: "flex" }}>
-						<button
-							data-liked={liked}
-							className={`${PostStyles.post_action}`}
-							onClick={() => {
-								setLiked(!liked);
-							}}
-							title={liked ? poststrings.unlike : poststrings.like}
-						>
-							<span>{props.likes + (liked && !props.isLiked ? 1 : 0)}</span>{" "}
-							<FontAwesomeIcon icon={faHeart} color={liked ? settings.accentColor : "grey"} />
-						</button>
-						<button className={`${PostStyles.post_action}`} onClick={() => {}} title={poststrings.comment}>
-							<span>{props.comments.length}</span>{" "}
-							<FontAwesomeIcon
-								icon={faComment}
-								color={props.comments.length ? settings.accentColor : "grey"}
-							/>
-						</button>
-						<CopyToClipboard text={props.id}>
+					<div className={PostStyles.action_bar}>
+						<Tooltip title={liked ? poststrings.unlike : poststrings.like}>
+							<button
+								data-liked={liked}
+								className={`${PostStyles.post_action}`}
+								onClick={() => {
+									setLiked(!liked);
+								}}
+							>
+								<span>{props.likes + (liked && !props.isLiked ? 1 : 0)}</span>{" "}
+								<FontAwesomeIcon icon={faHeart} color={liked ? settings.accentColor : "grey"} />
+							</button>
+						</Tooltip>
+						<Tooltip title={poststrings.comment}>
+							<button className={`${PostStyles.post_action}`} onClick={() => {}}>
+								<span>{props.comments.length}</span>{" "}
+								<FontAwesomeIcon
+									icon={faComment}
+									color={props.comments.length ? settings.accentColor : "grey"}
+								/>
+							</button>
+						</Tooltip>
+						<Tooltip title="Copy Post ID">
 							<button
 								className={`${PostStyles.post_action}`}
-								title="Copy Post ID"
 								onClick={() => {
+									copy(props.id);
 									copyIDIcon.current?.animate(
 										[
 											{
@@ -86,7 +90,7 @@ function Post(props: {
 							>
 								<FontAwesomeIcon forwardedRef={copyIDIcon} icon={faHashtag} color="grey" />
 							</button>
-						</CopyToClipboard>
+						</Tooltip>
 					</div>
 				</div>
 				<div className={`${PostStyles.postcontent}`}>{props.content}</div>
@@ -111,7 +115,9 @@ function Post(props: {
 							if (props.comments.length === 0) {
 								elements.push(
 									<>
-										<div style={{ width: "100%", textAlign: "center" }}>Chat empty</div>
+										<div key="bruh" style={{ width: "100%", textAlign: "center" }}>
+											Chat empty
+										</div>
 									</>,
 								);
 								return elements;
@@ -145,7 +151,10 @@ function Post(props: {
 									lastUser = comment.author;
 								} else {
 									elements.push(
-										<div style={{ paddingLeft: 30, fontSize: 11, paddingBottom: 2 }}>
+										<div
+											key={comment.id}
+											style={{ paddingLeft: 30, fontSize: 11, paddingBottom: 2 }}
+										>
 											{comment.content}
 										</div>,
 									);

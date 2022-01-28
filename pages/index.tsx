@@ -7,9 +7,9 @@ import { PostContainer } from "../components/maincontent/postcontainer";
 import { NoScript } from "../components/noscript";
 import { MainSidebar } from "../components/maincontent/mainsidebar";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AppStore, closePopup, hideSidebar, RootState, settingsSelector, showSidebar } from "../lib/store";
+import { AppStore, closePopup, RootState, settingsSelector, showSidebar } from "../lib/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import IndexPageStyles from "../styles/index.module.scss";
 
 function PopupContainer() {
@@ -22,12 +22,16 @@ function PopupContainer() {
 		if (popups[key].isOpen) {
 			shouldShowOverlay = true;
 		}
-		return popups[key].renderer(
-			() => {
-				dispatch(closePopup(key));
-			},
-			popups[key].isOpen,
-			popups[key].state,
+		return (
+			<React.Fragment key={key}>
+				{popups[key].renderer(
+					() => {
+						dispatch(closePopup(key));
+					},
+					popups[key].isOpen,
+					popups[key].state,
+				)}
+			</React.Fragment>
 		);
 	});
 
@@ -53,9 +57,7 @@ function PopupContainer() {
 function Topbar() {
 	const settings = useSelector(settingsSelector);
 	const dispatch = useDispatch();
-	const sidebarOpen = useSelector((state: RootState) => {
-		return state.ui.sidebarOpen;
-	});
+
 	return (
 		<header
 			className={`${MainContentStyles.topbar}`}
@@ -64,11 +66,7 @@ function Topbar() {
 			<button
 				className={`${MainContentStyles.sidebar_btn}`}
 				onClick={() => {
-					if (sidebarOpen) {
-						dispatch(hideSidebar());
-					} else {
-						dispatch(showSidebar());
-					}
+					dispatch(showSidebar());
 				}}
 			>
 				<FontAwesomeIcon
@@ -77,7 +75,7 @@ function Topbar() {
 						height: 25,
 						transition: "transform .5s",
 					}}
-					icon={sidebarOpen ? faTimes : faBars}
+					icon={faBars}
 					color={settings.accentColor}
 				/>
 			</button>
@@ -107,6 +105,7 @@ function App() {
 			</Head>
 			<NoScript />
 			<Topbar />
+			<MainSidebar />
 			<div
 				key="content"
 				style={{
@@ -115,7 +114,6 @@ function App() {
 					width: "calc(100vw - 8px)", // bandaid fix to whatever shitty fucking exception html throws at me
 				}}
 			>
-				<MainSidebar />
 				<PostContainer />
 			</div>
 			<PopupContainer />

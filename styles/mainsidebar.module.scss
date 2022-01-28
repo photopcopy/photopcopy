@@ -15,17 +15,38 @@
 		opacity: 1;
 		left: 5px;
 	}
-
 	.sidebar {
-		position: absolute;
+		position: fixed;
+		top: 0px;
+	}
+	.sidebar_inner {
+		height: 100vh;
+		@include themed(){
+			background-color: t($bg-1);
+		}
+	}
+
+	.sidebar_overlay {
+		transition: opacity .5s, visibility .5s;
+		z-index: 1;
+		position: fixed;
+		top: 0px;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.3);
+		visibility: visible;
+		&:not(.open) {
+			opacity: 0;
+			visibility: hidden;
+		}
 	}
 
 	.sidebar_maximized {
 		display: none;
 	}
-	.sidebar_section {
-		box-shadow: 0 8px 16px rgb(0 0 0 / 44%);
-	}
+	// .sidebar_section {
+	// 	box-shadow: 0 8px 16px rgb(0 0 0 / 44%);
+	// }
 }
 
 .sidebar_inner {
@@ -57,9 +78,7 @@
 	}
 	svg {
 		font-size: 33px;
-		// https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#:~:text=Only%20use%20!important%20on%20page%2Dspecific%20CSS%20that%20overrides%20foreign%20CSS%20(from%20external%20libraries%2C%20like%20Bootstrap%20or%20normalize.css).
-		// stfu
-		width: 30px !important;
+		width: 30px !important; // welp this is what i get
 		height: 30px;
 		padding: 5px;
 	}

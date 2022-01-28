@@ -12,7 +12,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, settingsSelector, updateSettings } from "../../lib/store";
 import SettingsPageStyles from "../../styles/modals/settingspage.module.scss";
-import CopyToClipboard from "react-copy-to-clipboard";
+import copy from "copy-to-clipboard";
 
 const enum PageType {
 	Account,
@@ -242,16 +242,17 @@ function AccountPage({ current: page }: { current: PageType }) {
 				</div>
 				<div style={{ display: "flex" }}>
 					<span style={{ marginRight: 4 }}>{strings.sections.account.token}</span>{" "}
-					<CopyToClipboard text={token}>
-						<button
-							className={SettingsPageStyles.edit_btn}
-							style={{
-								backgroundColor: settings.accentColor,
-							}}
-						>
-							Copy
-						</button>
-					</CopyToClipboard>
+					<button
+						onClick={() => {
+							copy(token);
+						}}
+						className={SettingsPageStyles.edit_btn}
+						style={{
+							backgroundColor: settings.accentColor,
+						}}
+					>
+						Copy
+					</button>
 				</div>
 			</Section>
 		</Page>

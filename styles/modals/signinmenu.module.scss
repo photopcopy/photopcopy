@@ -66,6 +66,7 @@
 // }
 
 .secondarybtn {
+	flex-shrink: 2;
 	@include themed(){
 		background-color: t($bg-2);
 	}

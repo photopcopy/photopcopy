@@ -38,7 +38,7 @@ export function SignInPage(props: {
 				}}
 			>
 				<h2 style={{ margin: 0 }}>Sign In</h2>
-				<p>Sign in to Photopcopy. No, you can{"'"}t migrate accounts.</p>
+				<p>Sign in to Photopcopy. Best social media ever.</p>
 				<input placeholder="Username"></input>
 				<input type="password" placeholder="Password"></input>
 
@@ -82,7 +82,7 @@ export function SignInPage(props: {
 					</button>
 				</footer>
 			</form>
-			<div
+			<form
 				className={SignInMenuStyles.container}
 				style={{
 					left: props.state.page === "signin" ? "100%" : 0,
@@ -130,7 +130,7 @@ export function SignInPage(props: {
 						Sign In
 					</button>
 				</footer>
-			</div>
+			</form>
 			<button
 				className={SignInMenuStyles.closebtn}
 				onClick={() => {

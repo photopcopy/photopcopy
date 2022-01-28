@@ -20,13 +20,16 @@
 		.data {
 			margin: 6px;
 			width: 100%;
-			padding: 4;
+			padding: 4px;
 			justify-content: space-between;
-			border-radius: 4;
-			height: 30;
+			border-radius: 4px;
+			height: 30px;
 			display: flex;
 			align-items: center;
-			
+			.action_bar {
+				margin-right: 10px;
+				display: flex;
+			}
 			.user_details {
 				img {
 					width: 30px;
