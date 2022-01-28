@@ -123,7 +123,7 @@ function SettingsPage(props: { onRequestClose: () => void; isOpen: boolean; stat
 							/>
 						</Section>
 						<Section title={strings.sections.accentColor.title}>
-							<div style={{ display: "flex" }}>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
 								<AccentOption color="red" />
 								<AccentOption color="orange" />
 								<AccentOption color="yellow" />
