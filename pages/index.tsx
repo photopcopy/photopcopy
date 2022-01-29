@@ -37,18 +37,7 @@ function PopupContainer() {
 
 	return (
 		<>
-			<div
-				style={{
-					width: "100%",
-					height: "100%",
-					position: "fixed",
-					zIndex: 1,
-					top: 0,
-					pointerEvents: shouldShowOverlay ? "unset" : "none",
-					backdropFilter: shouldShowOverlay ? "blur(3px)" : "blur(0px)",
-					transition: "backdrop-filter .5s",
-				}}
-			/>
+			<div className={MainContentStyles.backdrop} data-shown={shouldShowOverlay} />
 			{popupsElements}
 		</>
 	);
@@ -85,47 +74,46 @@ function Topbar() {
 	return <></>;
 }
 
-// this needs to use redux, too lazy tho
-
-function App() {
+// i know you can do this without creating a component but i cant be bothered
+function StoreUpdates() {
 	const settings = useSelector(settingsSelector);
+
+	const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
 
 	useEffect(() => {
 		const body = document.querySelector("body"); //document.body breaks next.js during ssr. really shitty
 		if (body) {
 			body.className = IndexPageStyles.body;
 			body.setAttribute("data-theme", settings.theme);
+			body.setAttribute("data-sidebar-open", sidebarOpen.toString());
 		}
-	}, [settings.theme]);
+	}, [settings.theme, sidebarOpen]);
+	return <></>;
+}
 
+function App() {
 	return (
-		<>
+		<Provider store={AppStore}>
+			<StoreUpdates />
 			<Head>
 				<title>Oh baby a triple!</title>
 			</Head>
 			<NoScript />
 			<Topbar />
-			<MainSidebar />
 			<div
 				key="content"
 				style={{
 					maxWidth: 1100,
 					display: "flex",
-					width: "calc(100vw - 8px)", // bandaid fix to whatever shitty fucking exception html throws at me
+					width: "100vw",
 				}}
 			>
+				<MainSidebar />
 				<PostContainer />
 			</div>
 			<PopupContainer />
-		</>
-	);
-}
-
-function AppWrapper() {
-	return (
-		<Provider store={AppStore}>
-			<App />
 		</Provider>
 	);
 }
-export default AppWrapper;
+
+export default App;

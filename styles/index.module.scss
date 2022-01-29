@@ -10,6 +10,9 @@
 	&[data-theme=light] {
 		background-color: $light-bg-0;
 	}
+	&[data-sidebar-open=true] {
+		overflow: hidden;
+	}
 	font-family: "SF Mono", "Roboto", sans-serif;
 	display: flex;
 	justify-content: center;

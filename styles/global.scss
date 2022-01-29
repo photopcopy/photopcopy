@@ -10,7 +10,6 @@ button {
   border: none;
 }
 
-
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity .5s;
@@ -28,6 +27,7 @@ button {
 
 
 body {
+  overflow-x:hidden;
   margin: 0px;
 }
 

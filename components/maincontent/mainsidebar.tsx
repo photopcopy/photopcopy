@@ -1,6 +1,6 @@
 import { faHome, faSync, faPlus, faCog, faBell, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { languages } from "../../lib/localizationmanager";
 import { SidebarButton } from "./sidebarbutton";
 import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
@@ -16,11 +16,26 @@ export function MainSidebar() {
 	const [signedIn, sidebarOpen] = useSelector((state: RootState) => [state.user.signedIn, state.ui.sidebarOpen]);
 	const dispatch = useDispatch();
 
+	// shitty way to detect dragging the mouse left to get rid of sidebar
+	const [state] = useState({ mouseIsDown: false });
+
 	return (
 		<>
 			<div
 				className={`${MainSidebarStyles.sidebar_overlay} ${sidebarOpen ? MainSidebarStyles.open : ""}`}
-				onClick={() => {
+				onMouseMove={(e) => {
+					if (state.mouseIsDown && e.movementX < -5) {
+						dispatch(hideSidebar());
+					}
+				}}
+				onMouseDown={() => {
+					state.mouseIsDown = true;
+				}}
+				onMouseUp={() => {
+					state.mouseIsDown = false;
+				}}
+				onClick={(e) => {
+					console.log(e);
 					dispatch(hideSidebar());
 				}}
 			/>

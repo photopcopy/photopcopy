@@ -13,24 +13,26 @@ export async function loadMorePosts(last: string | undefined, amount: number): P
 		users: Record<string, User>;
 		posts: any[];
 	};
-	if (process.env.NODE_ENV === "development") {
-		result = {
-			posts: [
+	const p: any = [];
+	for (let i = 0; i < 100; i++) {
+		p.push({
+			id: i.toString(),
+			author: "user1",
+			content: "Testing 1 2 3 4 5\nHello World",
+			comments: [
 				{
-					id: "1",
+					id: "2",
 					author: "user1",
-					content: "Testing 1 2 3 4 5\nHello World",
-					comments: [
-						{
-							id: "2",
-							author: "user1",
-							content: "OKAY",
-						},
-					],
-					isLiked: false,
-					likes: 9,
+					content: "OKAY",
 				},
 			],
+			isLiked: false,
+			likes: 9,
+		});
+	}
+	if (process.env.NODE_ENV === "development") {
+		result = {
+			posts: [...p],
 			users: {
 				user1: {
 					id: "2",

@@ -6,13 +6,12 @@
     }
 }
 
-@media screen and (max-width: 500px) {
-    .comment_section {
-        display: none
-    }
-}
+
 
 .comment_section {
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
     @include themed(){
         background-color: t($bg-2);
         .header {

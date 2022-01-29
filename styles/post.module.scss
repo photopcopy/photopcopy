@@ -2,7 +2,9 @@
 @import "./util.scss";
 
 .postcontent {
-	padding: 10px;
+	max-height: 300px;
+	overflow: hidden;
+	margin: 10px;
 	white-space: pre-wrap
 }
 

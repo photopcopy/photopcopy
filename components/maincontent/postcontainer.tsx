@@ -20,9 +20,9 @@ export function PostContainer() {
 		});
 	}, []);
 
-	//useEffect(() => void loadMore(10).then((newChildren) => setChildren([...children, ...newChildren])), []);
+	//html gets a little fucked up when set to 100% instead of calc'ed
 	return (
-		<div key="postContainer" style={{ width: "100%" }}>
+		<div style={{ width: "100%" }}>
 			<InfiniteScroll
 				next={() => {
 					loadMorePosts(posts[posts.length - 1]?.id, 5).then((newChildren) => {
