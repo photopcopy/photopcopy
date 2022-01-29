@@ -5,7 +5,7 @@ import { languages } from "../../lib/localizationmanager";
 import { SidebarButton } from "./sidebarbutton";
 import MainSidebarStyles from "../../styles/mainsidebar.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { hideSidebar, openPopup, RootState, setPosts, settingsSelector, signOut } from "../../lib/store";
+import { hideSidebar, onPostsAdded, openPopup, RootState, settingsSelector, signOut } from "../../lib/store";
 import { loadMorePosts } from "../../lib/api";
 
 export function MainSidebar() {
@@ -75,7 +75,7 @@ export function MainSidebar() {
 						<SidebarButton
 							onClick={() => {
 								loadMorePosts(undefined, 10).then((newChildren) => {
-									dispatch(setPosts(newChildren));
+									dispatch(onPostsAdded(newChildren));
 								});
 							}}
 						>

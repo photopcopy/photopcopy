@@ -7,10 +7,14 @@ import { PostContainer } from "../components/maincontent/postcontainer";
 import { NoScript } from "../components/noscript";
 import { MainSidebar } from "../components/maincontent/mainsidebar";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AppStore, closePopup, RootState, settingsSelector, showSidebar } from "../lib/store";
+import { onCommentAdded, AppStore, closePopup, RootState, settingsSelector, showSidebar } from "../lib/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import IndexPageStyles from "../styles/index.module.scss";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { API_URLS } from "../lib/constants";
+import { Comment, PostId, UserId } from "../types/post";
+import { SignalR } from "../components/signalr";
 
 function PopupContainer() {
 	const popups = useSelector((state: RootState) => state.popups);
@@ -94,6 +98,7 @@ function StoreUpdates() {
 function App() {
 	return (
 		<Provider store={AppStore}>
+			<SignalR />
 			<StoreUpdates />
 			<Head>
 				<title>Oh baby a triple!</title>

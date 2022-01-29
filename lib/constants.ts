@@ -1,4 +1,7 @@
 export const API_URLS = {
+	// SignalR
+	EventsHub: "/mainhub",
+
 	// GET
 	GetPosts: "/api/getposts",
 

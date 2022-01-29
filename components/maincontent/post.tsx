@@ -24,6 +24,7 @@ function Post(props: {
 	const settings = useSelector(settingsSelector);
 
 	const token = useSelector((s: RootState) => s.user.token);
+	const ui = useSelector((s: RootState) => s.ui);
 
 	const [liked, setLiked] = useState<boolean>(props.isLiked);
 	const copyIDIcon = useRef<SVGElement>(null);
@@ -123,16 +124,20 @@ function Post(props: {
 								return elements;
 							}
 
-							let lastUser: User | undefined;
+							let lastUser: string | undefined;
 							for (const comment of props.comments) {
 								if (lastUser != comment.author) {
+									console.log(ui.users);
+									console.log(comment.author);
+									const u = ui.users[comment.author];
+									console.log("why", u);
 									elements.push(
 										<div
 											className={CommentStyles.comment}
 											style={{ position: "relative", paddingLeft: 30, minHeight: 30 }}
 											key={comment.id}
 										>
-											<div className={`${CommentStyles.username}`}>{comment.author.username}</div>
+											<div className={`${CommentStyles.username}`}>{u.username}</div>
 											<img
 												width={25}
 												height={25}
@@ -142,7 +147,7 @@ function Post(props: {
 													transform: "translate(-50%, -50%)",
 													position: "absolute",
 												}}
-												src={comment.author.avatar}
+												src={u.avatar}
 												alt="Profile Picture"
 											/>
 											<div style={{ fontSize: 11 }}>{comment.content}</div>

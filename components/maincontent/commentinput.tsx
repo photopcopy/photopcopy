@@ -15,7 +15,7 @@ const CommentInput = React.forwardRef<HTMLTextAreaElement, { submitMessage: (msg
 			<TextareaAutosize
 				ref={ref}
 				onKeyPress={(event) => {
-					if (event.key === "Enter") {
+					if (event.key === "Enter" && textareaValue !== "") {
 						submitMessage(textareaValue);
 						setTextareaValue("");
 						event.preventDefault();
