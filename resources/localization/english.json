@@ -36,7 +36,8 @@
             "account":{
                 "title": "Account",
                 "username": "Username",
-                "password": "Username"
+                "password": "Password",
+                "token": "Token"
             },
             "theme":{
                 "title": "Theme",
@@ -52,12 +53,15 @@
                 "embedYouTube": "Embed YouTube Videos",
                 "embedTwitchStreams": "Embed Twitch Streams",
                 "embedTwitchLiveChat": "Embed Twitch Live Chat",
+                "embedGIFs": "Embed GIFs",
                 "embedScratch": "Embed Scratch Games",
                 "embedCodeDotOrg": "Embed code.org Projects"
             },
             "textSize": {
                 "title": "Text Size",
-                "postTextSize": "Post Text Size"
+                "postTextSize": "Post Text Size",
+                "cozy": "Cozy",
+                "compact": "Compact"
             },
             "blockedUsers": {
                 "title": "Blocked Users"

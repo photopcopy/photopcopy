@@ -18,6 +18,8 @@ function Checkbox<items extends string[]>(props: {
 
 	const [current, setCurrent] = useState(map);
 	const [nonce, update] = useState(0);
+
+	// TODO: if possible make this use <input>
 	return (
 		<div>
 			{props.items.map((value, index) => {

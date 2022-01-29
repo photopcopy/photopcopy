@@ -2,9 +2,9 @@ import React, { ReactElement } from "react";
 import { combineReducers, createSlice, createStore, PayloadAction } from "@reduxjs/toolkit";
 import { CreatePostPage } from "../components/createpostpage/createpostpage";
 import { SettingsPage } from "../components/settingspage/settingspage";
-import { PostData } from "../types/post";
 import { SignInPage } from "../components/signinpage/signinpage";
 import { languages } from "./localizationmanager";
+import { UISlice } from "./uislice";
 
 export const UserSlice = createSlice({
 	name: "UserSlice",
@@ -26,27 +26,6 @@ export const UserSlice = createSlice({
 			state.username = username;
 			state.userid = userid;
 			state.token = token;
-			return state;
-		},
-	},
-});
-
-export const UISlice = createSlice({
-	name: "ui slice",
-	initialState: { sidebarOpen: false, posts: [] as PostData[] },
-	reducers: {
-		setPosts(state, { payload }: PayloadAction<PostData[]>) {
-			state.posts = payload;
-		},
-		addPosts(state, { payload }: PayloadAction<PostData[]>) {
-			state.posts = state.posts.concat(payload);
-		},
-		showSidebar(state) {
-			state.sidebarOpen = true;
-			return state;
-		},
-		hideSidebar(state) {
-			state.sidebarOpen = false;
 			return state;
 		},
 	},
@@ -143,7 +122,7 @@ export const AppStore = createStore(
 	}),
 );
 
-const { showSidebar, hideSidebar, setPosts, addPosts } = UISlice.actions;
+const { showSidebar, hideSidebar, onPostsAdded, onCommentAdded } = UISlice.actions;
 const { openPopup, closePopup, addPopups } = PopupSlice.actions;
 const { signIn, signOut } = UserSlice.actions;
 const { updateSettings } = UserSettings.actions;
@@ -153,14 +132,14 @@ export const settingsSelector = (state: RootState) => state.settings;
 export {
 	showSidebar,
 	hideSidebar,
-	setPosts,
-	addPosts,
+	onPostsAdded,
 	openPopup,
 	closePopup,
 	addPopups,
 	signIn,
 	signOut,
 	updateSettings,
+	onCommentAdded,
 };
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -10,14 +10,38 @@
     min-width: min(450px, 100vw);
     max-height: 400px;
     min-height: 200px;
-	@include themed(){
-		background-color: t($bg-3);
-		> header {
-			height: 60px;
-			background-color: t($bg-2);
-	
-		}
-	}
+
+    @include themed() {
+        background-color: t($bg-3);
+
+        >header {
+            height: 60px;
+            background-color: t($bg-2);
+            user-select: none;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            font-size: 40px;
+        }
+
+        >.body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+
+            >aside {
+                background-color: t($bg-1);
+                min-width: 150px;
+                width: 150px;
+                padding: 5px;
+                border-top-right-radius: 8px;
+                height: 100%;
+            }
+        }
+    }
 }
 
 .section {
@@ -33,6 +57,36 @@
     h1 {
         margin: 0px 0px 4px 0px
     }
+
+    .description {
+        font-size: 12;
+
+        @include themed() {
+            color: t($text-2)
+        }
+    }
+}
+
+.signout_btn {
+    @include themed() {
+        color: t($text-i)
+    }
+
+    border-radius: 4px;
+    width: 100%;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.edit_btn {
+    @include themed() {
+        color: t($text-i)
+    }
+
+    border-radius: 2px;
+    float: right;
+    margin: 0px;
+    cursor: pointer;
 }
 
 .options_page {
@@ -55,7 +109,7 @@
     padding: 8px;
     overflow: auto;
 
-    > div {
+    >div {
         @include themed() {
             background-color: t($bg-2);
         }
@@ -70,9 +124,9 @@
 
 .sidebar_tab {
     &[data-selected=false] {
-        @include button-shadow;
+        @include button-shadow(true, false);
     }
-
+    user-select: none;
     width: 100%;
     height: 30px;
     font-size: 20px;
@@ -90,7 +144,7 @@
 
 $option-size: 30px;
 
-@mixin option {
+@mixin option($use-transition: true) {
     width: $option-size;
     height: $option-size;
 
@@ -108,11 +162,41 @@ $option-size: 30px;
         .inner {
             opacity: 0;
         }
+
+        &:hover {
+            padding: calc($option-size / 2 - 5px);
+
+            .inner {
+                opacity: 0.3;
+            }
+        }
     }
 
-    transition: padding .2s;
-    flex-shrink: 0;
+    @if $use-transition {
+        transition: padding .2s;
+    }
 
+    flex-shrink: 0;
+}
+
+.accent_option {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0px;
+
+    &[data-selected=true] {
+        border: 0px;
+    }
+
+    @include themed() {
+        &[data-selected=false] {
+            border: solid 3px t($bg-1);
+        }
+    }
 }
 
 .radio_select {
@@ -131,9 +215,32 @@ $option-size: 30px;
     @include themed() {
         background-color: t($bg-2);
     }
+
+    border-radius: 10%;
+
+    &[data-selected=true] {
+
+        .inner {
+            transform: rotate(90deg);
+        }
+
+        &:hover {
+            padding: 6px;
+
+            .inner {
+                opacity: 0.7;
+            }
+        }
+    }
+
+
+    .inner {
+        transition: opacity .2s, transform 0.5s;
+    }
 }
 
 .inner {
+    border-radius: inherit;
     width: 100%;
     height: 100%;
     transition: opacity .2s

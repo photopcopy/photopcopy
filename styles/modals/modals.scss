@@ -1,5 +1,6 @@
 @import "../themes.scss";
 @mixin modal {
+	outline: none;
 	position: absolute;
 	inset: 50% 0% 0% 50%;
 	transform: translate(-50%, -50%);

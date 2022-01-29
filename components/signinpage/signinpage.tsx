@@ -1,9 +1,9 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactModal from "react-modal";
-import { useSelector } from "react-redux";
-import { settingsSelector } from "../../lib/store";
-import SignInPageStyles from "../../styles/modals/signinpage.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { openPopup, settingsSelector } from "../../lib/store";
+import SignInMenuStyles from "../../styles/modals/signinmenu.module.scss";
 
 export function SignInPage(props: {
 	isOpen: boolean;
@@ -11,6 +11,7 @@ export function SignInPage(props: {
 	state: { page: "signin" | "register" };
 }) {
 	const settings = useSelector(settingsSelector);
+	const dispatch = useDispatch();
 
 	return (
 		<ReactModal
@@ -19,7 +20,7 @@ export function SignInPage(props: {
 			closeTimeoutMS={500}
 			onAfterClose={() => {}}
 			ariaHideApp={false}
-			className={`${SignInPageStyles.signinpage}`}
+			className={`${SignInMenuStyles.signinmenu} ${SignInMenuStyles[props.state.page]}`}
 			style={{
 				content: {
 					display: "flex",
@@ -29,31 +30,29 @@ export function SignInPage(props: {
 			}}
 		>
 			{/* TODO: use localization*/}
-			<div
+			<form
+				action="javascript:void(0);"
+				className={SignInMenuStyles.container}
 				style={{
-					position: "absolute",
-					padding: 10,
-					transition: "left .5s",
-					display: "flex",
-					flexDirection: "column",
-					left: 0,
+					left: props.state.page === "signin" ? 0 : "-100%",
 				}}
 			>
-				<button
-					className={SignInPageStyles.closebtn}
-					onClick={() => {
-						props.onRequestClose();
-					}}
-				>
-					<FontAwesomeIcon icon={faTimes} />
-				</button>
-				<h3 style={{ margin: 0 }}>Sign In</h3>
-				<p>Photopcopy is your happy. You will be happy. You will make Photopcopy account.</p>
+				<h2 style={{ margin: 0 }}>Sign In</h2>
+				<p>Sign in to Photopcopy. Best social media ever.</p>
 				<input placeholder="Username"></input>
 				<input type="password" placeholder="Password"></input>
-				<div style={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+
+				<p style={{ fontSize: 13 }}>
+					Forgot your password? Not my problem. You could try emailing{" "}
+					<a style={{ color: "cyan" }} href="mailto:photopcopy@gmail.com">
+						photopcopy@gmail.com
+					</a>{" "}
+					to see if you can get your account back tho.
+				</p>
+
+				<footer>
 					<button
-						className={SignInPageStyles.primarybtn}
+						className={SignInMenuStyles.primarybtn}
 						key="SignInPage"
 						style={{
 							backgroundColor: settings.accentColor,
@@ -65,15 +64,81 @@ export function SignInPage(props: {
 						Sign In
 					</button>
 					<button
-						className={SignInPageStyles.secondarybtn}
+						className={SignInMenuStyles.secondarybtn}
 						key="Register"
 						style={{ width: "100%", marginLeft: 4, borderRadius: 4 }}
+						onClick={() => {
+							dispatch(
+								openPopup({
+									name: "SignInMenu",
+									state: {
+										page: "register",
+									},
+								}),
+							);
+						}}
 					>
 						Register
 					</button>
-				</div>
-			</div>
-			<div style={{ position: "absolute", transition: "left .5s", left: 0 }}></div>
+				</footer>
+			</form>
+			<form
+				className={SignInMenuStyles.container}
+				style={{
+					left: props.state.page === "signin" ? "100%" : 0,
+				}}
+			>
+				<h2 style={{ margin: 0 }}>Register</h2>
+				<p style={{ marginBottom: 20 }}>
+					Photopcopy is your happy. You will be happy. You will make Photopcopy account.
+				</p>
+				<input placeholder="Username"></input>
+				<input type="password" placeholder="Password"></input>
+				<input type="password" placeholder="Confirm Password"></input>
+				<input placeholder="Email (Optional)"></input>
+				<p style={{ fontSize: 13 }}>
+					Privacy good. Email bad. We no bad like Photop and we won{"'"}t require your email.
+				</p>
+				<footer>
+					<button
+						className={SignInMenuStyles.primarybtn}
+						key="SignInPage"
+						style={{
+							backgroundColor: settings.accentColor,
+							width: "100%",
+							marginRight: 4,
+							borderRadius: 4,
+						}}
+					>
+						Register
+					</button>
+					<button
+						className={SignInMenuStyles.secondarybtn}
+						key="Register"
+						style={{ width: "100%", marginLeft: 4, borderRadius: 4 }}
+						onClick={() => {
+							dispatch(
+								openPopup({
+									name: "SignInMenu",
+									state: {
+										page: "signin",
+									},
+								}),
+							);
+						}}
+					>
+						Sign In
+					</button>
+				</footer>
+			</form>
+			<button
+				className={SignInMenuStyles.closebtn}
+				onClick={() => {
+					props.onRequestClose();
+				}}
+			>
+				<FontAwesomeIcon icon={faTimes} />
+			</button>
 		</ReactModal>
 	);
 }

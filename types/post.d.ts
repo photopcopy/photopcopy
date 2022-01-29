@@ -1,22 +1,35 @@
-interface Comment {
-	id: string;
-	author: User;
-	content: string;
-}
+type UserId = string;
+type PostId = string;
+type GroupId = string;
+type CommentId = string;
 
+interface Comment {
+	id: CommentId;
+	author: UserId;
+	content: string;
+	replyOf?: CommentId;
+}
 interface User {
-	id: string;
+	id: UserId;
 	username: string;
 	avatar: string;
 }
-interface PostData {
-	id: string;
-	author: User;
+
+interface Group {
+	id: GroupId;
+	name: string;
+	posts: PostId[];
+	members: UserId[];
+}
+interface Post {
+	id: PostId;
+	author: UserId;
+	group: GroupId;
 	content: string;
 	attachments: string[]; // in the form of url
-	comments: Comment[];
+	comments: CommentId[];
 	isLiked: boolean;
 	likes: number;
 }
 
-export type { Comment, User, PostData };
+export type { UserId, PostId, GroupId, CommentId, Comment, User, Post, Group };

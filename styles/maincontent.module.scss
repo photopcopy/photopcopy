@@ -6,6 +6,25 @@
 	}
 }
 
+.backdrop {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 1;
+	background: rgba(0,0,0,0);
+	top: 0px;
+	&[data-shown=false] {
+		pointer-events: none;
+	}
+	&[data-shown=true] {
+		backdrop-filter: blur(3px);
+		-webkit-backdrop-filter: blur(3px);
+	}
+	-webkit-backdrop-filter: blur(0px);
+	backdrop-filter: blur(0px);
+	transition: backdrop-filter .5s;
+}
+
 .topbar {
 	z-index: 1;
 	top: -1px; /* It sort of pokes out with like a pixel while testing for 0px so i move it up a bit */
@@ -23,6 +42,7 @@
 		}
 	}
 	.sidebar_btn {
+		justify-content: center;
 		display: flex;
 		align-items: center;
 		width: 35px;

@@ -14,6 +14,10 @@ This project is open source. https://github.com/photopcopy/photopcopy. Feel free
 			"font-size: unset",
 		);
 	}, []);
-	return <Component {...pageProps} />;
+	return (
+		<>
+			<Component {...pageProps} />
+		</>
+	);
 }
 export default Wrapper;
