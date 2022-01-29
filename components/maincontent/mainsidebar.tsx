@@ -35,7 +35,6 @@ export function MainSidebar() {
 					state.mouseIsDown = false;
 				}}
 				onClick={(e) => {
-					console.log(e);
 					dispatch(hideSidebar());
 				}}
 			/>

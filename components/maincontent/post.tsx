@@ -127,10 +127,7 @@ function Post(props: {
 							let lastUser: string | undefined;
 							for (const comment of props.comments) {
 								if (lastUser != comment.author) {
-									console.log(ui.users);
-									console.log(comment.author);
 									const u = ui.users[comment.author];
-									console.log("why", u);
 									elements.push(
 										<div
 											className={CommentStyles.comment}

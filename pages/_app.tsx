@@ -10,7 +10,7 @@ function Wrapper({ Component, pageProps }: { Component: () => React.ReactElement
 
 This project is open source. https://github.com/photopcopy/photopcopy. Feel free to contribute! Thx <3 uwu
 		`.trim(),
-			"font-style: italic; font-size: 20px",
+			"font-style: italic; font-size: 30px",
 			"font-size: unset",
 		);
 	}, []);

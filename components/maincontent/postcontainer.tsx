@@ -26,7 +26,6 @@ export function PostContainer() {
 			<InfiniteScroll
 				next={() => {
 					loadMorePosts(posts[posts.length - 1]?.id, 5).then((newChildren) => {
-						console.log(newChildren);
 						dispatch(onPostsAdded(newChildren));
 					});
 				}}
